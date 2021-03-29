@@ -12,7 +12,7 @@ export const SidebarData = [
     },
     {
         title: 'Deliveries',
-        path: '/deliveries',
+        //path: '/deliveries',
         icon: <FaIcons.FaEnvelopeOpenText />,
 
         iconClosed: <RiIcons.RiArrowDownSFill />,
@@ -21,7 +21,7 @@ export const SidebarData = [
         subNav: [
             {
                 title: 'Deliveries Management',
-                path: '/deliveries/DeliveriesManagement',
+                path: '/deliveries/DeliveryMan_Management',
                 icon: <IoIcons.IoIosPaper />
             },
             {

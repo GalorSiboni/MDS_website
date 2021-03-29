@@ -8,13 +8,11 @@
 }
 
 .home,
-.reports,
 .daily_reports,
 .weekly_reports,
 .monthly_reports,
 .deliveries,
-.deliveryman_management,
-.Deliveries_history,
+.deliveries_history,
 .reports {
   display: flex;
   height: 90vh;
@@ -22,3 +20,4 @@
   justify-content: center;
   font-size: 3rem;
 }
+

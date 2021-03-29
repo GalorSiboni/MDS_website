@@ -8,18 +8,6 @@ export const Deliveries = () => {
     );
 };
 
-export const DeliveriesManagement = () => {
-    return (
-        <div className='deliveriesManagement'>
-            <h1>Deliveries Management</h1>
-        </div>
-    );
-};
+export default Deliveries;
 
-export const DeliveriesHistory = () => {
-    return (
-        <div className='deliveries_history'>
-            <h1>Deliveries History</h1>
-        </div>
-    );
-};
+
