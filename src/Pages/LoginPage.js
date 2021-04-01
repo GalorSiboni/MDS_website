@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { setUserSession } from '../Utils/Common';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,10 +35,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
     const classes = useStyles();
-    const [userName, setUserName] = useState("")
-    const [password, setPassword] = useState("")
+    const username = useFormInput('');
+    const password = useFormInput('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // handle button click of login form
+    const handleLogin = () => {
+        setError(null);
+        setLoading(true);
+        axios.post('http://localhost:3000/mds/signin', { username: username.value, password: password.value }).then(response => {
+            setLoading(false);
+            setUserSession(response.data.token, response.data.user);
+            props.history.push('/dashboard');
+        }).catch(error => {
+            setLoading(false);
+            if (error.response.status === 401) setError(error.response.data.message);
+            else setError("Something went wrong. Please try again later.");
+        });
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -59,6 +78,7 @@ export default function SignIn() {
                         name="user"
                         autoComplete="user"
                         autoFocus
+                        {...username}
                     />
                     <TextField
                         variant="outlined"
@@ -70,7 +90,7 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        onChange={setPassword(TextField.bind)}
+                        {...password}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -102,3 +122,15 @@ export default function SignIn() {
         </Container>
     );
 }
+const useFormInput = initialValue => {
+    const [value, setValue] = useState(initialValue);
+
+    const handleChange = e => {
+        setValue(e.target.value);
+    }
+    return {
+        value,
+        onChange: handleChange
+    }
+}
+
