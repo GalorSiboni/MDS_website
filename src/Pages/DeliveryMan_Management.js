@@ -1,21 +1,20 @@
-import React, {useContext, useState} from 'react';
-import {DetailsContext} from '../Contexts/DetailsContext'
+import React, {useState} from 'react';
 
 
 const DeliveryMan_Management = () => {
     const [isClicked, setIsClicked] = useState(true);
+    const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     return(
     <div>
-        <DetailsContext.Provider valie={{isClicked, setIsClicked}}>
-            {isClicked ? <Delivery_man_name_list/> : <Delivery_man_details/>}
-        </DetailsContext.Provider>
+            {isClicked ? <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> : <Delivery_man_details current={currentDeliveryMan}/>}
     </div>
     );
 };
 export default DeliveryMan_Management;
 
-const Delivery_man_name_list = () => {
-    const setClicked = useContext(DetailsContext)
+const Delivery_man_name_list = (props) => {
+    const setClicked = props.myVar
+    const setCurrentDeliveryMan = props.current
     return(
             <div className='deliveryman_management' style={{alignItems: "center"}}>
                 <div style={{textAlign: "center"}}>
@@ -28,21 +27,19 @@ const Delivery_man_name_list = () => {
                     paddingRight: '10rem',
                     fontSize: 40
                 }}>:שליחים</h1>
-                <DetailsContext.Provider value={{setClicked}}>
-
                 <div>
                     <section className='delivery_man_list'>
                         {delivery_man_array.map((delivery_man) => {
-                            return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man}></Delivery_man>
+                            return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
                         })}
                     </section>
                 </div>
-                </DetailsContext.Provider>
             </div>
     );
 }
 
-const Delivery_man_details = () =>  {
+const Delivery_man_details = (props) =>  {
+    const currentDeliveryMan = props.current
     return(
         <div style={{textAlign: "center"}}>
             <div style={{textAlign: "center"}}>
@@ -55,19 +52,17 @@ const Delivery_man_details = () =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>:דף שליח</h1>
-            <Delivery_man_full delivery_man={delivery_man_array[0]}/>
+            <Delivery_man_full delivery_man={delivery_man_array[ 0 ]}/>
+            {/*delivery_man_array.indexOf(currentDeliveryMan)*/}
         </div>
     )
 }
 
-
 const Delivery_man = (props) =>{
     const { name } = props.delivery_man;
-    const setClicked = useContext(DetailsContext)
-
     return (
         <article className='delivery_man'>
-            <h2 onClick={() => setClicked(true)} style={{margin: 'auto', textAlign: 'Center', paddingBottom:'2rem'} }>{name}</h2>
+            <h2 onClick={() => props.myVar(false) && props.current(props.delivery_man)} style={{margin: 'auto', textAlign: 'Center', paddingBottom:'2rem'} }>{name}</h2>
         </article>
     );
 }
