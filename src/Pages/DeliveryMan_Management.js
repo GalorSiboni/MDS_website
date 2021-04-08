@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 
 
 const DeliveryMan_Management = () => {
-    const [isClicked, setIsClicked] = useState(true);
+    const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     return(
     <div>
-            {isClicked ? <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> : <Delivery_man_details current={currentDeliveryMan}/>}
+            {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> }
     </div>
     );
 };
@@ -40,11 +40,18 @@ const Delivery_man_name_list = (props) => {
 
 const Delivery_man_details = (props) =>  {
     const currentDeliveryMan = props.current
+    const setClicked = props.myVar
     return(
         <div style={{textAlign: "center"}}>
             <div style={{textAlign: "center"}}>
                 <Image/>
             </div>
+            <button onClick={() => setClicked(false)} style={{
+                margin: 'auto',
+                textAlign: 'center',
+                color: 'black',
+                fontSize: 20
+            }}>Beck to list </button>
             <h1 style={{
                 margin: 'auto',
                 textAlign: 'right',
@@ -52,17 +59,16 @@ const Delivery_man_details = (props) =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>:דף שליח</h1>
-            <Delivery_man_full delivery_man={delivery_man_array[ 0 ]}/>
-            {/*delivery_man_array.indexOf(currentDeliveryMan)*/}
+            <Delivery_man_full delivery_man={delivery_man_array.find(x => x.deliverymanID === currentDeliveryMan)}/>
         </div>
     )
 }
 
 const Delivery_man = (props) =>{
-    const { name } = props.delivery_man;
+    const { name , deliverymanID} = props.delivery_man;
     return (
         <article className='delivery_man'>
-            <h2 onClick={() => props.myVar(false) && props.current(props.delivery_man)} style={{margin: 'auto', textAlign: 'Center', paddingBottom:'2rem'} }>{name}</h2>
+            <h2 onClick={() => {props.myVar(true) ; props.current(deliverymanID)}} style={{margin: 'auto', textAlign: 'Center', paddingBottom:'2rem'} }>{name}</h2>
         </article>
     );
 }
