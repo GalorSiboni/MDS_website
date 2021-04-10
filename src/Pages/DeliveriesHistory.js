@@ -1,5 +1,4 @@
 import React from "react";
-import Overview from "./Overview";
 
 const DeliveriesHistory = () => {
     return (
