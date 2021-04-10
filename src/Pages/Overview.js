@@ -3,7 +3,7 @@ import React from 'react';
 const Overview = () => {
     return (
         <div className='home'>
-            <h1>Overview</h1>
+            <h1>דף בקרה</h1>
         </div>
     );
 };

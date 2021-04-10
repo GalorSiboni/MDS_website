@@ -6,12 +6,12 @@ import * as RiIcons from 'react-icons/ri';
 
 export const SidebarData = [
     {
-        title: 'Overview',
+        title: 'דף בקרה',
         path: '/overview',
         icon: <AiIcons.AiFillHome />,
     },
     {
-        title: 'Deliveries',
+        title: 'משלוחים',
         //path: '/deliveries',
         icon: <FaIcons.FaEnvelopeOpenText />,
 
@@ -20,19 +20,19 @@ export const SidebarData = [
 
         subNav: [
             {
-                title: 'Deliveries Management',
+                title: 'דף ניהול שליחים',
                 path: '/deliveries/DeliveryMan_Management',
                 icon: <IoIcons.IoIosPaper />
             },
             {
-                title: 'Deliveries History',
+                title: 'היסטוריית משלוחים',
                 path: '/deliveries/DeliveriesHistory',
                 icon: <IoIcons.IoIosPaper />
             }
         ]
     },
     {
-        title: 'Reports',
+        title: 'דו"חות',
         path: '/reports',
         icon: <IoIcons.IoIosPaper />,
         iconClosed: <RiIcons.RiArrowDownSFill />,
@@ -40,26 +40,26 @@ export const SidebarData = [
 
         subNav: [
             {
-                title: 'Daily Reports',
+                title: 'דו"ח יומי',
                 path: '/reports/DailyReports',
                 icon: <IoIcons.IoIosPaper />,
                 cName: 'sub-nav'
             },
             {
-                title: 'Weekly Reports',
+                title: 'דו"ח שבועי',
                 path: '/reports/WeeklyReports',
                 icon: <IoIcons.IoIosPaper />,
                 cName: 'sub-nav'
             },
             {
-                title: 'Monthly Reports',
+                title: 'דו"ח חודשי',
                 path: '/reports/MonthlyReports',
                 icon: <IoIcons.IoIosPaper />
             }
         ]
     },
     {
-        title: 'Login',
+        title: 'דף התחברות',
         path: '/login',
         icon: <IoIcons.IoMdHelpCircle />
     }

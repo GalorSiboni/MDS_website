@@ -4,7 +4,7 @@ import Overview from "./Overview";
 const DeliveriesHistory = () => {
     return (
         <div className='deliveries_history'>
-            <h1>Deliveries History</h1>
+            <h1>היסטוריית משלוחים</h1>
         </div>
     );
 };

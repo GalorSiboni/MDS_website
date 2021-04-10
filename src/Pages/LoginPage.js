@@ -53,7 +53,7 @@ export default function SignIn(props) {
         }).catch(error => {
             setLoading(false);
             if (error.response.status === 401) setError(error.response.data.message);
-            else setError("Something went wrong. Please try again later.");
+            else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
         });
     }
 
@@ -65,7 +65,7 @@ export default function SignIn(props) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in - MDS
+                    MDS התחברות - מערכת
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
@@ -74,7 +74,7 @@ export default function SignIn(props) {
                         required
                         fullWidth
                         id="user"
-                        label="User Name"
+                        label="שם משתמש"
                         name="user"
                         autoComplete="user"
                         autoFocus
@@ -86,7 +86,7 @@ export default function SignIn(props) {
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label="סיסמא"
                         type="password"
                         id="password"
                         autoComplete="current-password"
@@ -94,26 +94,26 @@ export default function SignIn(props) {
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        label="זכור אותי"
                     />
                     <Button
-                        type="submit"
+                        onClick={() => handleLogin()}
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
+                        התחבר
                     </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
-                                Forgot password?
+                                ?שכחת סיסמא
                             </Link>
                         </Grid>
                         <Grid item>
                             <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                                {"אין משתמש? הרשם"}
                             </Link>
                         </Grid>
                     </Grid>
