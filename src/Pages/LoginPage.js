@@ -97,6 +97,7 @@ export default function SignIn(props) {
                         label="זכור אותי"
                     />
                     <Button
+                        type="button"
                         onClick={() => handleLogin()}
                         fullWidth
                         variant="contained"
