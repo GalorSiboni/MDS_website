@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { setUserSession } from '../Utils/Common';
-
+import {useDispatch} from "react-redux";
+import { login } from "../Actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,11 +42,13 @@ export default function SignIn(props) {
     const password = useFormInput('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
     // handle button click of login form
     const handleLogin = () => {
         setError(null);
         setLoading(true);
+        dispatch(login());
         axios.post('http://localhost:3000/mds/signin', { username: username.value, password: password.value }).then(response => {
             setLoading(false);
             setUserSession(response.data.token, response.data.user);

@@ -78,22 +78,30 @@ const Delivery_man_full = (props) =>{
     return (
 
         <article className='delivery_man'>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"CurrentShift:"}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Worker ID:" + currentShift.workerID}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Shift Start:" + currentShift.shiftStart}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isConfirmed:" + currentShift.isConfirmed}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:"}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"0:" + route.deliveries[0]}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"1:" + route.deliveries[1]}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"2:" + route.deliveries[2]}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"3:" + route.deliveries[3]}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</h2>
-            <h2 style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + isDeleted}</h2>
+            <ul>
+                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
+                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
+                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
+                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
+                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"CurrentShift:"}</li>
+                    <ul>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Worker ID:" + currentShift.workerID}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Shift Start:" + currentShift.shiftStart}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isConfirmed:" + currentShift.isConfirmed}</li>
+                    </ul>
+                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:"}</li>
+                    <ul>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</li>
+                        <ul>
+                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"0:" + route.deliveries[0]}</li>
+                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"1:" + route.deliveries[1]}</li>
+                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"2:" + route.deliveries[2]}</li>
+                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"3:" + route.deliveries[3]}</li>
+                        </ul>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + isDeleted}</li>
+                    </ul>
+            </ul>
         </article>
     );
 }

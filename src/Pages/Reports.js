@@ -1,13 +1,5 @@
 import React from 'react';
 
-export const Reports = () => {
-    return (
-        <div className='reports'>
-            <h1>דו"חות</h1>
-        </div>
-    );
-};
-
 export const DailyReports = () => {
     return (
         <div className='daily_reports'>

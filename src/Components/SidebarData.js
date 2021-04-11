@@ -7,12 +7,11 @@ import * as RiIcons from 'react-icons/ri';
 export const SidebarData = [
     {
         title: 'דף בקרה',
-        path: '/overview',
+        path: '/',
         icon: <AiIcons.AiFillHome />,
     },
     {
         title: 'משלוחים',
-        //path: '/deliveries',
         icon: <FaIcons.FaEnvelopeOpenText />,
 
         iconClosed: <RiIcons.RiArrowDownSFill />,
@@ -33,7 +32,6 @@ export const SidebarData = [
     },
     {
         title: 'דו"חות',
-        path: '/reports',
         icon: <IoIcons.IoIosPaper />,
         iconClosed: <RiIcons.RiArrowDownSFill />,
         iconOpened: <RiIcons.RiArrowUpSFill />,
