@@ -12,8 +12,7 @@
 .weekly_reports,
 .monthly_reports,
 .deliveries,
-.deliveries_history,
-.reports {
+.deliveries_history {
   display: flex;
   height: 90vh;
   align-items: center;

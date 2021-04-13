@@ -78,7 +78,7 @@ const Delivery_man_full = (props) =>{
     return (
 
         <article className='delivery_man'>
-            <ul>
+            <ul  style={{paddingLeft: '25rem'}}>
                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>

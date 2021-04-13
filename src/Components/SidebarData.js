@@ -30,6 +30,10 @@ export const SidebarData = [
             }
         ]
     },
+    {   title: 'ניהול מסעדות',
+        path: '/restaurants',
+        icon: <IoIcons.IoIosRestaurant />,
+    },
     {
         title: 'דו"חות',
         icon: <IoIcons.IoIosPaper />,
@@ -57,8 +61,8 @@ export const SidebarData = [
         ]
     },
     {
-        title: 'דף התחברות',
-        path: '/login',
-        icon: <IoIcons.IoMdHelpCircle />
+        title: 'התנתק',
+        path: '/',
+        icon: <IoIcons.IoIosLogOut />
     }
 ];
