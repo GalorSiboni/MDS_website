@@ -45,7 +45,7 @@ const SubMenu = ({ item ,showSideBar}) => {
     return (
         <>
             <SidebarLink to={item.path} onClick={item.subNav && showSubnav}>
-                <div>
+                <div onClick={showSideBar}>
                     {item.icon}
                     <SidebarLabel>{item.title}</SidebarLabel>
                 </div>

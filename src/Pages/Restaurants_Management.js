@@ -72,6 +72,12 @@ const Restaurant = (props) =>{
         </article>
     );
 }
+const Deliveries = (props) =>{
+    const { deliveries } = props.restaurant;
+    const deliveriesArray = deliveries.map((delivery, i) => { return delivery.getElementById(i)});
+    return deliveriesArray
+}
+
 const Restaurant_full = (props) =>{
     const { restaurantID, name, phoneNumber, location, deliveries, isDeleted} = props.restaurant;
 
@@ -86,10 +92,7 @@ const Restaurant_full = (props) =>{
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"CurrentShift:"}</li>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Deliveries:"}</li>
                 <ul style={{paddingLeft: '2rem'}}>
-                    {/*<li>{deliveries.map((delivery, i) => React.createElement(delivery, { key: i }))}</li>*/}
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"0:" + deliveries[0]}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"1:" + deliveries[1]}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"2:" + deliveries[2]}</li>
+                    {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
                 </ul>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + isDeleted}</li>
             </ul>
@@ -103,7 +106,7 @@ const restaurants = [
         phoneNumber: '0511111111',
         name: 'choka',
         location: '0.11, 0.11',
-        deliveries: {},
+        deliveries: [],
         isDeleted: false,
     },
     {
@@ -111,7 +114,7 @@ const restaurants = [
         phoneNumber: '0522222222',
         name: 'shawarma',
         location: '0.22, 0.22',
-        deliveries: {},
+        deliveries: [],
         isDeleted: false,
     },
     {
@@ -119,7 +122,7 @@ const restaurants = [
         phoneNumber: '0533333333',
         name: 'falafel',
         location: '0.33, 0.33',
-        deliveries: {},
+        deliveries: [],
         isDeleted: false,
     },
     {
@@ -127,11 +130,11 @@ const restaurants = [
         phoneNumber: '0544444444',
         name: 'Japanika',
         location: '0.33, 0.33',
-        deliveries: {
-            0: '6002d2f168bf4a2d2c174ef9',
-            1: '6002e1070be7935aa3080f21',
-            2: '6002e6530be7935aa3080f23',
-        },
+        deliveries: [
+            '6002d2f168bf4a2d2c174ef9',
+            '6002e1070be7935aa3080f21',
+            '6002e6530be7935aa3080f23',
+        ],
         isDeleted: false,
     }
 ]

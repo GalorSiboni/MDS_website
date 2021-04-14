@@ -93,10 +93,7 @@ const Delivery_man_full = (props) =>{
                     <ul>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</li>
                         <ul>
-                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"0:" + route.deliveries[0]}</li>
-                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"1:" + route.deliveries[1]}</li>
-                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"2:" + route.deliveries[2]}</li>
-                            <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '10rem'} }>{"3:" + route.deliveries[3]}</li>
+                            {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
                         </ul>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</li>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + isDeleted}</li>
@@ -119,12 +116,12 @@ const delivery_man_array = [
         },
         route: {
             deliverymanID: 'MXBkWizNBCQYUpxLfEdmy2kxAov2',
-            deliveries: {
-                0: '6002e1070be7935aa3080f21',
-                1: '6002e6530be7935aa3080f23',
-                2: '6002e6530be7935aa3080f23',
-                3: '6002e1070be7935aa3080f21'
-            },
+            deliveries: [
+                '6002e1070be7935aa3080f21',
+                '6002e6530be7935aa3080f23',
+                '6002e6530be7935aa3080f23',
+                '6002e1070be7935aa3080f21'
+            ],
             isApproved: false
         },
         isDeleted: false
@@ -141,12 +138,12 @@ const delivery_man_array = [
         },
         route: {
             deliverymanID: 'MXBkWizNBCQYUpxLfEdmy2kxCss5',
-            deliveries: {
-                0: '6002e1070be7935aa3080f21',
-                1: '6002e6530be7935aa3080f23',
-                2: '6002e6530be7935aa3080f23',
-                3: '6002e1070be7935aa3080f21'
-            },
+            deliveries: [
+                '6002e1070be7935aa3080f21',
+                '6002e6530be7935aa3080f23',
+                '6002e6530be7935aa3080f23',
+                '6002e1070be7935aa3080f21'
+            ],
             isApproved: false
         },
         isDeleted: false
