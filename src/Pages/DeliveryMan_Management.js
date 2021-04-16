@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
+import deliverymanService from "../Services/deliverymanService";
+
 
 
 const DeliveryMan_Management = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
+    deliverymanService.getAllDeliveryMen().then(response => {
+        console.log(response.data)
+    })
+        .catch(e => {
+            console.log(e);
+        });
     return(
     <div>
             {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> }
@@ -15,6 +23,7 @@ export default DeliveryMan_Management;
 const Delivery_man_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentDeliveryMan = props.current
+
     return(
             <div className='deliveryman_management' style={{alignItems: "center"}}>
                 <div style={{textAlign: "center"}}>
@@ -156,3 +165,4 @@ const Image = () => (
         alt=''
     />
 )
+

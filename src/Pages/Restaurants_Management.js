@@ -10,11 +10,13 @@ const Restaurants_Management = () => {
         </div>
     );
 };
+
 export default Restaurants_Management;
 
 const Restaurants_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentRestaurant = props.current
+
     return(
         <div className='restaurant_management' style={{alignItems: "center"}}>
             <div style={{textAlign: "center"}}>
@@ -99,6 +101,8 @@ const Restaurant_full = (props) =>{
         </article>
     );
 }
+
+
 
 const restaurants = [
     {
