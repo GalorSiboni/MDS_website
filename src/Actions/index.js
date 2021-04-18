@@ -3,6 +3,11 @@ export const login = () => {
         type: 'SIGN_IN'
     };
 };
+export const logout = () => {
+    return {
+        type: 'SIGN_OUT'
+    };
+};
 export const getAllDeliverymen = () => {
     return {
         type: 'GET_ALL_DELIVERY_MEN'

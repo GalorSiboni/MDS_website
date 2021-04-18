@@ -5,8 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,15 +47,15 @@ export default function SignIn(props) {
         setError(null);
         setLoading(true);
         dispatch(login());
-        axios.post('http://localhost:3000/mds/signin', { username: username.value, password: password.value }).then(response => {
-            setLoading(false);
-            setUserSession(response.data.token, response.data.user);
-            props.history.push('/dashboard');
-        }).catch(error => {
-            setLoading(false);
-            if (error.response.status === 401) setError(error.response.data.message);
-            else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
-        });
+        // axios.post('http://localhost:3000/mds/signin', { username: username.value, password: password.value }).then(response => {
+        //     setLoading(false);
+        //     setUserSession(response.data.token, response.data.user);
+        //     props.history.push('/dashboard');
+        // }).catch(error => {
+        //     setLoading(false);
+        //     if (error.response.status === 401) setError(error.response.data.message);
+        //     else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
+        // });
     }
 
     return (
@@ -109,18 +107,6 @@ export default function SignIn(props) {
                     >
                         התחבר
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                ?שכחת סיסמא
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                {"אין משתמש? הרשם"}
-                            </Link>
-                        </Grid>
-                    </Grid>
                 </form>
             </div>
         </Container>

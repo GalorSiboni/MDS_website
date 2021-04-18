@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
 import deliverymanService from "../Services/deliverymanService";
-
+import {useDispatch} from "react-redux";
+import { setAllDeliverymen } from "../Actions";
 
 
 const DeliveryMan_Management = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
+    const dispatch = useDispatch();
+
     deliverymanService.getAllDeliveryMen().then(response => {
         console.log(response.data)
+        dispatch(setAllDeliverymen(response.data));
     })
         .catch(e => {
             console.log(e);

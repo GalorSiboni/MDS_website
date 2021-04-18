@@ -1,4 +1,6 @@
 import React from 'react';
+import {useDispatch} from "react-redux";
+import { logout } from "../Actions";
 
 const Overview = () => {
     return (
@@ -7,5 +9,4 @@ const Overview = () => {
         </div>
     );
 };
-
 export default Overview;

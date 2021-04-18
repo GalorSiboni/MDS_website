@@ -59,10 +59,26 @@ export const SidebarData = [
                 icon: <IoIcons.IoIosPaper />
             }
         ]
-    },
+    },,
     {
-        title: 'התנתק',
-        path: '/',
-        icon: <IoIcons.IoIosLogOut />
+        title: 'ניהול מוקדנים',
+        icon: <IoIcons.IoIosPhonePortrait />,
+        iconClosed: <RiIcons.RiArrowDownSFill />,
+        iconOpened: <RiIcons.RiArrowUpSFill />,
+
+        subNav: [
+            {
+                title: 'ניהול מוקדנים',
+                path: '/phone_receptionist/phone_receptionist_management',
+                icon: <IoIcons.IoIosPhonePortrait />,
+                cName: 'sub-nav'
+            },
+            {
+                title: 'הוספת מוקדן חדש',
+                path: '/phone_receptionist/add_phone_receptionist',
+                icon: <IoIcons.IoIosPersonAdd/>,
+                cName: 'sub-nav'
+            }
+        ]
     }
 ];

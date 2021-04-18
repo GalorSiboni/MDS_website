@@ -1,9 +1,21 @@
 import React, {useState} from 'react';
+import {useDispatch} from "react-redux";
+import {setAllRestaurants} from "../Actions";
+import restaurantService from "../Services/restaurantService";
 
 
 const Restaurants_Management = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentRestaurant, setCurrentRestaurant] = useState();
+    const dispatch = useDispatch();
+
+    restaurantService.getAllRestaurants().then(response => {
+        console.log(response.data)
+        dispatch(setAllRestaurants(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
     return(
         <div>
             {isClicked ? <Restaurants_details myVar={setIsClicked} current={currentRestaurant}/> : <Restaurants_name_list myVar={setIsClicked} current={setCurrentRestaurant}/> }
@@ -12,7 +24,6 @@ const Restaurants_Management = () => {
 };
 
 export default Restaurants_Management;
-
 const Restaurants_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentRestaurant = props.current
