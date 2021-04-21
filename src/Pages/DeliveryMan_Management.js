@@ -2,15 +2,16 @@ import React, {useState} from 'react';
 import deliverymanService from "../Services/deliverymanService";
 import {useDispatch} from "react-redux";
 import { setAllDeliverymen } from "../Actions";
-
+import shiftService from "../Services/shiftService";
+import { useSelector } from "react-redux";
 
 const DeliveryMan_Management = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     const dispatch = useDispatch();
 
+
     deliverymanService.getAllDeliveryMen().then(response => {
-        console.log(response.data)
         dispatch(setAllDeliverymen(response.data));
     })
         .catch(e => {
@@ -42,7 +43,7 @@ const Delivery_man_name_list = (props) => {
                 }}>:שליחים</h1>
                 <div>
                     <section className='delivery_man_list'>
-                        {delivery_man_array.map((delivery_man) => {
+                        {useSelector(state => state.allDeliveryMen).map((delivery_man) => {
                             return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
                         })}
                     </section>
@@ -54,6 +55,7 @@ const Delivery_man_name_list = (props) => {
 const Delivery_man_details = (props) =>  {
     const currentDeliveryMan = props.current
     const setClicked = props.myVar
+
     return(
         <div style={{textAlign: "center"}}>
             <div style={{textAlign: "center"}}>
@@ -72,7 +74,7 @@ const Delivery_man_details = (props) =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>:דף שליח</h1>
-            <Delivery_man_full delivery_man={delivery_man_array.find(x => x.deliverymanID === currentDeliveryMan)}/>
+            <Delivery_man_full delivery_man={useSelector(state => state.allDeliveryMen).find(x => x.deliverymanID === currentDeliveryMan)}/>
         </div>
     )
 }
@@ -86,34 +88,108 @@ const Delivery_man = (props) =>{
     );
 }
 const Delivery_man_full = (props) =>{
-    const { deliverymanID, name, phoneNumber, location, currentShift, route, isDeleted} = props.delivery_man;
-
-    return (
-
-        <article className='delivery_man'>
-            <ul  style={{paddingLeft: '25rem'}}>
-                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
-                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"CurrentShift:"}</li>
+    const { deliverymanID, name, phoneNumber, location, shiftID, deleted} = props.delivery_man;
+    let route;
+    deliverymanService.deliverymanGetRoute(deliverymanID).then(response => {
+        console.log(response.data)
+        route = response.data;
+    })
+        .catch(e => {
+            console.log(e);
+        });
+    let currentShift;
+    if (shiftID != null) {
+        shiftService.getShift(shiftID).then(response => {
+            console.log(response.data)
+            currentShift = response.data;
+        })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+    else currentShift = null;
+    if (currentShift != null && route == null){
+        return (
+            <article className='delivery_man'>
+                <ul  style={{paddingLeft: '25rem'}}>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:"}</li>
                     <ul>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Worker ID:" + currentShift.workerID}</li>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Shift Start:" + currentShift.shiftStart}</li>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isConfirmed:" + currentShift.isConfirmed}</li>
                     </ul>
-                   <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:"}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + route}</li>
+                </ul>
+            </article>
+        );
+    }
+    else if (currentShift == null && route != null){
+        return (
+            <article className='delivery_man'>
+                <ul  style={{paddingLeft: '25rem'}}>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:" + currentShift}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + route}</li>
                     <ul>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</li>
                         <ul>
                             {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
                         </ul>
                         <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + isDeleted}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
                     </ul>
-            </ul>
-        </article>
-    );
+                </ul>
+            </article>
+        );
+    }
+    else if(currentShift == null && route == null){
+        return (
+            <article className='delivery_man'>
+                <ul  style={{paddingLeft: '25rem'}}>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:" + currentShift}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + null}</li>
+                </ul>
+            </article>
+        );
+    }
+    else {
+        return (
+            <article className='delivery_man'>
+                <ul  style={{paddingLeft: '25rem'}}>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:"}</li>
+                    <ul>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Worker ID:" + currentShift.workerID}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Shift Start:" + currentShift.shiftStart}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isConfirmed:" + currentShift.isConfirmed}</li>
+                    </ul>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + route}</li>
+                    <ul>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</li>
+                        <ul>
+                            {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
+                        </ul>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</li>
+                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
+                    </ul>
+                </ul>
+            </article>
+        );
+    }
 }
 
 const delivery_man_array = [

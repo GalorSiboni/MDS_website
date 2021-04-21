@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setAllRestaurants} from "../Actions";
 import restaurantService from "../Services/restaurantService";
 
@@ -10,7 +10,6 @@ const Restaurants_Management = () => {
     const dispatch = useDispatch();
 
     restaurantService.getAllRestaurants().then(response => {
-        console.log(response.data)
         dispatch(setAllRestaurants(response.data));
     })
         .catch(e => {
@@ -42,7 +41,7 @@ const Restaurants_name_list = (props) => {
             }}>:שליחים</h1>
             <div>
                 <section className='restaurants'>
-                    {restaurants.map((restaurant) => {
+                    {useSelector(state => state.allRestaurants).map((restaurant) => {
                         return <Restaurant key={restaurant.restaurantID} restaurant={restaurant} myVar={setClicked} current={setCurrentRestaurant}></Restaurant>
                     })}
                 </section>
@@ -72,7 +71,7 @@ const Restaurants_details = (props) =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>:דף שליח</h1>
-            <Restaurant_full restaurant={restaurants.find(x => x.restaurantID === currentRestaurant)}/>
+            <Restaurant_full restaurant={useSelector(state => state.allRestaurants).find(x => x.restaurantID === currentRestaurant)}/>
         </div>
     )
 }
@@ -85,74 +84,80 @@ const Restaurant = (props) =>{
         </article>
     );
 }
-const Deliveries = (props) =>{
-    const { deliveries } = props.restaurant;
-    const deliveriesArray = deliveries.map((delivery, i) => { return delivery.getElementById(i)});
-    return deliveriesArray
-}
 
 const Restaurant_full = (props) =>{
-    const { restaurantID, name, phoneNumber, location, deliveries, isDeleted} = props.restaurant;
+    const { restaurantID, name, phoneNumber, location, deliveries, deleted} = props.restaurant;
+
+    if (deliveries == null){
+        return (
+            <article className='restaurant'>
+                <ul  style={{paddingLeft: '10rem'}}>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"restaurantID:" + restaurantID}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Deliveries:No deliveries"}</li>
+                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
+                </ul>
+            </article>
+        );
+    }
 
     return (
-
         <article className='restaurant'>
-            <ul  style={{paddingLeft: '25rem'}}>
+            <ul  style={{paddingLeft: '10rem'}}>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"restaurantID:" + restaurantID}</li>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"CurrentShift:"}</li>
                 <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Deliveries:"}</li>
                 <ul style={{paddingLeft: '2rem'}}>
-                    {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
+                    {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'}}>{i}</li> })}
                 </ul>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + isDeleted}</li>
+                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
             </ul>
         </article>
     );
 }
 
-
-
-const restaurants = [
-    {
-        restaurantID: 'choka',
-        phoneNumber: '0511111111',
-        name: 'choka',
-        location: '0.11, 0.11',
-        deliveries: [],
-        isDeleted: false,
-    },
-    {
-        restaurantID: 'shawarma',
-        phoneNumber: '0522222222',
-        name: 'shawarma',
-        location: '0.22, 0.22',
-        deliveries: [],
-        isDeleted: false,
-    },
-    {
-        restaurantID: 'falafel',
-        phoneNumber: '0533333333',
-        name: 'falafel',
-        location: '0.33, 0.33',
-        deliveries: [],
-        isDeleted: false,
-    },
-    {
-        restaurantID: 'qZLXC0ybxZhPRMbfgi78ULnzGU33',
-        phoneNumber: '0544444444',
-        name: 'Japanika',
-        location: '0.33, 0.33',
-        deliveries: [
-            '6002d2f168bf4a2d2c174ef9',
-            '6002e1070be7935aa3080f21',
-            '6002e6530be7935aa3080f23',
-        ],
-        isDeleted: false,
-    }
-]
+// const restaurants = [
+//     {
+//         restaurantID: 'choka',
+//         phoneNumber: '0511111111',
+//         name: 'choka',
+//         location: '0.11, 0.11',
+//         deliveries: [],
+//         isDeleted: false,
+//     },
+//     {
+//         restaurantID: 'shawarma',
+//         phoneNumber: '0522222222',
+//         name: 'shawarma',
+//         location: '0.22, 0.22',
+//         deliveries: [],
+//         isDeleted: false,
+//     },
+//     {
+//         restaurantID: 'falafel',
+//         phoneNumber: '0533333333',
+//         name: 'falafel',
+//         location: '0.33, 0.33',
+//         deliveries: [],
+//         isDeleted: false,
+//     },
+//     {
+//         restaurantID: 'qZLXC0ybxZhPRMbfgi78ULnzGU33',
+//         phoneNumber: '0544444444',
+//         name: 'Japanika',
+//         location: '0.33, 0.33',
+//         deliveries: [
+//             '6002d2f168bf4a2d2c174ef9',
+//             '6002e1070be7935aa3080f21',
+//             '6002e6530be7935aa3080f23',
+//         ],
+//         isDeleted: false,
+//     }
+// ]
 
 
 const Image = () => (

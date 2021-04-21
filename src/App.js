@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Overview  from './Pages/Overview';
 import LoginPage from './Pages/LoginPage';
 import Restaurants_Managements from './Pages/Restaurants_Management';
+import addNewRestaurant from './Pages/addNewRestaurant';
 import DeliveryMan_Management from './Pages/DeliveryMan_Management';
 import DeliveriesHistory from './Pages/DeliveriesHistory';
 import { DailyReports, WeeklyReports, MonthlyReports } from './Pages/Reports';
@@ -21,6 +22,7 @@ function App() {
                     <Route path='/deliveries/DeliveryMan_Management' exact component={DeliveryMan_Management}/>
                     <Route path='/deliveries/DeliveriesHistory' exact component={DeliveriesHistory}/>
                     <Route path='/restaurants' exact component={Restaurants_Managements}/>
+                    <Route path='/restaurants/add_new_restaurant' exact component={addNewRestaurant}/>
                     <Route path='/reports/DailyReports' exact component={DailyReports}/>
                     <Route path='/reports/WeeklyReports' exact component={WeeklyReports}/>
                     <Route path='/reports/MonthlyReports' exact component={MonthlyReports}/>

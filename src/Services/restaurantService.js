@@ -5,11 +5,11 @@ const getAllRestaurants = () => {
 };
 
 const addRestaurant = () => {
-    return http.post(`/mds/restaurants`);
+    return http.post(`/restaurants`);
 };
 
 const updateRestaurant = (restaurant) => {
-    return http.put(`/mds/restaurants`, restaurant);
+    return http.put(`/restaurants`, restaurant);
 };
 
 

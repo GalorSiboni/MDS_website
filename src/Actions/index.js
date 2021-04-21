@@ -8,25 +8,37 @@ export const logout = () => {
         type: 'SIGN_OUT'
     };
 };
-export const getAllDeliverymen = () => {
-    return {
-        type: 'GET_ALL_DELIVERY_MEN'
-    };
-};
 export const setAllDeliverymen = (array) => {
     return {
         type: 'SET_ALL_DELIVERY_MEN',
         payload: array
     };
 };
-export const getAllRestaurants = () => {
-    return {
-        type: 'GET_ALL_RESTAURANTS',
-    };
-};
 export const setAllRestaurants = (array) => {
     return {
         type: 'SET_ALL_RESTAURANTS',
+        payload: array
+    };
+};
+export const getShift = () => {
+    return {
+        type: 'GET_SHIFT',
+    };
+};
+export const setShift = (array) => {
+    return {
+        type: 'SET_SHIFT',
+        payload: array
+    };
+};
+export const getRouth = () => {
+    return {
+        type: 'GET_ROUTH',
+    };
+};
+export const setRouth = (array) => {
+    return {
+        type: 'SET_ROUTH',
         payload: array
     };
 };

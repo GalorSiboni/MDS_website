@@ -30,9 +30,24 @@ export const SidebarData = [
             }
         ]
     },
-    {   title: 'ניהול מסעדות',
-        path: '/restaurants',
+    {
+        title: 'מסעדות',
         icon: <IoIcons.IoIosRestaurant />,
+        iconClosed: <RiIcons.RiArrowDownSFill />,
+        iconOpened: <RiIcons.RiArrowUpSFill />,
+        subNav: [
+            {
+                title: 'ניהול מסעדות',
+                path: '/restaurants',
+                icon: <IoIcons.IoIosRestaurant />
+            },
+            {
+                title: 'הוספת מסעדה',
+                path: '/restaurants/add_new_restaurant',
+                icon: <IoIcons.IoIosPaper />
+            }
+        ]
+
     },
     {
         title: 'דו"חות',
@@ -59,7 +74,7 @@ export const SidebarData = [
                 icon: <IoIcons.IoIosPaper />
             }
         ]
-    },,
+    },
     {
         title: 'ניהול מוקדנים',
         icon: <IoIcons.IoIosPhonePortrait />,

@@ -4,6 +4,11 @@ const getAllDeliveryMen = () => {
     return http.get(`/deliveryman`);
 };
 
+const deliverymanGetRoute = (deliverymanID) => {
+    return http.get(`/deliveryman/route/${deliverymanID}`);
+};
+
 export default {
-    getAllDeliveryMen
+    getAllDeliveryMen,
+    deliverymanGetRoute
 };
