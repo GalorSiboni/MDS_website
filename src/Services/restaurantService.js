@@ -4,8 +4,8 @@ const getAllRestaurants = () => {
     return http.get(`/restaurants`);
 };
 
-const addRestaurant = () => {
-    return http.post(`/restaurants`);
+const addRestaurant = (restaurant) => {
+    return http.post(`/restaurants`, restaurant);
 };
 
 const updateRestaurant = (restaurant) => {

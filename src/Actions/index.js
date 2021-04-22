@@ -20,6 +20,12 @@ export const setAllRestaurants = (array) => {
         payload: array
     };
 };
+export const setAllDeliveries = (array) => {
+    return {
+        type: 'SET_ALL_DELIVERIES',
+        payload: array
+    };
+};
 export const getShift = () => {
     return {
         type: 'GET_SHIFT',

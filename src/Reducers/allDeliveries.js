@@ -1,7 +1,7 @@
-const allDeliveryMenReducer = (state = [], action) => {
+const allDeliveriesReducer = (state = [], action) => {
 
     switch (action.type) {
-        case 'SET_ALL_DELIVERY_MEN':
+        case 'SET_ALL_DELIVERIES':
             state = action.payload;
             return state;
         default:
@@ -9,4 +9,4 @@ const allDeliveryMenReducer = (state = [], action) => {
     }
 };
 
-export default allDeliveryMenReducer;
+export default allDeliveriesReducer;

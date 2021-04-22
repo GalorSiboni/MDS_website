@@ -25,3 +25,25 @@
   height: 200px;
   width: 200px;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  border:2px black;
+  grid-template-areas:
+    ". . . ."
+    "incidents_grid incidents_grid incidents_grid filters"
+    "incidents_grid incidents_grid incidents_grid filters";
+}
+
+.incidents_grid {
+  grid-area: incidents_grid;
+  background-color: moccasin;
+}
+
+.filters {
+  grid-area: filters;
+  background-color: white;
+}
