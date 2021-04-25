@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
+import restaurantService from "../Services/restaurantService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -33,14 +34,28 @@ const AddNewRestaurant = (props) => {
     const classes = useStyles();
     const username = useFormInput('');
     const password = useFormInput('');
-    const phoneReceptionist_name = useFormInput('');
-    const phone_number = useFormInput('');
+    const restaurantID = useFormInput('');
+    const phoneNumber = useFormInput('');
+    const restaurant_name = useFormInput('');
+    const location = useFormInput('');
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const PhoneReceptionist = null;
+    const Restaurant =
+            {
+                restaurantID: restaurantID.value,
+                phoneNumber: phoneNumber.value,
+                restaurant_name: restaurant_name.value,
+                location: location.value,
+                cities: [],
+                deliveries: [],
+                isDeleted: false,
+            }
+
+        ;
     // handle button click of login form
     const handleAddNewUser = () => {
-        phoneReceptionistService.addPhoneReceptionist(username.value, password.value, PhoneReceptionist).then(response => {
+        restaurantService.addRestaurant(username.value, password.value, Restaurant).then(response => {
             setLoading(false);
             props.history.push('/dashboard');
         }).catch(error => {
@@ -51,17 +66,29 @@ const AddNewRestaurant = (props) => {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" >
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    MDS הרשמה - מערכת
+                    MDS הוספת מסעדה חדשה - מערכת
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <TextField
+                    <TextField dir="RTL"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="restaurantID"
+                        label="מזהה מסעדה"
+                        name="restaurantID"
+                        autoComplete="restaurantID"
+                        autoFocus
+                        {...restaurantID}
+                    />
+                    <TextField dir="RTL"
                         variant="outlined"
                         margin="normal"
                         required
@@ -73,7 +100,7 @@ const AddNewRestaurant = (props) => {
                         autoFocus
                         {...username}
                     />
-                    <TextField
+                    <TextField dir="RTL"
                         variant="outlined"
                         margin="normal"
                         required
@@ -85,17 +112,17 @@ const AddNewRestaurant = (props) => {
                         autoComplete="current-password"
                         {...password}
                     />
-                    <TextField
+                    <TextField dir="RTL"
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
                         id="name"
-                        label="שם המוקדן"
+                        label="שם המסעדה"
                         name="name"
                         autoComplete="name"
                         autoFocus
-                        {...phoneReceptionist_name}
+                        {...restaurant_name}
                     />
                     <TextField
                         variant="outlined"
@@ -107,7 +134,19 @@ const AddNewRestaurant = (props) => {
                         name="phoneNumber"
                         autoComplete="phoneNumber"
                         autoFocus
-                        {...phone_number}
+                        {...phoneNumber}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="location"
+                        label="מיקום המסעדה"
+                        name="location"
+                        autoComplete="location"
+                        autoFocus
+                        {...location}
                     />
                     <Button
                         type="button"
@@ -117,7 +156,7 @@ const AddNewRestaurant = (props) => {
                         color="primary"
                         className={classes.submit}
                     >
-                        הוסף מוקדן חדש
+                        הוסף מסעדה חדשה
                     </Button>
                 </form>
             </div>

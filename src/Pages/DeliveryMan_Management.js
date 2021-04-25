@@ -30,25 +30,25 @@ const Delivery_man_name_list = (props) => {
     const setCurrentDeliveryMan = props.current
 
     return(
-            <div className='deliveryman_management' style={{alignItems: "center"}}>
-                <div style={{textAlign: "center"}}>
-                    <Image/>
-                </div>
-                <h1 style={{
-                    margin: 'auto',
-                    textAlign: 'right',
-                    color: '#052342',
-                    paddingRight: '10rem',
-                    fontSize: 40
-                }}>:שליחים</h1>
-                <div>
-                    <section className='delivery_man_list'>
-                        {useSelector(state => state.allDeliveryMen).map((delivery_man) => {
-                            return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
-                        })}
-                    </section>
-                </div>
+        <div className='deliveryman_management' style={{alignItems: "center"}}>
+            <div style={{textAlign: "center"}}>
+                <Image/>
             </div>
+            <h1 style={{
+                margin: 'auto',
+                textAlign: 'right',
+                color: '#052342',
+                paddingRight: '10rem',
+                fontSize: 40
+            }}>:שליחים</h1>
+            <div>
+                <section className='delivery_man_list'>
+                    {useSelector(state => state.allDeliveryMen).map((delivery_man) => {
+                        return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
+                    })}
+                </section>
+            </div>
+        </div>
     );
 }
 
@@ -66,7 +66,7 @@ const Delivery_man_details = (props) =>  {
                 textAlign: 'center',
                 color: 'black',
                 fontSize: 20
-            }}>Beck to list </button>
+            }}>חזור לרשימה</button>
             <h1 style={{
                 margin: 'auto',
                 textAlign: 'right',
@@ -108,136 +108,49 @@ const Delivery_man_full = (props) =>{
             });
     }
     else currentShift = null;
-    if (currentShift != null && route == null){
         return (
             <article className='delivery_man'>
-                <ul  style={{paddingLeft: '25rem'}}>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:"}</li>
-                    <ul>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Worker ID:" + currentShift.workerID}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Shift Start:" + currentShift.shiftStart}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isConfirmed:" + currentShift.isConfirmed}</li>
-                    </ul>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + route}</li>
-                </ul>
-            </article>
-        );
-    }
-    else if (currentShift == null && route != null){
-        return (
-            <article className='delivery_man'>
-                <ul  style={{paddingLeft: '25rem'}}>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:" + currentShift}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + route}</li>
-                    <ul>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</li>
-                        <ul>
-                            {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
-                        </ul>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
-                    </ul>
-                </ul>
-            </article>
-        );
-    }
-    else if(currentShift == null && route == null){
-        return (
-            <article className='delivery_man'>
-                <ul  style={{paddingLeft: '25rem'}}>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:" + currentShift}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + null}</li>
-                </ul>
-            </article>
-        );
-    }
-    else {
-        return (
-            <article className='delivery_man'>
-                <ul  style={{paddingLeft: '25rem'}}>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"DeliverymanID:" + deliverymanID}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Shift:"}</li>
-                    <ul>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Worker ID:" + currentShift.workerID}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Shift Start:" + currentShift.shiftStart}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isConfirmed:" + currentShift.isConfirmed}</li>
-                    </ul>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Route:" + route}</li>
-                    <ul>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"Deliveries:"}</li>
-                        <ul>
-                            {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{i}</li> })}
-                        </ul>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem', paddingLeft: '4rem'} }>{"isApproved:" +  route.isApproved}</li>
-                        <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
-                    </ul>
-                </ul>
-            </article>
-        );
-    }
-}
+                <ul  style={{paddingRight: '25rem'}} dir="RTL">
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה שליח: " + deliverymanID}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם השליח: " + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
+                    {(currentShift != null)
+                        ?
+                        (
+                            <ul style={{paddingRight: '25rem'}} dir="RTL">
+                                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת:"}</li>
+                                <ul>
+                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"מס' עובד:" + currentShift.workerID}</li>
+                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"זצם תחילת משמרת:" + currentShift.shiftStart}</li>
+                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"סטטוס אישור משמרת:" + currentShift.isConfirmed}</li>
+                                </ul>
+                            </ul>
+                        )
+                        : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת: לא במשמרת"}</li>
+                    }
 
-const delivery_man_array = [
-    {
-        deliverymanID: 'MXBkWizNBCQYUpxLfEdmy2kxAov2',
-        name: 'Galor Siboni',
-        phoneNumber: '0500000000',
-        location: '0.40, 0.40',
-        currentShift: {
-            workerID: 'MXBkWizNBCQYUpxLfEdmy2kxAov2',
-            shiftStart: '2021-01-16T10:55:52.000+00:00',
-            isConfirmed: false
-        },
-        route: {
-            deliverymanID: 'MXBkWizNBCQYUpxLfEdmy2kxAov2',
-            deliveries: [
-                '6002e1070be7935aa3080f21',
-                '6002e6530be7935aa3080f23',
-                '6002e6530be7935aa3080f23',
-                '6002e1070be7935aa3080f21'
-            ],
-            isApproved: false
-        },
-        isDeleted: false
-    },
-    {
-        deliverymanID: 'MXBkWizNBCQYUpxLfEdmy2kxCss5',
-        name: 'Yossi Cohen',
-        phoneNumber: '0500000001',
-        location: '0.50, 0.50',
-        currentShift: {
-            workerID: 'MXBkWizNBCQYUpxLfEdmy2kxCss5',
-            shiftStart: '2021-01-16T10:55:52.000+00:00',
-            isConfirmed: false
-        },
-        route: {
-            deliverymanID: 'MXBkWizNBCQYUpxLfEdmy2kxCss5',
-            deliveries: [
-                '6002e1070be7935aa3080f21',
-                '6002e6530be7935aa3080f23',
-                '6002e6530be7935aa3080f23',
-                '6002e1070be7935aa3080f21'
-            ],
-            isApproved: false
-        },
-        isDeleted: false
-    }
-]
+                    {(route != (null || undefined))
+                        ?
+                        (
+                            <ul style={{paddingRight: '25rem'}} dir="RTL">
+                                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מסלול חלוקה: " + route}</li>
+                                <ul>
+                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"משלוחים:"}</li>
+                                    <ul>
+                                        {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{i}</li> })}
+                                    </ul>
+                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{(route.isApproved == (false || undefined)) ? "סטטוס אישור מסלול: לא מאושר" : "סטטוס  אישור מסלול: מאושר"}</li>
+                                </ul>
+                            </ul>
+                        )
+                        : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מסלול חלוקה: לא הוקצה מסלול"}</li>
+                    }
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס שליח: לא פעיל" : "סטטוס שליח: פעיל"}</li>
+                </ul>
+            </article>
+        );
+}
 
 const Image = () => (
     <img className="logo"

@@ -23,6 +23,7 @@ const Restaurants_Management = () => {
 };
 
 export default Restaurants_Management;
+
 const Restaurants_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentRestaurant = props.current
@@ -63,7 +64,7 @@ const Restaurants_details = (props) =>  {
                 textAlign: 'center',
                 color: 'black',
                 fontSize: 20
-            }}>Beck to list </button>
+            }}>חזור לרשימה</button>
             <h1 style={{
                 margin: 'auto',
                 textAlign: 'right',
@@ -91,13 +92,13 @@ const Restaurant_full = (props) =>{
     if (deliveries == null){
         return (
             <article className='restaurant'>
-                <ul  style={{paddingLeft: '10rem'}}>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"restaurantID:" + restaurantID}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Deliveries:No deliveries"}</li>
-                    <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
+                <ul  style={{paddingRight: '25rem'}} dir="RTL">
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה מסעדה: " + restaurantID}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם המסעדה: " + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: אין משלוחים חדשים"}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
                 </ul>
             </article>
         );
@@ -105,59 +106,20 @@ const Restaurant_full = (props) =>{
 
     return (
         <article className='restaurant'>
-            <ul  style={{paddingLeft: '10rem'}}>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"restaurantID:" + restaurantID}</li>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Name:" + name}</li>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"PhoneNumber:" + phoneNumber}</li>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Location:" + location}</li>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"Deliveries:"}</li>
-                <ul style={{paddingLeft: '2rem'}}>
-                    {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'}}>{i}</li> })}
+            <ul  style={{paddingRight: '25rem'}} dir="RTL">
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה מסעדה: " + restaurantID}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם המסעדה: " + name}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: "}</li>
+                <ul style={{paddingRight: '2rem'}} dir="RTL">
+                    {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'}} dir="RTL">{i}</li> })}
                 </ul>
-                <li style={{margin: 'auto', textAlign: 'left', paddingBottom:'2rem'} }>{"isDeleted:" + deleted}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
             </ul>
         </article>
     );
 }
-
-// const restaurants = [
-//     {
-//         restaurantID: 'choka',
-//         phoneNumber: '0511111111',
-//         name: 'choka',
-//         location: '0.11, 0.11',
-//         deliveries: [],
-//         isDeleted: false,
-//     },
-//     {
-//         restaurantID: 'shawarma',
-//         phoneNumber: '0522222222',
-//         name: 'shawarma',
-//         location: '0.22, 0.22',
-//         deliveries: [],
-//         isDeleted: false,
-//     },
-//     {
-//         restaurantID: 'falafel',
-//         phoneNumber: '0533333333',
-//         name: 'falafel',
-//         location: '0.33, 0.33',
-//         deliveries: [],
-//         isDeleted: false,
-//     },
-//     {
-//         restaurantID: 'qZLXC0ybxZhPRMbfgi78ULnzGU33',
-//         phoneNumber: '0544444444',
-//         name: 'Japanika',
-//         location: '0.33, 0.33',
-//         deliveries: [
-//             '6002d2f168bf4a2d2c174ef9',
-//             '6002e1070be7935aa3080f21',
-//             '6002e6530be7935aa3080f23',
-//         ],
-//         isDeleted: false,
-//     }
-// ]
 
 
 const Image = () => (
