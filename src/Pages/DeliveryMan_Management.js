@@ -90,24 +90,21 @@ const Delivery_man = (props) =>{
 const Delivery_man_full = (props) =>{
     const { deliverymanID, name, phoneNumber, location, shiftID, deleted} = props.delivery_man;
     let route;
-    deliverymanService.deliverymanGetRoute(deliverymanID).then(response => {
-        console.log(response.data)
-        route = response.data;
+    // deliverymanService.deliverymanGetRoute(deliverymanID, location).then(response => {
+    //     console.log(response.data)
+    //     route = response.data;
+    // })
+    //     .catch(e => {
+    //         console.log(e);
+    //     });
+    let currentShift = "6085db21e7cb2835fd38bfda";
+    shiftService.getShift(currentShift).then(response => {
+        console.log(response.data.shiftStart)
+        currentShift = response.data;
     })
         .catch(e => {
             console.log(e);
         });
-    let currentShift;
-    if (shiftID != null) {
-        shiftService.getShift(shiftID).then(response => {
-            console.log(response.data)
-            currentShift = response.data;
-        })
-            .catch(e => {
-                console.log(e);
-            });
-    }
-    else currentShift = null;
         return (
             <article className='delivery_man'>
                 <ul  style={{paddingRight: '25rem'}} dir="RTL">
@@ -118,12 +115,12 @@ const Delivery_man_full = (props) =>{
                     {(currentShift != null)
                         ?
                         (
-                            <ul style={{paddingRight: '25rem'}} dir="RTL">
-                                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת:"}</li>
-                                <ul>
-                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"מס' עובד:" + currentShift.workerID}</li>
-                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"זצם תחילת משמרת:" + currentShift.shiftStart}</li>
-                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"סטטוס אישור משמרת:" + currentShift.isConfirmed}</li>
+                            <ul dir="RTL">
+                                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'1rem'} }>{"משמרת:"}</li>
+                                <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '2rem'}}>
+                                    <li>{"מס' עובד:" + currentShift.workerID}</li>
+                                    <li>{"זמן תחילת משמרת:" + currentShift.shiftStart}</li>
+                                    <li>{"סטטוס אישור משמרת:" + currentShift.isConfirmed}</li>
                                 </ul>
                             </ul>
                         )

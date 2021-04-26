@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AddNewRestaurant = (props) => {
     const classes = useStyles();
-    const username = useFormInput('');
-    const password = useFormInput('');
     const restaurantID = useFormInput('');
     const phoneNumber = useFormInput('');
     const restaurant_name = useFormInput('');
@@ -49,13 +47,13 @@ const AddNewRestaurant = (props) => {
                 location: location.value,
                 cities: [],
                 deliveries: [],
-                isDeleted: false,
+                isDeleted: false
             }
 
         ;
     // handle button click of login form
     const handleAddNewUser = () => {
-        restaurantService.addRestaurant(username.value, password.value, Restaurant).then(response => {
+        restaurantService.addRestaurant(Restaurant).then(response => {
             setLoading(false);
             props.history.push('/dashboard');
         }).catch(error => {
@@ -87,30 +85,6 @@ const AddNewRestaurant = (props) => {
                         autoComplete="restaurantID"
                         autoFocus
                         {...restaurantID}
-                    />
-                    <TextField dir="RTL"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="user"
-                        label="שם משתמש"
-                        name="user"
-                        autoComplete="user"
-                        autoFocus
-                        {...username}
-                    />
-                    <TextField dir="RTL"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="סיסמא"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        {...password}
                     />
                     <TextField dir="RTL"
                         variant="outlined"

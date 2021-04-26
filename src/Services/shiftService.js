@@ -9,11 +9,11 @@ const deleteShift = (shiftID) => {
 };
 
 const getShift = (shiftID) => {
-    return http.get(`/mds/shift/${shiftID}`);
+    return http.get(`/shift/${shiftID}/${null}/${null}`);
 };
 
 const updateShift = (shiftID) => {
-    return http.put(`/mds/shift/${shiftID}`);
+    return http.put(`/shift/${shiftID}`);
 };
 
 
