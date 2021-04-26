@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import deliveryService from "../Services/deliveryService";
 import {setAllDeliveries} from "../Actions";
@@ -50,6 +50,39 @@ const GridContainer = () => {
     );
 }
 
+const handleSubmit = (list) => {
+//#TODO
+}
+
+function Checkbox(item) {
+    const [checked, setChecked] = React.useState(false);
+    const [deliveries, setDeliveries] = useState([]);
+    console.log(deliveries)
+    return (
+        <td>
+            <label style={{paddingTop:'1rem'}}>
+                <input type="checkbox"
+                       defaultChecked={checked}
+                       onChange={() => {
+                           setChecked(!checked);
+                           if (!checked) {
+                                   const temp = deliveries;
+                                   temp.push(item);
+                                   setDeliveries(temp);
+                               }
+                               else {
+                                   const temp = deliveries;
+                                   setDeliveries(temp.filter(i => i.deliveryID !== item.deliveryID))
+                               }
+                           }
+                       }
+                />
+                הקצה אותי
+            </label>
+        </td>
+    );
+}
+
 const TableComponent = () => {
     const data = useSelector(state => state.allDeliveries);
     let headings = Object.keys(data[1]);
@@ -67,7 +100,8 @@ const TableComponent = () => {
                 data.map(item =>
                     <tr>
                         {
-                            headings.map(heading => <td>{item[heading]}</td>)
+                            headings.map(heading =>
+                                ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item) : <td>{item[heading]}</td>)
                         }
                     </tr>
                 )
