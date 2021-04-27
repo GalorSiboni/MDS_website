@@ -129,7 +129,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const AddNewPhoneReceptionist = (props) => {
     const classes = useStyles();
-    const phoneReceptionistID = useFormInput('');
     const username = useFormInput('');
     const password = useFormInput('');
     const phoneReceptionist_name = useFormInput('');
@@ -137,19 +136,15 @@ export const AddNewPhoneReceptionist = (props) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const PhoneReceptionist = {
-        phoneReceptionistID: phoneReceptionistID.value,
-        username: username.value,
-        password: password.value,
-        phoneReceptionist_name: phoneReceptionist_name.value,
-        phone_number: phone_number.value,
-        shiftID: null,
+        name: ("" + phoneReceptionist_name.value),
+        phoneNumber: ("" + phone_number.value),
         isDeleted: false
     };
     // handle button click of login form
     const handleAddNewUser = () => {
         phoneReceptionistService.addPhoneReceptionist(username.value, password.value, PhoneReceptionist).then(response => {
             setLoading(false);
-            props.history.push('/dashboard');
+            props.history.push('/phone_receptionist_management');
         }).catch(error => {
             setLoading(false);
             if (error.response.status === 401) setError(error.response.data.message);
