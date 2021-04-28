@@ -30,7 +30,9 @@ const Image = () => (
 const GridContainer = () => {
     return(
         <div style={{textAlign: "center"}}>
-            <Image></Image>
+            <div style={{textAlign: "center"}}>
+                <Image/>
+            </div>
             <div className="grid-container">
                 <div className="incidents_grid">
                     <h1 style={{textAlign:'center', textDecoration:'underline'}}>משלוחים</h1>
@@ -98,12 +100,12 @@ const TableComponent = () => {
             <tbody>
             {
                 data.map(item =>
-                    <tr>
+                    (item.receivedTimeDate !== null ? null :(<tr>
                         {
                             headings.map(heading =>
                                 ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item) : <td>{item[heading]}</td>)
                         }
-                    </tr>
+                    </tr>))
                 )
             }
             </tbody>

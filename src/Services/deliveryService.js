@@ -4,6 +4,11 @@ const getAllDeliveries = () => {
     return http.get(`/deliveries`);
 };
 
+const getDelivery = (deliveryID) => {
+    return http.get(`/deliveries/${deliveryID}`);
+};
+
 export default {
-    getAllDeliveries
+    getAllDeliveries,
+    getDelivery
 };

@@ -41,7 +41,7 @@ const Restaurants_name_list = (props) => {
                 color: '#052342',
                 paddingRight: '10rem',
                 fontSize: 40
-            }}>:שליחים</h1>
+            }}>:מסעדות</h1>
             <div>
                 <section className='restaurants'>
                     {useSelector(state => state.allRestaurants).map((restaurant) => {
@@ -110,7 +110,7 @@ const Restaurant_full = (props) =>{
 
     return (
         <article className='restaurant'>
-            <ul  style={{paddingRight: '25rem'}} dir="RTL">
+            <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה מסעדה: " + restaurantID}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם המסעדה: " + name}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>

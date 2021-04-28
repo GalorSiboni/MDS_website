@@ -107,7 +107,7 @@ const Delivery_man_full = (props) =>{
         });
         return (
             <article className='delivery_man'>
-                <ul  style={{paddingRight: '25rem'}} dir="RTL">
+                <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה שליח: " + deliverymanID}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם השליח: " + name}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>

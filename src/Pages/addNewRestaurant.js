@@ -10,7 +10,6 @@ import {makeStyles} from "@material-ui/core/styles";
 import restaurantService from "../Services/restaurantService";
 import {setAllCities} from "../Actions";
 import {useDispatch, useSelector} from "react-redux";
-import {addCityModal} from "../Components/addCityModal"
 import {DropdownButton, Dropdown} from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
@@ -143,16 +142,6 @@ const AddNewRestaurant = (props) => {
                         {...phoneNumber}
                     />
                     <DropDownComp/>
-                    {/*<Button*/}
-                    {/*    type="button"*/}
-                    {/*    onClick={() => handleNewCity()}*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="contained"*/}
-                    {/*    color="primary"*/}
-                    {/*    className={classes.addCity}*/}
-                    {/*>*/}
-                    {/*    הוסף עיר*/}
-                    {/*</Button>*/}
                     <Button
                         type="button"
                         onClick={() => handleAddNewUser()}
