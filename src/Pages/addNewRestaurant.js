@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import phoneReceptionistService from "../Services/phoneReceptionistService";
+import React, {useState, useMemo} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -9,6 +8,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import restaurantService from "../Services/restaurantService";
+import {setAllCities} from "../Actions";
+import {useDispatch, useSelector} from "react-redux";
+import {addCityModal} from "../Components/addCityModal"
+import {DropdownButton, Dropdown} from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,42 +28,59 @@ const useStyles = makeStyles((theme) => ({
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
-    submit: {
+    addCity: {
         margin: theme.spacing(3, 0, 2),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 0),
     },
 }));
 
 const AddNewRestaurant = (props) => {
     const classes = useStyles();
-    const restaurantID = useFormInput('');
+    const username = useFormInput('');
+    const password = useFormInput('');
     const phoneNumber = useFormInput('');
     const restaurant_name = useFormInput('');
-    const location = useFormInput('');
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const dispatch = useDispatch();
+    const [cities, setCities] = useState([]);
+
+
     const Restaurant =
             {
-                restaurantID: restaurantID.value,
+                restaurantID: null,
                 phoneNumber: phoneNumber.value,
                 restaurant_name: restaurant_name.value,
-                location: location.value,
-                cities: [],
-                deliveries: [],
-                isDeleted: false
+                location: null,
+                cities: cities,
+                deliveries: null,
+                deleted: false
             }
 
         ;
-    // handle button click of login form
+    // handle button submit of signup form
     const handleAddNewUser = () => {
-        restaurantService.addRestaurant(Restaurant).then(response => {
+        restaurantService.addRestaurant(username.value, password.value,Restaurant).then(response => {
             setLoading(false);
-            props.history.push('/dashboard');
+            props.history.push('/restaurants');
         }).catch(error => {
             setLoading(false);
             if (error.response.status === 401) setError(error.response.data.message);
             else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
         });
+    }
+
+    // handle button add new city
+    const handleNewCity = () => {
+        // restaurantService.getAllCities().then(response => {
+        //     dispatch(setAllCities(response.data));
+        // })
+        //     .catch(e => {
+        //         console.log(e);
+        //     });
     }
 
     return (
@@ -74,17 +94,29 @@ const AddNewRestaurant = (props) => {
                     MDS הוספת מסעדה חדשה - מערכת
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <TextField dir="RTL"
+                    <TextField
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        id="restaurantID"
-                        label="מזהה מסעדה"
-                        name="restaurantID"
-                        autoComplete="restaurantID"
+                        id="user"
+                        label="שם משתמש"
+                        name="user"
+                        autoComplete="user"
                         autoFocus
-                        {...restaurantID}
+                        {...username}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="סיסמא"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        {...password}
                     />
                     <TextField dir="RTL"
                         variant="outlined"
@@ -110,18 +142,17 @@ const AddNewRestaurant = (props) => {
                         autoFocus
                         {...phoneNumber}
                     />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="location"
-                        label="מיקום המסעדה"
-                        name="location"
-                        autoComplete="location"
-                        autoFocus
-                        {...location}
-                    />
+                    <DropDownComp/>
+                    {/*<Button*/}
+                    {/*    type="button"*/}
+                    {/*    onClick={() => handleNewCity()}*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="contained"*/}
+                    {/*    color="primary"*/}
+                    {/*    className={classes.addCity}*/}
+                    {/*>*/}
+                    {/*    הוסף עיר*/}
+                    {/*</Button>*/}
                     <Button
                         type="button"
                         onClick={() => handleAddNewUser()}
@@ -138,6 +169,7 @@ const AddNewRestaurant = (props) => {
     );
 };
 export default AddNewRestaurant;
+
 const useFormInput = initialValue => {
     const [value, setValue] = useState(initialValue);
 
@@ -148,4 +180,75 @@ const useFormInput = initialValue => {
         value,
         onChange: handleChange
     }
+}
+const DropDownComp = () => {
+    return(
+        <DropdownButton id="dropdown-basic-button" title="ערים">
+            {useSelector(state => state.allRestaurants)[3].cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslate(i.city) + ", מחיר: " + i.price+ ", זמן משלוח: " + i.doTime}</Dropdown.Item> })}
+        </DropdownButton>
+    )
+}
+function cityTranslate(city) {
+    let translate = "";
+        switch (city){
+            case "ROSH_AAYIN":
+                translate = "ראש העין";
+                break;
+            case "ORANIT":
+                translate = "אורנית";
+                break;
+            case "SHAHAREI_TIQWA":
+                translate = "שערי תקווה";
+                break;
+            case "ELKANA":
+                translate = "אלקנה";
+                break;
+            case "EZ_EFRAIM":
+                translate = "עץ אפריים";
+                break;
+            case "HAGOR":
+                translate = "חגור";
+                break;
+            case "MATAN":
+                translate = "מתן";
+                break;
+            case "NIRIT":
+                translate = "נירית";
+                break;
+            case "YARHIV":
+                translate = "ירחיב";
+                break;
+            case "SHOHAM":
+                translate = "שהם";
+                break;
+            case "GIVAT_HASLOSHA":
+                translate = "גבעת השלושה";
+                break;
+            case "NAHSHONIM_BASE":
+                translate = "בסיס נחשונים";
+                break;
+            case "KFAR_SABA":
+                translate = "כפר סבא";
+                break;
+            case "TEL_AVIV":
+                translate = "תל-אביב";
+                break;
+            case "KFAR_KASEM":
+                translate = "כפר קאסם";
+                break;
+            case "OTHER":
+                translate = "אחר";
+                break;
+            case "NAHSHONIM":
+                translate = "נחשונים";
+                break;
+            case "PETAH_TIQWA":
+                translate = "פתח תקווה";
+                break;
+            case "EINAT":
+                translate = "עינת";
+                break;
+            default:
+        }
+        return translate;
 }

@@ -26,6 +26,12 @@ export const setAllDeliveries = (array) => {
         payload: array
     };
 };
+export const setAllCities = (array) => {
+    return {
+        type: 'SET_ALL_CITIES',
+        payload: array
+    };
+};
 export const getShift = () => {
     return {
         type: 'GET_SHIFT',

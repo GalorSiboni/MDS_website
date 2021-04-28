@@ -1,7 +1,7 @@
-const allRestaurantsReducer = (state = [], action) => {
+const allCitiesReducer = (state = [], action) => {
 
     switch (action.type) {
-        case 'SET_ALL_RESTAURANTS':
+        case 'SET_ALL_CITIES':
             state = action.payload;
             return state;
         default:
@@ -9,4 +9,4 @@ const allRestaurantsReducer = (state = [], action) => {
     }
 };
 
-export default allRestaurantsReducer;
+export default allCitiesReducer;
