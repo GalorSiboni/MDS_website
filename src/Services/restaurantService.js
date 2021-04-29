@@ -16,9 +16,14 @@ const getAllCities = () => {
     return http.get(`/restaurants/cities`);
 };
 
+const getAllDeliveries = (restaurantID) => {
+    return http.get(`/restaurants/delivery/${restaurantID}`);
+};
+
 export default {
     getAllRestaurants,
     addRestaurant,
     updateRestaurant,
-    getAllCities
+    getAllCities,
+    getAllDeliveries
 };
