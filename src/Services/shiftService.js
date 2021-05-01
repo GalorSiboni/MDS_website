@@ -8,18 +8,27 @@ const deleteShift = (shiftID) => {
     return http.delete(`/shift/${shiftID}`);
 };
 
+const getAllShifts = (page, size) => {
+    return http.get(`/shift`, (page, size));
+};
+
 const getShift = (shiftID) => {
-    return http.get(`/shift/${shiftID}/${null}/${null}`);
+    return http.get(`/shift/${shiftID}`);
 };
 
-const updateShift = (shiftID) => {
-    return http.put(`/shift/${shiftID}`);
+const updateShift = (shift) => {
+    return http.put(`/shift`, shift);
 };
 
+const searchBy = (search, value, minValue, maxValue, page, size) => {
+    return http.get(`/shift/find/by`, (search, value, minValue, maxValue, page, size));
+};
 
 export default {
     deleteAllShifts,
     deleteShift,
     getShift,
-    updateShift
+    updateShift,
+    getAllShifts,
+    searchBy
 };

@@ -8,8 +8,16 @@ const deletePhoneReceptionist = (phoneReceptionistID) => {
     return http.delete(`/phonereceptionist/${phoneReceptionistID}`);
 };
 
+const setDeliverymanRoute = (deliverymanID, deliveries) => {
+    return http.post(`/phonereceptionist/route/${deliverymanID}`, deliveries);
+};
+
 const addPhoneReceptionist = (username, password, phoneReceptionist) => {
     return http.post(`/phonereceptionist`,(username, password, phoneReceptionist));
+};
+
+const getAllUnapprovedRoutes = () => {
+    return http.get(`/phonereceptionist/routes/notApproved`);
 };
 
 const getAllPhoneReceptionists = () => {
@@ -24,12 +32,24 @@ const updatePhoneReceptionist = (phoneReceptionist) => {
     return http.put(`/phonereceptionist`,phoneReceptionist);
 };
 
+const phoneReceptionistLogin = ( phoneReceptionistID ) => {
+    return http.post(`/phonereceptionist/login/${phoneReceptionistID}`);
+};
+
+const phoneReceptionistLogout = ( phoneReceptionistID ) => {
+    return http.post(`/phonereceptionist/logout/${phoneReceptionistID}`);
+};
+
 export default {
     deleteAllPhoneReceptionists,
     deletePhoneReceptionist,
     addPhoneReceptionist,
     getAllPhoneReceptionists,
     getPhoneReceptionists,
-    updatePhoneReceptionist
+    updatePhoneReceptionist,
+    phoneReceptionistLogin,
+    phoneReceptionistLogout,
+    setDeliverymanRoute,
+    getAllUnapprovedRoutes
 };
 
