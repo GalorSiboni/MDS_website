@@ -8,8 +8,8 @@ const deleteRestaurant = (restaurantID) => {
     return http.delete(`/restaurants/${restaurantID}`);
 };
 
-const getAllRestaurants = () => {
-    return http.get(`/restaurants`);
+const getAllRestaurants = (page, size) => {
+    return http.get(`/restaurants`, (page, size));
 };
 
 const getRestaurant = (restaurantID) => {

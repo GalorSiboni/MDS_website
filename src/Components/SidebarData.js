@@ -27,6 +27,11 @@ export const SidebarData = [
                 title: 'היסטוריית משלוחים',
                 path: '/deliveries/DeliveriesHistory',
                 icon: <IoIcons.IoIosPaper />
+            },
+            {
+                title: 'הוספת שליח',
+                path: '/deliveries/add_new_delivery_man',
+                icon: <IoIcons.IoIosPaper />
             }
         ]
     },
@@ -37,7 +42,7 @@ export const SidebarData = [
         iconOpened: <RiIcons.RiArrowUpSFill />,
         subNav: [
             {
-                title: 'ניהול מסעדות',
+                title: 'דף ניהול מסעדות',
                 path: '/restaurants',
                 icon: <IoIcons.IoIosRestaurant />
             },

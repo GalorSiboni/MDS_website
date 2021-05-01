@@ -7,8 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import restaurantService from "../Services/restaurantService";
-import {setAllCities} from "../Actions";
+import restaurantService from "../../Services/restaurantService";
+import {setAllCities} from "../../Actions";
 import {useDispatch, useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 
@@ -52,11 +52,11 @@ const AddNewRestaurant = (props) => {
             {
                 restaurantID: null,
                 phoneNumber: phoneNumber.value,
-                restaurant_name: restaurant_name.value,
+                name: restaurant_name.value,
                 location: null,
-                cities: cities,
+                RestaurantCityBoundary: cities,
                 deliveries: null,
-                deleted: false
+                isDeleted: false
             }
 
         ;

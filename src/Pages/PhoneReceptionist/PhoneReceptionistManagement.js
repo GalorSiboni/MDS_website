@@ -7,7 +7,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import phoneReceptionistService from "../Services/phoneReceptionistService";
+import phoneReceptionistService from "../../Services/phoneReceptionistService";
 import {useSelector} from "react-redux";
 
 export const PhoneReceptionistManagement = () => {

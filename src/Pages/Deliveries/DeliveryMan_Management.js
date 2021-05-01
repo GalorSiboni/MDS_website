@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
-import deliverymanService from "../Services/deliverymanService";
+import deliverymanService from "../../Services/deliverymanService";
 import {useDispatch} from "react-redux";
-import { setAllDeliverymen } from "../Actions";
-import shiftService from "../Services/shiftService";
+import { setAllDeliverymen } from "../../Actions";
+import shiftService from "../../Services/shiftService";
 import { useSelector } from "react-redux";
 
 const DeliveryMan_Management = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     const dispatch = useDispatch();
-
 
     deliverymanService.getAllDeliveryMen().then(response => {
         dispatch(setAllDeliverymen(response.data));
@@ -53,8 +52,10 @@ const Delivery_man_name_list = (props) => {
 }
 
 const Delivery_man_details = (props) =>  {
-    const currentDeliveryMan = props.current
+    const currentDeliveryManID = props.current
     const setClicked = props.myVar
+    const deliveryMan = useSelector(state => state.allDeliveryMen).find(x => x.deliverymanID === currentDeliveryManID);
+
 
     return(
         <div style={{textAlign: "center"}}>
@@ -74,7 +75,7 @@ const Delivery_man_details = (props) =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>:דף שליח</h1>
-            <Delivery_man_full delivery_man={useSelector(state => state.allDeliveryMen).find(x => x.deliverymanID === currentDeliveryMan)}/>
+            <Delivery_man_full delivery_man={deliveryMan}/>
         </div>
     )
 }
@@ -87,32 +88,35 @@ const Delivery_man = (props) =>{
         </article>
     );
 }
+
 const Delivery_man_full = (props) =>{
     const { deliverymanID, name, phoneNumber, location, shiftID, deleted} = props.delivery_man;
-    let route;
-    // deliverymanService.deliverymanGetRoute(deliverymanID, location).then(response => {
-    //     console.log(response.data)
-    //     route = response.data;
-    // })
-    //     .catch(e => {
-    //         console.log(e);
-    //     });
-    let currentShift = "6085db21e7cb2835fd38bfda";
-    shiftService.getShift(currentShift).then(response => {
-        console.log(response.data.shiftStart)
-        currentShift = response.data;
+    //get Route
+    const [route, setRoute] = useState("");
+    deliverymanService.deliverymanGetRoute(deliverymanID).then(response => {
+        console.log(response.data)
+        setRoute(response.data);
     })
         .catch(e => {
             console.log(e);
         });
+    //get shift
+    const [currentShift, setCurrentShift] = useState("");
+    shiftService.getShift(shiftID).then(response => {
+        setCurrentShift(response.data);
+    })
+        .catch(e => {
+            console.log(e);
+        })
         return (
+
             <article className='delivery_man'>
                 <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה שליח: " + deliverymanID}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם השליח: " + name}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
-                    {(currentShift != null)
+                    {(currentShift != "")
                         ?
                         (
                             <ul dir="RTL">
@@ -127,7 +131,7 @@ const Delivery_man_full = (props) =>{
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת: לא במשמרת"}</li>
                     }
 
-                    {(route != (null || undefined))
+                    {(route != null && route != undefined && route != "")
                         ?
                         (
                             <ul style={{paddingRight: '25rem'}} dir="RTL">
@@ -154,4 +158,3 @@ const Image = () => (
          src={process.env.PUBLIC_URL + '/app_icon.png'}
     />
 )
-

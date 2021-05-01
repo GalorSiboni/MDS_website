@@ -1,15 +1,15 @@
 import http from "../http-common";
 
-const getAllDeliveryMen = () => {
-    return http.get(`/deliveryman`);
+const getAllDeliveryMen = (page, size) => {
+    return http.get(`/deliveryman`, (page, size) );
 };
 
 const getAllWorkingDeliverymen = () => {
     return http.get(`/deliveryman/working`);
 };
 
-const deliverymanGetRoute = (deliverymanID, location) => {
-    return http.get(`/deliveryman/route/${deliverymanID}/${location}`);
+const deliverymanGetRoute = (deliverymanID) => {
+    return http.get(`/deliveryman/route/${deliverymanID}`);
 };
 
 const addDeliveryMen = (deliveryMen) => {

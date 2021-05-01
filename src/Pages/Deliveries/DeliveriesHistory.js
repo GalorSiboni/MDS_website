@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import deliveryService from "../Services/deliveryService";
-import {setAllRestaurants} from "../Actions";
+import deliveryService from "../../Services/deliveryService";
+import {setAllRestaurants} from "../../Actions";
 import {Table, Button} from "react-bootstrap";
-import restaurantService from "../Services/restaurantService";
+import restaurantService from "../../Services/restaurantService";
 
 const DeliveriesHistory = () => {
     const [isClicked, setIsClicked] = useState(false);

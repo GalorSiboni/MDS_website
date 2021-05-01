@@ -12,8 +12,8 @@ const getAllShifts = (page, size) => {
     return http.get(`/shift`, (page, size));
 };
 
-const getShift = (shiftID) => {
-    return http.get(`/shift/${shiftID}`);
+const getShift = async (shiftID) => {
+    return await http.get(`/shift/${shiftID}`);
 };
 
 const updateShift = (shift) => {

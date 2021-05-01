@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {setAllRestaurants} from "../Actions";
-import restaurantService from "../Services/restaurantService";
+import {setAllRestaurants} from "../../Actions";
+import restaurantService from "../../Services/restaurantService";
+import {Table} from "react-bootstrap";
+import {forEach} from "react-bootstrap/ElementChildren";
 
 
 const Restaurants_Management = () => {
@@ -92,7 +94,7 @@ const Restaurant = (props) =>{
 
 const Restaurant_full = (props) =>{
     const { restaurantID, name, phoneNumber, location, deliveries, deleted} = props.restaurant;
-
+    const [deliveriesArray, setDeliveriesArray] = useState([])
     if (deliveries == null){
         return (
             <article className='restaurant'>
@@ -107,21 +109,26 @@ const Restaurant_full = (props) =>{
             </article>
         );
     }
-
-    return (
-        <article className='restaurant'>
-            <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה מסעדה: " + restaurantID}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם המסעדה: " + name}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: "}</li>
-                <ul style={{paddingRight: '2rem'}} dir="RTL">
-                    {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'}} dir="RTL">{i}</li> })}
+    else {
+        restaurantService.getAllDeliveries(restaurantID).then(response => {
+            setDeliveriesArray(response.data);
+        })
+            .catch(e => {
+                console.log(e);
+            });
+        return (
+            <article className='restaurant'>
+                <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה מסעדה: " + restaurantID}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם המסעדה: " + name}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: "}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"כמות משלוחים: " + deliveriesArray.length}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == false || deleted == undefined) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
                 </ul>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
-            </ul>
-        </article>
-    );
+            </article>
+        );
+    }
 }
 
