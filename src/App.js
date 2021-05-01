@@ -22,8 +22,8 @@ function App() {
                     <Route path='/' exact component={Overview}/>
                     <Route path='/deliveries/DeliveryMan_Management' exact component={DeliveryMan_Management}/>
                     <Route path='/deliveries/DeliveriesHistory' exact component={DeliveriesHistory}/>
+                    <Route path='/deliveries/add_new_delivery_man' exact component={addNewDeliveryMan}/>
                     <Route path='/restaurants' exact component={Restaurants_Managements}/>
-                    <Route path='/restaurants/add_new_delivery_man' exact component={addNewDeliveryMan}/>
                     <Route path='/restaurants/add_new_restaurant' exact component={addNewRestaurant}/>
                     <Route path='/reports/DailyReports' exact component={DailyReports}/>
                     <Route path='/reports/WeeklyReports' exact component={WeeklyReports}/>
