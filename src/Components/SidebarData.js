@@ -100,5 +100,10 @@ export const SidebarData = [
                 cName: 'sub-nav'
             }
         ]
+    },
+    {
+        title: 'התנתק',
+        path: '/logout',
+        icon: <IoIcons.IoIosLogOut/>
     }
 ];

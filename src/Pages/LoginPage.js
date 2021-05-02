@@ -9,10 +9,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import axios from 'axios';
 import { setUserSession } from '../Utils/Common';
 import {useDispatch} from "react-redux";
-import { login } from "../Actions";
+import {login, logout} from "../Actions";
+import Firebase from "../Components/Firebase"
+import phoneReceptionistService from "../Services/phoneReceptionistService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,16 +47,19 @@ export default function SignIn(props) {
     const handleLogin = () => {
         setError(null);
         setLoading(true);
-        dispatch(login());
-        // axios.post('http://localhost:3000/mds/signin', { username: username.value, password: password.value }).then(response => {
-        //     setLoading(false);
-        //     setUserSession(response.data.token, response.data.user);
-        //     props.history.push('/dashboard');
-        // }).catch(error => {
-        //     setLoading(false);
-        //     if (error.response.status === 401) setError(error.response.data.message);
-        //     else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
-        // });
+        Firebase.login(username.value, password.value).then(response => {
+            setLoading(false);
+            dispatch(login());
+            // phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
+            //     setLoading(false);
+            //     console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
+            // });
+            console.log("Response from login: " + response.user.uid)
+            // setUserSession(response.data.token, response.data.user);
+        }).catch(error => {
+            setLoading(false);
+            console.log(error);
+        });
     }
 
     return (
@@ -124,3 +128,14 @@ const useFormInput = initialValue => {
     }
 }
 
+function Logout(props) {
+    const dispatch = useDispatch();
+    Firebase.logout().then(r => {
+        console.log(r)
+        dispatch(logout());
+        props.history.push('/');
+        // phoneReceptionistService.phoneReceptionistLogout("7RJJHCxWb5YGOXQcKm6zwiOY9ax2").then().catch()
+    }).catch(error => {
+        console.log(error.statusCode + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
+    });
+};
