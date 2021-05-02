@@ -11,12 +11,9 @@ import { DailyReports, WeeklyReports, MonthlyReports } from './Pages/Reports';
 import { AddNewPhoneReceptionist, PhoneReceptionistManagement } from './Pages/PhoneReceptionist/PhoneReceptionistManagement';
 import {useSelector} from "react-redux";
 import addNewDeliveryMan from "./Pages/Deliveries/addNewDeliveryMan";
-import {Logout} from "./Components/Logout";
-import {useState} from "react";
 
 function App() {
-    const isLogged = useSelector(state => state.isLogged);
-    if (isLogged) {
+    if (useSelector(state => state.isLogged)) {
         return (
             <Router>
                 <Sidebar/>
@@ -32,7 +29,6 @@ function App() {
                     <Route path='/reports/MonthlyReports' exact component={MonthlyReports}/>
                     <Route path='/phone_receptionist/phone_receptionist_management' exact component={PhoneReceptionistManagement}/>
                     <Route path='/phone_receptionist/add_phone_receptionist' exact component={AddNewPhoneReceptionist}/>
-                    <Route path='/logout' exact component={Logout}/>
                 </Switch>
             </Router>
         );

@@ -7,7 +7,7 @@ import * as RiIcons from 'react-icons/ri';
 export const SidebarData = [
     {
         title: 'דף בקרה',
-        path: '/',
+        path: '/overview',
         icon: <AiIcons.AiFillHome />,
     },
     {
@@ -103,7 +103,7 @@ export const SidebarData = [
     },
     {
         title: 'התנתק',
-        path: '/logout',
         icon: <IoIcons.IoIosLogOut/>
+
     }
 ];

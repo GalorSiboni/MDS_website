@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { setUserSession } from '../Utils/Common';
 import {useDispatch} from "react-redux";
-import {login, logout} from "../Actions";
+import { login } from "../Actions";
 import Firebase from "../Components/Firebase"
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 
@@ -49,7 +49,7 @@ export default function SignIn(props) {
         setLoading(true);
         Firebase.login(username.value, password.value).then(response => {
             setLoading(false);
-            dispatch(login());
+            dispatch(login())
             // phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
             //     setLoading(false);
             //     console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
@@ -128,14 +128,3 @@ const useFormInput = initialValue => {
     }
 }
 
-function Logout(props) {
-    const dispatch = useDispatch();
-    Firebase.logout().then(r => {
-        console.log(r)
-        dispatch(logout());
-        props.history.push('/');
-        // phoneReceptionistService.phoneReceptionistLogout("7RJJHCxWb5YGOXQcKm6zwiOY9ax2").then().catch()
-    }).catch(error => {
-        console.log(error.statusCode + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
-    });
-};
