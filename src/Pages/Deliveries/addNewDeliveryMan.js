@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from "react";
+import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -8,8 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import restaurantService from "../../Services/restaurantService";
-import {useDispatch, useSelector} from "react-redux";
-import {DropdownButton, Dropdown} from "react-bootstrap";
+import {useDispatch} from "react-redux";
+import addressService from "../../Services/addressService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -70,13 +70,13 @@ const AddNewDeliveryMan = (props) => {
     }
 
     // handle button add new city
-    const handleNewCity = () => {
-        // restaurantService.getAllCities().then(response => {
-        //     dispatch(setAllCities(response.data));
-        // })
-        //     .catch(e => {
-        //         console.log(e);
-        //     });
+    const HandleNewCity = () => {
+        addressService.getAllCities().then(response => {
+            // dispatch(setAllCities(response.data));
+        })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     return (

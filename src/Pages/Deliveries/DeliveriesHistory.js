@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import deliveryService from "../../Services/deliveryService";
 import {setAllRestaurants} from "../../Actions";
 import {Table, Button} from "react-bootstrap";
 import restaurantService from "../../Services/restaurantService";
@@ -137,5 +136,6 @@ const TableComponent = (props) => {
 const Image = () => (
     <img className="logo"
          src={process.env.PUBLIC_URL + '/app_icon.png'}
+         alt={""}
     />
 )

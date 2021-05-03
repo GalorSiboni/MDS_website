@@ -13,7 +13,6 @@ import { setUserSession } from '../Utils/Common';
 import {useDispatch} from "react-redux";
 import { login } from "../Actions";
 import Firebase from "../Components/Firebase"
-import phoneReceptionistService from "../Services/phoneReceptionistService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {

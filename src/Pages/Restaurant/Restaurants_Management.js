@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setAllRestaurants} from "../../Actions";
 import restaurantService from "../../Services/restaurantService";
-import {Table} from "react-bootstrap";
-import {forEach} from "react-bootstrap/ElementChildren";
+
 
 
 const Restaurants_Management = () => {
@@ -35,6 +34,7 @@ const Restaurants_name_list = (props) => {
             <div style={{textAlign: "center"}}>
                 <img className="logo"
                      src={process.env.PUBLIC_URL + '/app_icon.png'}
+                     alt={""}
                 />
             </div>
             <h1 style={{
@@ -63,6 +63,7 @@ const Restaurants_details = (props) =>  {
             <div style={{textAlign: "center"}}>
                 <img className="logo"
                      src={process.env.PUBLIC_URL + '/app_icon.png'}
+                     alt={""}
                 />
             </div>
             <button onClick={() => setClicked(false)} style={{
@@ -104,7 +105,7 @@ const Restaurant_full = (props) =>{
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: אין משלוחים חדשים"}</li>
-                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted === undefined)) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
                 </ul>
             </article>
         );
@@ -125,7 +126,7 @@ const Restaurant_full = (props) =>{
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: "}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"כמות משלוחים: " + deliveriesArray.length}</li>
-                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == false || deleted == undefined) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted === false || deleted === undefined) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
                 </ul>
             </article>
         );

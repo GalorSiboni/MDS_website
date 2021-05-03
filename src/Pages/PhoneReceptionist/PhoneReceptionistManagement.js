@@ -8,19 +8,18 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import phoneReceptionistService from "../../Services/phoneReceptionistService";
-import {useSelector} from "react-redux";
 
 export const PhoneReceptionistManagement = () => {
     const [phoneReceptionistsArray, setPhoneReceptionistsArray] = useState([])
     const [isClicked, setIsClicked] = useState(false);
     const [currentPhoneReceptionist, setCurrentPhoneReceptionist] = useState();
-    // phoneReceptionistService.getAllPhoneReceptionists().then(response => {
-    //     console.log(response.data);
-    //     setPhoneReceptionistsArray(response.data);
-    // })
-    //     .catch(e => {
-    //         console.log(e);
-    //     });
+    phoneReceptionistService.getAllPhoneReceptionists().then(response => {
+        console.log(response.data);
+        setPhoneReceptionistsArray(response.data);
+    })
+        .catch(e => {
+            console.log(e);
+        });
     return (
         <div>
                 {isClicked ? <PhoneReceptionist_details myVar={setIsClicked} current={currentPhoneReceptionist}/> : <PhoneReceptionist_name_list myVar={setIsClicked} current={setCurrentPhoneReceptionist}/> }
@@ -92,7 +91,7 @@ const PhoneReceptionist_full = (props) =>{
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם מוקדן: " + name}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' משמרת: " + shiftID}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted == false) || (deleted ==  undefined)) ? "סטטוס משמרת: לא במשמרת" : "סטטוס משמרת: במשמרת"}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted ===  undefined)) ? "סטטוס משמרת: לא במשמרת" : "סטטוס משמרת: במשמרת"}</li>
             </ul>
         </article>
     );
@@ -242,6 +241,7 @@ const useFormInput = initialValue => {
 const Image = () => (
     <img className="logo"
          src={process.env.PUBLIC_URL + '/app_icon.png'}
+         alt={""}
     />
 )
 

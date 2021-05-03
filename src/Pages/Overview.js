@@ -24,6 +24,7 @@ export default Overview;
 const Image = () => (
     <img className="logo"
          src={process.env.PUBLIC_URL + '/app_icon.png'}
+         alt={""}
     />
 )
 

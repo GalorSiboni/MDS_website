@@ -116,7 +116,7 @@ const Delivery_man_full = (props) =>{
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם השליח: " + name}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
-                    {(currentShift != "")
+                    {(currentShift !== "")
                         ?
                         (
                             <ul dir="RTL">
@@ -131,7 +131,7 @@ const Delivery_man_full = (props) =>{
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת: לא במשמרת"}</li>
                     }
 
-                    {(route != null && route != undefined && route != "")
+                    {(route !== null && route !== undefined && route != "")
                         ?
                         (
                             <ul style={{paddingRight: '25rem'}} dir="RTL">
@@ -156,5 +156,6 @@ const Delivery_man_full = (props) =>{
 const Image = () => (
     <img className="logo"
          src={process.env.PUBLIC_URL + '/app_icon.png'}
+         alt={""}
     />
 )

@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from "react";
+import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -75,12 +75,12 @@ const AddNewRestaurant = (props) => {
 
     // handle button add new city
     const handleNewCity = () => {
-        // restaurantService.getAllCities().then(response => {
-        //     dispatch(setAllCities(response.data));
-        // })
-        //     .catch(e => {
-        //         console.log(e);
-        //     });
+        addressService.getAllCities().then(response => {
+            dispatch(setAllCities(response.data));
+        })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     return (

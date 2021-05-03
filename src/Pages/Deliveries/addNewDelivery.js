@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from "react";
+import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -54,10 +54,11 @@ const AddNewDelivery = (props) => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const dispatch = useDispatch();
-    const [cityArray, setCityArray] = useState([])
+    const [cityArray, setCityArray] = useState(null)
     const [addressBoundary, setAddressBoundary] = useState([])
-    setCityArray(useSelector(state => state.allCities));
+    const [cityPicked, setCityPicked] = useState(false)
+
+
     const address = {
         addressID: null,
         phoneNumber: phoneNumber.value,
@@ -81,9 +82,9 @@ const AddNewDelivery = (props) => {
             deliveryTime: null,
             phoneNumber: phoneNumber.value,
             customerName: customerName.value,
-            doTime: null,//#TODO
+            doTime: (cityPicked ? cityArray.find(item => item.name == city.value ).doTime : null),
             price: price.value,
-            restaurantCost: null,//#TODO
+            restaurantCost: (cityPicked ? cityArray.find(item => item.name == city.value ).price : null),
             notes: deliveryNotes.value,
             isDeleted: deliveryIsDeleted.value
         }
@@ -113,14 +114,13 @@ const AddNewDelivery = (props) => {
 
     // handle button add new city
     const handleNewCity = () => {
-        //     addressService.getAllCities().then(response => {
-        //         dispatch(setAllCities(response.data));
-        //     })
-        //         .catch(e => {
-        //             console.log(e);
-        //         });
-        // }
-    }
+            addressService.getAllCities().then(response => {
+                // dispatch(setAllCities(response.data));
+            })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
 
     return (
         <Container component="main" maxWidth="xs" >
@@ -169,7 +169,7 @@ const AddNewDelivery = (props) => {
                         autoFocus
                         {...price}
                     />
-                    <DropDownComp dispatch={dispatch} {...city}/>
+                    <DropDownComp onpress={() => {setCityPicked(true)}}/>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -233,6 +233,7 @@ const AddNewDelivery = (props) => {
         </Container>
     );
 };
+
 export default AddNewDelivery;
 
 const useFormInput = initialValue => {
@@ -247,18 +248,20 @@ const useFormInput = initialValue => {
     }
 }
 
-const DropDownComp = (props) => {
-    console.log(useSelector(state => state.allRestaurants)[3].cities)
+const DropDownComp = () => {
+    const dispatch = useDispatch();
+    const [title, setTitle] = useState("ערים")
+    if(useSelector(state => state.allCities).length == 0)
     addressService.getAllCities().then(response => {
-        props.dispatch(setAllCities(response.data))
-        console.log(response.data)
+       dispatch(setAllCities(response.data))
     }).catch()
     return(
-        <DropdownButton id="dropdown-basic-button" title="ערים">
-            {useSelector(state => state.allRestaurants)[3].cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslate(i.city) + ", מחיר: " + i.price+ ", זמן משלוח: " + i.doTime}</Dropdown.Item> })}
+        <DropdownButton id="dropdown-basic-button" title={title}>
+            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslate(i.city)}</Dropdown.Item> })}
         </DropdownButton>
     )
 }
+
 function cityTranslate(city) {
     let translate = "";
     switch (city){
