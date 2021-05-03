@@ -9,7 +9,7 @@ const deleteAddress = (addressID) => {
 };
 
 const getAllCities = () => {
-    return http.get(`/address`);
+    return http.get(`/address/getAllCities`);
 };
 
 const getAllAddresses = (page, size) => {

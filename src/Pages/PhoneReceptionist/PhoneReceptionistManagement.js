@@ -92,7 +92,7 @@ const PhoneReceptionist_full = (props) =>{
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם מוקדן: " + name}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' משמרת: " + shiftID}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס משמרת: לא במשמרת" : "סטטוס משמרת: במשמרת"}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted == false) || (deleted ==  undefined)) ? "סטטוס משמרת: לא במשמרת" : "סטטוס משמרת: במשמרת"}</li>
             </ul>
         </article>
     );

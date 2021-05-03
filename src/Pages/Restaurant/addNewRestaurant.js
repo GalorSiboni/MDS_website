@@ -11,6 +11,7 @@ import restaurantService from "../../Services/restaurantService";
 import {setAllCities} from "../../Actions";
 import {useDispatch, useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
+import addressService from "../../Services/addressService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -171,6 +172,9 @@ const useFormInput = initialValue => {
     }
 }
 const DropDownComp = () => {
+    addressService.getAllCities().then(value => {
+        console.log(value)
+    }).catch()
     return(
         <DropdownButton id="dropdown-basic-button" title="ערים">
             {useSelector(state => state.allRestaurants)[3].cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslate(i.city) + ", מחיר: " + i.price+ ", זמן משלוח: " + i.doTime}</Dropdown.Item> })}

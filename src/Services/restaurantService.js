@@ -24,12 +24,9 @@ const updateRestaurant = (restaurant) => {
     return http.put(`/restaurants`, restaurant);
 }
 
-const getAllCities = () => {
-    return http.get(`/restaurants/cities`);
-};
 
-const getAllDeliveries = (restaurantID) => {
-    return http.get(`/restaurants/delivery/${restaurantID}`);
+const addDelivery = (restaurantID, delivery) => {
+    return http.post(`/restaurants/delivery/${restaurantID}`, delivery);
 };
 
 const updateDelivery = (restaurantID) => {
@@ -37,13 +34,17 @@ const updateDelivery = (restaurantID) => {
 }
 
 
+const getDeliveryList = (restaurantID, page, size) => {
+    return http.get(`/restaurants/delivery/${restaurantID}`, (page, size));
+}
+
 export default {
     getAllRestaurants,
     addRestaurant,
     updateRestaurant,
     updateDelivery,
-    getAllCities,
-    getAllDeliveries,
+    getDeliveryList,
+    addDelivery,
     deleteAllRestaurants,
     deleteRestaurant,
     getRestaurant

@@ -32,6 +32,11 @@ export const SidebarData = [
                 title: 'הוספת שליח',
                 path: '/deliveries/add_new_delivery_man',
                 icon: <IoIcons.IoIosPaper />
+            },
+            {
+                title: 'הוספת משלוח',
+                path: '/deliveries/add_new_delivery',
+                icon: <IoIcons.IoIosPaper />
             }
         ]
     },

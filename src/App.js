@@ -11,6 +11,7 @@ import { DailyReports, WeeklyReports, MonthlyReports } from './Pages/Reports';
 import { AddNewPhoneReceptionist, PhoneReceptionistManagement } from './Pages/PhoneReceptionist/PhoneReceptionistManagement';
 import {useSelector} from "react-redux";
 import addNewDeliveryMan from "./Pages/Deliveries/addNewDeliveryMan";
+import addNewDelivery from "./Pages/Deliveries/addNewDelivery";
 
 function App() {
     if (useSelector(state => state.isLogged)) {
@@ -22,6 +23,7 @@ function App() {
                     <Route path='/deliveries/DeliveryMan_Management' exact component={DeliveryMan_Management}/>
                     <Route path='/deliveries/DeliveriesHistory' exact component={DeliveriesHistory}/>
                     <Route path='/deliveries/add_new_delivery_man' exact component={addNewDeliveryMan}/>
+                    <Route path='/deliveries/add_new_delivery' exact component={addNewDelivery}/>
                     <Route path='/restaurants' exact component={Restaurants_Managements}/>
                     <Route path='/restaurants/add_new_restaurant' exact component={addNewRestaurant}/>
                     <Route path='/reports/DailyReports' exact component={DailyReports}/>
