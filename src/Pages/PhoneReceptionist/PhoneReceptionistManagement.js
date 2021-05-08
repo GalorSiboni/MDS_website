@@ -8,14 +8,15 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import phoneReceptionistService from "../../Services/phoneReceptionistService";
+import {useDispatch, useSelector} from "react-redux";
+import {setAllPhoneReceptionists} from "../../Actions";
 
 export const PhoneReceptionistManagement = () => {
-    const [phoneReceptionistsArray, setPhoneReceptionistsArray] = useState([])
     const [isClicked, setIsClicked] = useState(false);
     const [currentPhoneReceptionist, setCurrentPhoneReceptionist] = useState();
+    const dispatch = useDispatch();
     phoneReceptionistService.getAllPhoneReceptionists().then(response => {
-        console.log(response.data);
-        setPhoneReceptionistsArray(response.data);
+        dispatch(setAllPhoneReceptionists(response.data));
     })
         .catch(e => {
             console.log(e);
@@ -30,7 +31,6 @@ export const PhoneReceptionistManagement = () => {
 const PhoneReceptionist_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentPhoneReceptionist = props.current
-    const array = tempArray
     return(
         <div className='phoneReceptionist_management' style={{alignItems: "center"}}>
             <div style={{textAlign: "center"}}>
@@ -45,7 +45,7 @@ const PhoneReceptionist_name_list = (props) => {
             }}>:מוקדנים</h1>
             <div>
                 <section className='phoneReceptionists'>
-                    {array.map((phoneReceptionist) => {
+                    {useSelector(state => state.allPhoneReceptionists).map((phoneReceptionist) => {
                         return <PhoneReceptionist key={phoneReceptionist.phoneReceptionistID} phoneReceptionist={phoneReceptionist} myVar={setClicked} current={setCurrentPhoneReceptionist}></PhoneReceptionist>
                     })}
                 </section>
@@ -57,7 +57,6 @@ const PhoneReceptionist_name_list = (props) => {
 const PhoneReceptionist_details = (props) =>  {
     const currentPhoneReceptionist = props.current
     const setClicked = props.myVar
-    const array = tempArray
     return(
         <div style={{textAlign: "center"}}>
             <div style={{textAlign: "center"}}>
@@ -76,7 +75,7 @@ const PhoneReceptionist_details = (props) =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>:דף מוקדן</h1>
-            <PhoneReceptionist_full phoneReceptionist={array.find(x => x.phoneReceptionistID === currentPhoneReceptionist)}/>
+            <PhoneReceptionist_full phoneReceptionist={useSelector(state => state.allPhoneReceptionists).find(x => x.phoneReceptionistID === currentPhoneReceptionist)}/>
         </div>
     )
 }
@@ -91,7 +90,7 @@ const PhoneReceptionist_full = (props) =>{
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם מוקדן: " + name}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' משמרת: " + shiftID}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted ===  undefined)) ? "סטטוס משמרת: לא במשמרת" : "סטטוס משמרת: במשמרת"}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted ===  undefined)) ? "סטטוס משמרת: במשמרת" : "סטטוס משמרת: לא במשמרת"}</li>
             </ul>
         </article>
     );
@@ -244,27 +243,3 @@ const Image = () => (
          alt={""}
     />
 )
-
-const tempArray = [
-    {
-        phoneReceptionistID: "1651561256",
-        name: "גלאור סיבוני",
-        phoneNumber: "0524444444",
-        shiftID: "1",
-        isDeleted: false
-    },
-    {
-        phoneReceptionistID: "1651561253",
-        name: "שחר ניסן",
-        phoneNumber: "0524444443",
-        shiftID: "2",
-        isDeleted: false
-    },
-    {
-        phoneReceptionistID: "1651561252",
-        name: "נדב הלוי",
-        phoneNumber: "0524444442",
-        shiftID: "3",
-        isDeleted: false
-    }
-]

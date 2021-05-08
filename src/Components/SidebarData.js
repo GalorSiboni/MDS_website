@@ -37,6 +37,11 @@ export const SidebarData = [
                 title: 'הוספת משלוח',
                 path: '/deliveries/add_new_delivery',
                 icon: <IoIcons.IoIosPaper />
+            },
+            {
+                title: 'אישור מסלולי חלוקה',
+                path: '/deliveries/unapproved_route',
+                icon: <IoIcons.IoIosPaper />
             }
         ]
     },

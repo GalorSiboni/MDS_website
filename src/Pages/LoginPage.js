@@ -9,10 +9,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { setUserSession } from '../Utils/Common';
 import {useDispatch} from "react-redux";
-import { login } from "../Actions";
+import {admin, login} from "../Actions";
 import Firebase from "../Components/Firebase"
+import phoneReceptionistService from "../Services/phoneReceptionistService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,10 +49,11 @@ export default function SignIn(props) {
         Firebase.login(username.value, password.value).then(response => {
             setLoading(false);
             dispatch(login())
-            // phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
-            //     setLoading(false);
-            //     console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
-            // });
+            dispatch(admin())
+            phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
+                setLoading(false);
+                console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
+            });
             console.log("Response from login: " + response.user.uid)
             // setUserSession(response.data.token, response.data.user);
         }).catch(error => {

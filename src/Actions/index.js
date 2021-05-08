@@ -1,3 +1,8 @@
+export const admin = () => {
+    return {
+        type: 'ADMIN'
+    };
+};
 export const login = () => {
     return {
         type: 'SIGN_IN'
@@ -23,6 +28,18 @@ export const setAllRestaurants = (array) => {
 export const setAllDeliveries = (array) => {
     return {
         type: 'SET_ALL_DELIVERIES',
+        payload: array
+    };
+};
+export const setAllPhoneReceptionists = (array) => {
+    return {
+        type: 'SET_ALL_PHONE_RECEPTIONISTS',
+        payload: array
+    };
+};
+export const setAllUnapprovedRoutes = (array) => {
+    return {
+        type: 'SET_ALL_UNAPPROVED_ROUTES',
         payload: array
     };
 };
