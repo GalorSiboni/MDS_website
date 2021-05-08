@@ -40,9 +40,9 @@ const AddNewDelivery = (props) => {
     const price = useFormInput('');
     const street = useFormInput('');
     const addressNotes = useFormInput('');
-    const buildingNumber = useFormInput('');
-    const floorNumber = useFormInput('');
-    const apartmentNumber = useFormInput('');
+    const buildingNumber = useFormInput(1);
+    const floorNumber = useFormInput(1);
+    const apartmentNumber = useFormInput(1);
     const deliveryNotes = useFormInput('');
     const phoneNumber = useFormInput('');
     const addressIsDeleted = useFormInput(false);
@@ -53,16 +53,14 @@ const AddNewDelivery = (props) => {
     const [cityName, setCityName] = useState(null)
 
     const address = {
-        addressID: null,
         phoneNumber: phoneNumber.value,
         customerName: customerName.value,
         cityEnum: cityName,
         street: street.value,
         notes: addressNotes.value,
-        buildingNumber: buildingNumber.value,
-        floorNumber: floorNumber.value,
-        apartmentNumber: apartmentNumber.value,
-        addressLocationId: null,
+        buildingNumber: (buildingNumber.value != '' ? buildingNumber.value : 1),
+        floorNumber: (floorNumber.value != '' ? floorNumber.value : 2),
+        apartmentNumber: (apartmentNumber.value != '' ? apartmentNumber.value : 3),
         isDeleted: addressIsDeleted.value
 
     }
@@ -264,7 +262,7 @@ const DropDownComp = (props) => {
     }).catch()
     return(
         <DropdownButton id="dropdown-basic-button" title={title}>
-            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityName(cityTranslate(i.city))}}>{"עיר: " + cityTranslate(i.city)}</Dropdown.Item> })}
+            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityName(i.city)}}>{"עיר: " + cityTranslate(i.city)}</Dropdown.Item> })}
         </DropdownButton>
     );
 }
