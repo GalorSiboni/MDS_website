@@ -93,6 +93,7 @@ const TableComponent = () => {
     const data = useSelector(state => state.allDeliveries);
     const allDeliverymen = useSelector(state => state.allDeliveryMen);
     const [deliveries, setDeliveries] = useState([]);
+    const [title, setTitle] = useState("בחר שליח");
     const [deliveryMan, setDeliveryMan] = useState(null);
     let headings = Object.keys(data[1]);
     return (
@@ -118,16 +119,19 @@ const TableComponent = () => {
                 }
                 </tbody>
             </Table>
-            <DropdownButton title="בחר שליח" style={{padding: '5px'}}>
+            <DropdownButton title={title} style={{padding: '5px'}}>
                 {
                     allDeliverymen.map(deliveryman => (
-                                <DropdownItem onClick={() => setDeliveryMan(deliveryman)}>
+                                <DropdownItem onClick={() => {
+                                    setDeliveryMan(deliveryman);
+                                    setTitle(deliveryman.name)
+                                }}>
                                     {deliveryman.name}
                                 </DropdownItem>
                         ))
                 }
             </DropdownButton>
-            <Button onClick={handleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
+            <Button onClick={() => handleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
                 הקצה משלוחים לשליח
             </Button>
         </div>
