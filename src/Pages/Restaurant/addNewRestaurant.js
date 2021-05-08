@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CreateIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -15,7 +15,6 @@ import addressService from "../../Services/addressService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
     },
     addCity: {
         margin: theme.spacing(3, 0, 2),
@@ -42,9 +40,6 @@ const AddNewRestaurant = (props) => {
     const password = useFormInput('');
     const phoneNumber = useFormInput('');
     const restaurant_name = useFormInput('');
-
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const dispatch = useDispatch();
     const [cities, setCities] = useState([]);
 
@@ -64,12 +59,9 @@ const AddNewRestaurant = (props) => {
     // handle button submit of signup form
     const handleAddNewUser = () => {
         restaurantService.addRestaurant(username.value, password.value,Restaurant).then(response => {
-            setLoading(false);
             props.history.push('/restaurants');
         }).catch(error => {
-            setLoading(false);
-            if (error.response.status === 401) setError(error.response.data.message);
-            else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
+            console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
         });
     }
 
@@ -85,10 +77,16 @@ const AddNewRestaurant = (props) => {
 
     return (
         <Container component="main" maxWidth="xs" >
+            <div style={{textAlign: "center"}}>
+                <img className="logo"
+                     src={process.env.PUBLIC_URL + '/app_icon.png'}
+                     alt={""}
+                />
+            </div>
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <CreateIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     MDS הוספת מסעדה חדשה - מערכת

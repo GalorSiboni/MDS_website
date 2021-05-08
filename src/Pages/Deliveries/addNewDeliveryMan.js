@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CreateIcon from '@material-ui/icons/Create';
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -84,7 +84,7 @@ const AddNewDeliveryMan = (props) => {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <CreateIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     MDS הוספת שליח חדש - מערכת

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CreateIcon from '@material-ui/icons/Create';
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -15,7 +15,6 @@ import {setAllCities} from "../../Actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
     },
     addCity: {
         margin: theme.spacing(3, 0, 2),
@@ -49,21 +47,16 @@ const AddNewDelivery = (props) => {
     const phoneNumber = useFormInput('');
     const addressIsDeleted = useFormInput(false);
     const deliveryIsDeleted = useFormInput(false);
-    const city = useFormInput(null);
-
-
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [cityArray, setCityArray] = useState(null)
+    const cityArray = useSelector(state => state.allCities);
     const [addressBoundary, setAddressBoundary] = useState([])
     const [cityPicked, setCityPicked] = useState(false)
-
+    const [cityName, setCityName] = useState(null)
 
     const address = {
         addressID: null,
         phoneNumber: phoneNumber.value,
         customerName: customerName.value,
-        city: city.value,
+        cityEnum: cityName,
         street: street.value,
         notes: addressNotes.value,
         buildingNumber: buildingNumber.value,
@@ -82,9 +75,9 @@ const AddNewDelivery = (props) => {
             deliveryTime: null,
             phoneNumber: phoneNumber.value,
             customerName: customerName.value,
-            doTime: (cityPicked ? cityArray.find(item => item.name == city.value ).doTime : null),
+            doTime: (cityPicked ? cityArray.find(item => item.name == cityName ).doTime : null),
             price: price.value,
-            restaurantCost: (cityPicked ? cityArray.find(item => item.name == city.value ).price : null),
+            restaurantCost: (cityPicked ? cityArray.find(item => item.name == cityName ).price : null),
             notes: deliveryNotes.value,
             isDeleted: deliveryIsDeleted.value
         }
@@ -93,41 +86,31 @@ const AddNewDelivery = (props) => {
     // handle button submit of signup form
     const handleAddNewDelivery = () => {
         addressService.addAddress(address).then(response => {
-            setLoading(false);
             setAddressBoundary(response.data)
             restaurantService.addDelivery(delivery).then(response1 => {
-                setLoading(false);
                 console.log(response1.data)
                 props.history.push('/deliveries');
             }).catch(error => {
-                setLoading(false);
-                if (error.response.status === 401) setError(error.response.data.message);
-                else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
+                console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
             });
         }).catch(error => {
-            setLoading(false);
-            if (error.response.status === 401) setError(error.response.data.message);
-            else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
+            console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
         });
 
     }
 
-    // handle button add new city
-    const handleNewCity = () => {
-            addressService.getAllCities().then(response => {
-                // dispatch(setAllCities(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
-        }
-
     return (
         <Container component="main" maxWidth="xs" >
+            <div style={{textAlign: "center"}}>
+                <img className="logo"
+                     src={process.env.PUBLIC_URL + '/app_icon.png'}
+                     alt={""}
+                />
+            </div>
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <CreateIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     MDS הוספת משלוח חדש - מערכת
@@ -169,7 +152,19 @@ const AddNewDelivery = (props) => {
                         autoFocus
                         {...price}
                     />
-                    <DropDownComp onpress={() => {setCityPicked(true)}}/>
+                    <DropDownComp setCityName={setCityName} onpress={() => setCityPicked(true)}/>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="street"
+                        label="רחוב"
+                        name="street"
+                        autoComplete="street"
+                        autoFocus
+                        {...street}
+                    />
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -211,6 +206,18 @@ const AddNewDelivery = (props) => {
                         margin="normal"
                         required
                         fullWidth
+                        id="addressNotes"
+                        label="הערות לכתובת"
+                        name="addressNotes"
+                        autoComplete="addressNotes"
+                        autoFocus
+                        {...addressNotes}
+                    /><
+                    TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
                         id="deliveryNotes"
                         label="הערות למשלוח"
                         name="deliveryNotes"
@@ -248,7 +255,7 @@ const useFormInput = initialValue => {
     }
 }
 
-const DropDownComp = () => {
+const DropDownComp = (props) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("ערים")
     if(useSelector(state => state.allCities).length == 0)
@@ -257,9 +264,9 @@ const DropDownComp = () => {
     }).catch()
     return(
         <DropdownButton id="dropdown-basic-button" title={title}>
-            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslate(i.city)}</Dropdown.Item> })}
+            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityName(cityTranslate(i.city))}}>{"עיר: " + cityTranslate(i.city)}</Dropdown.Item> })}
         </DropdownButton>
-    )
+    );
 }
 
 function cityTranslate(city) {
