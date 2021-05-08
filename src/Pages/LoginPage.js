@@ -38,26 +38,18 @@ export default function SignIn(props) {
     const classes = useStyles();
     const username = useFormInput('');
     const password = useFormInput('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const dispatch = useDispatch();
 
     // handle button click of login form
     const handleLogin = () => {
-        setError(null);
-        setLoading(true);
         Firebase.login(username.value, password.value).then(response => {
-            setLoading(false);
             dispatch(login())
             dispatch(admin())
             phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
-                setLoading(false);
                 console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
             });
             console.log("Response from login: " + response.user.uid)
-            // setUserSession(response.data.token, response.data.user);
         }).catch(error => {
-            setLoading(false);
             console.log(error);
         });
     }

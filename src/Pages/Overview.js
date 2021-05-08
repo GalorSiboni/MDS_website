@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import deliveryService from "../Services/deliveryService";
 import {setAllDeliveries} from "../Actions";
-import {Table} from "react-bootstrap";
+import {Button, DropdownButton, Spinner, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import phoneReceptionistService from "../Services/phoneReceptionistService";
+import DropdownItem from "react-bootstrap/DropdownItem";
 
 const Overview = () => {
     const dispatch = useDispatch();
@@ -53,13 +55,14 @@ const GridContainer = () => {
     );
 }
 
-const handleSubmit = (list) => {
-//#TODO
+const handleSubmit = (deliveryman,list) => {
+    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then().catch(error => {
+        console.log(error + "משהו השתבש בהקצאת השלוח, נא נסה שנית מאוחר יותר, שגיאה: ");
+    });
 }
 
-function Checkbox(item) {
+function Checkbox(item, deliveries, setDeliveries) {
     const [checked, setChecked] = React.useState(false);
-    const [deliveries, setDeliveries] = useState([]);
     console.log(deliveries)
     return (
         <td>
@@ -88,28 +91,46 @@ function Checkbox(item) {
 
 const TableComponent = () => {
     const data = useSelector(state => state.allDeliveries);
+    const allDeliverymen = useSelector(state => state.allDeliveryMen);
+    const [deliveries, setDeliveries] = useState([]);
+    const [deliveryMan, setDeliveryMan] = useState(null);
     let headings = Object.keys(data[1]);
     return (
-        <Table striped bordered hover variant="dark">
-            <thead>
-            <tr>
+        <div>
+            <Table striped bordered hover variant="dark">
+                <thead>
+                <tr>
+                    {
+                        headings.map(heading => <th>{heading}</th>)
+                    }
+                </tr>
+                </thead>
+                <tbody>
                 {
-                    headings.map(heading => <th>{heading}</th>)
+                    data.map(item =>
+                        (item.receivedTimeDate !== null ? null :(<tr>
+                            {
+                                headings.map(heading =>
+                                    ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) : <td>{item[heading]}</td>)
+                            }
+                        </tr>))
+                    )
                 }
-            </tr>
-            </thead>
-            <tbody>
-            {
-                data.map(item =>
-                    (item.receivedTimeDate !== null ? null :(<tr>
-                        {
-                            headings.map(heading =>
-                                ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item) : <td>{item[heading]}</td>)
-                        }
-                    </tr>))
-                )
-            }
-            </tbody>
-        </Table>
+                </tbody>
+            </Table>
+            <DropdownButton title="בחר שליח" style={{padding: '5px'}}>
+                {
+                    allDeliverymen.map(deliveryman => (
+                                <DropdownItem onClick={() => setDeliveryMan(deliveryman)}>
+                                    {deliveryman.name}
+                                </DropdownItem>
+                        ))
+                }
+            </DropdownButton>
+            <Button onClick={handleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
+                הקצה משלוחים לשליח
+            </Button>
+        </div>
+
     );
 }
