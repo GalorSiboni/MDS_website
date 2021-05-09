@@ -21,11 +21,11 @@ const getAddress = (addressID) => {
 };
 
 const updateAddress = (address) => {
-    return http.put(`/mds/address`, address);
+    return http.put(`/address`, address);
 };
 
 const addAddress = (address) => {
-    return http.post(`/mds/address`, address);
+    return http.post(`/address`, address);
 };
 
 export default {

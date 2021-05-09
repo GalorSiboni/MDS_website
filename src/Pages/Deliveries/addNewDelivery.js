@@ -55,7 +55,7 @@ const AddNewDelivery = (props) => {
     const address = {
         phoneNumber: phoneNumber.value,
         customerName: customerName.value,
-        cityEnum: cityName,
+        city: cityName,
         street: street.value,
         notes: addressNotes.value,
         buildingNumber: (buildingNumber.value != '' ? buildingNumber.value : 1),
