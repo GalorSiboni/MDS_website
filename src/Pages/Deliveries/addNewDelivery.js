@@ -11,7 +11,7 @@ import restaurantService from "../../Services/restaurantService";
 import {useDispatch, useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import addressService from "../../Services/addressService";
-import {setAllCities} from "../../Actions";
+import {setAllCities, setAllRestaurants} from "../../Actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -40,22 +40,22 @@ const AddNewDelivery = (props) => {
     const price = useFormInput('');
     const street = useFormInput('');
     const addressNotes = useFormInput('');
-    const buildingNumber = useFormInput(1);
-    const floorNumber = useFormInput(1);
-    const apartmentNumber = useFormInput(1);
+    const buildingNumber = useFormInput('');
+    const floorNumber = useFormInput('');
+    const apartmentNumber = useFormInput('');
     const deliveryNotes = useFormInput('');
     const phoneNumber = useFormInput('');
     const addressIsDeleted = useFormInput(false);
     const deliveryIsDeleted = useFormInput(false);
     const cityArray = useSelector(state => state.allCities);
     const [addressBoundary, setAddressBoundary] = useState([])
-    const [cityPicked, setCityPicked] = useState(false)
-    const [cityName, setCityName] = useState(null)
+    const [cityEnum, setCityEnum] = useState(null)
+    const [restaurant, setRestaurant] = useState(null)
 
     const address = {
         phoneNumber: phoneNumber.value,
         customerName: customerName.value,
-        city: cityName,
+        city: (cityEnum ? cityEnum.city : cityEnum),
         street: street.value,
         notes: addressNotes.value,
         buildingNumber: (buildingNumber.value != '' ? buildingNumber.value : 1),
@@ -68,14 +68,15 @@ const AddNewDelivery = (props) => {
         {
             deliveryID: null,
             deliverymanID: null,
+            restaurantID: restaurant,
             addressID: addressBoundary.addressID,
             receivedTime: null,
             deliveryTime: null,
             phoneNumber: phoneNumber.value,
             customerName: customerName.value,
-            doTime: (cityPicked ? cityArray.find(item => item.name == cityName ).doTime : null),
+            doTime: (cityEnum ? cityEnum.doTime : cityEnum),
             price: price.value,
-            restaurantCost: (cityPicked ? cityArray.find(item => item.name == cityName ).price : null),
+            restaurantCost: (cityEnum ? cityEnum.price : cityEnum),
             notes: deliveryNotes.value,
             isDeleted: deliveryIsDeleted.value
         }
@@ -85,7 +86,7 @@ const AddNewDelivery = (props) => {
     const handleAddNewDelivery = () => {
         addressService.addAddress(address).then(response => {
             setAddressBoundary(response.data)
-            restaurantService.addDelivery(delivery).then(response1 => {
+            restaurantService.addDelivery(restaurant, delivery).then(response1 => {
                 console.log(response1.data)
                 props.history.push('/deliveries');
             }).catch(error => {
@@ -114,6 +115,7 @@ const AddNewDelivery = (props) => {
                     MDS הוספת משלוח חדש - מערכת
                 </Typography>
                 <form className={classes.form} noValidate>
+                    <RestaurantDropDown setRestaurant={setRestaurant}/>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -150,7 +152,7 @@ const AddNewDelivery = (props) => {
                         autoFocus
                         {...price}
                     />
-                    <DropDownComp setCityName={setCityName} onpress={() => setCityPicked(true)}/>
+                    <DropDownCity setCityEnum={setCityEnum}/>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -252,17 +254,31 @@ const useFormInput = initialValue => {
         onChange: handleChange
     }
 }
-
-const DropDownComp = (props) => {
+// ערים
+const DropDownCity = (props) => {
     const dispatch = useDispatch();
-    const [title, setTitle] = useState("ערים")
+    const [title, setTitle] = useState("עיר")
     if(useSelector(state => state.allCities).length == 0)
     addressService.getAllCities().then(response => {
        dispatch(setAllCities(response.data))
     }).catch()
     return(
-        <DropdownButton id="dropdown-basic-button" title={title}>
-            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityName(i.city)}}>{"עיר: " + cityTranslate(i.city)}</Dropdown.Item> })}
+        <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%'}}>
+            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityEnum(i)}}>{cityTranslate(i.city)}</Dropdown.Item> })}
+        </DropdownButton>
+    );
+}
+// מסעדה
+const RestaurantDropDown = (props) => {
+    const dispatch = useDispatch();
+    const [title, setTitle] = useState("מסעדה")
+    if(useSelector(state => state.allRestaurants).length == 0)
+    restaurantService.getAllRestaurants().then(response => {
+       dispatch(setAllRestaurants(response.data))
+    }).catch()
+    return(
+        <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%', marginTop: "20px"}}>
+            {useSelector(state => state.allRestaurants).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(i.name) ; props.setRestaurant(i.restaurantID)}}>{i.name}</Dropdown.Item> })}
         </DropdownButton>
     );
 }
