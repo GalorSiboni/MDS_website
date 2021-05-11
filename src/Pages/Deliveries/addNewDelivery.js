@@ -7,11 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import restaurantService from "../../Services/restaurantService";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import addressService from "../../Services/addressService";
-import {setAllRestaurants} from "../../Actions";
 import deliveryService from "../../Services/deliveryService";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +44,7 @@ const AddNewDelivery = (props) => {
     const apartmentNumber = useFormInput('');
     const deliveryNotes = useFormInput('');
     const phoneNumber = useFormInput('');
+    const dateAndTime = useFormInput('');
     const addressIsDeleted = useFormInput(false);
     const deliveryIsDeleted = useFormInput(false);
     const [addressBoundary, setAddressBoundary] = useState(null)
@@ -71,7 +70,7 @@ const AddNewDelivery = (props) => {
             deliverymanID: null,
             restaurantID: restaurant,
             addressID: (addressBoundary ? addressBoundary.addressID : null),
-            receivedTime: null,
+            receivedTime: dateAndTime.value,
             deliveryTime: null,
             phoneNumber: phoneNumber.value,
             customerName: customerName.value,
@@ -85,12 +84,17 @@ const AddNewDelivery = (props) => {
     ;
     // handle button submit of signup form
     const handleAddNewDelivery = () => {
+        const dateAndTimeToSplit = dateAndTime.value.split('-');
+        const dayAndTimeToSplit = dateAndTimeToSplit[2].split('T');
+        const date = dayAndTimeToSplit[0] + "-" + dateAndTimeToSplit[1] + "-" + dateAndTimeToSplit[0];
+        const time = dayAndTimeToSplit[1] + ":00";
+        delivery.receivedTime = date + " " + time
         addressService.addAddress(address).then(response => {
             setAddressBoundary(response.data)
             delivery.addressID = response.data.addressID;
             deliveryService.addDelivery(delivery).then(response1 => {
                 console.log(response1.data)
-                props.history.push('/deliveries');
+                props.history.goBack();
             }).catch(error => {
                 console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
             });
@@ -141,6 +145,19 @@ const AddNewDelivery = (props) => {
                         autoComplete="phoneNumber"
                         autoFocus
                         {...phoneNumber}
+                    />
+
+                    <TextField
+
+                        id="datetime-local"
+                        label="Next appointment"
+                        type="datetime-local"
+                        defaultValue="2021-05-11T21:30"
+                        className={classes.textField}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        {...dateAndTime}
                     />
                     <TextField
                         variant="outlined"
