@@ -36,12 +36,10 @@ const Delivery_man_name_list = (props) => {
     const unApprovedRoutes = useSelector(state => state.allUnapprovedRoutes)
     let deliverymen = useSelector(state => state.allDeliveryMen);
     setTimeout(function() {
-
         const deliverymanID = unApprovedRoutes.map(unApprovedRoute => {deliverymanID.push(unApprovedRoute.deliverymanID)});
         if (unApprovedRoutes.length == 0)
             deliverymen = [];
         unApprovedRoutes.map(item => deliverymen.filter(deliveryman => deliveryman.deliverymanID == item.deliverymanID));
-        console.log(deliverymen)
     }, 1000)
     return(
         <div className='deliveryman_management' style={{alignItems: "center"}}>
@@ -107,27 +105,31 @@ const Delivery_man = (props) =>{
 const Route = (props) =>{
     const { deliverymanID, deliveries } = props.delivery_man;
     const allDeliveries = [];
-    for (let i = 0; i < deliveries.length; i++) {
-        deliveryService.getDelivery(deliveries[i].deliveryID).then(response => {
-            allDeliveries.push(response.data);
-        })
-            .catch(e => {
-                console.log(e);
-            });
-    }
+    if (deliveries)
+        for (let i = 0; i < deliveries.length; i++) {
+            deliveryService.getDelivery(deliveries[i].deliveryID).then(response => {
+                allDeliveries.push(response.data);
+            })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
     return (
         <article className='route'>
             <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה שליח: " + deliverymanID}</li>
-                <ul style={{paddingRight: '25rem'}} dir="RTL">
-                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מסלול חלוקה: "}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } >{"מזהה שליח: " + deliverymanID}</li>
+                {(deliveries
+                        ? <ul>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} }>{"מסלול חלוקה: "}</li>
                     <ul>
-                        <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{"משלוחים:"}</li>
+                        <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'}}>{"משלוחים:"}</li>
                         <ul>
-                            {deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{i}</li> })}
+                            {allDeliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'}}>{i}</li> })}
                         </ul>
                     </ul>
                 </ul>
+                        : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} }>{"מסלול חלוקה: לא הוקצה מסלול"}</li>
+                )}
             </ul>
         </article>
     );

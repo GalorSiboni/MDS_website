@@ -1,23 +1,15 @@
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {setAllRestaurants} from "../../Actions";
+import {useSelector} from "react-redux";
 import {Table, Button} from "react-bootstrap";
 import restaurantService from "../../Services/restaurantService";
 
 const DeliveriesHistory = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentRestaurant, setCurrentRestaurant] = useState();
-    const [currentRestaurantDeliveries, setCurrentRestaurantDeliveries] = useState();
-    const dispatch = useDispatch();
-    restaurantService.getAllRestaurants().then(response => {
-        dispatch(setAllRestaurants(response.data));
-    })
-        .catch(e => {
-            console.log(e);
-        });
+    const [currentRestaurantDeliveries, setCurrentRestaurantDeliveries] = useState([]);
     if (currentRestaurant != null) {
-        restaurantService.getAllDeliveries(currentRestaurant).then(respone => {
-            setCurrentRestaurantDeliveries(respone.data)
+        restaurantService.getDeliveryList(currentRestaurant).then(response => {
+            setCurrentRestaurantDeliveries(response.data)
         }).catch(e => {
             console.log(e);
         });
@@ -28,7 +20,7 @@ const DeliveriesHistory = () => {
                 <Image/>
             </div>
             <div>
-                {isClicked ? [currentRestaurantDeliveries != null ? <GridContainer myVar={setIsClicked} current={currentRestaurantDeliveries}/> : <div>בטעינה</div> ] : <Restaurants_name_list myVar={setIsClicked} current={setCurrentRestaurant}/> }
+                {isClicked ? [currentRestaurantDeliveries != [] ? <GridContainer myVar={setIsClicked} current={currentRestaurantDeliveries}/> : <div>בטעינה</div> ] : <Restaurants_name_list myVar={setIsClicked} current={setCurrentRestaurant}/> }
             </div>
         </div>
     );
@@ -68,7 +60,7 @@ const Restaurant = (props) =>{
     const { name , restaurantID} = props.restaurant;
     return (
         <>
-            <Button variant="primary" onClick={() => {props.myVar(true) ; props.current(restaurantID)}} style={{margin: 'auto', textAlign: 'Center', paddingBottom:'2rem'} }>{name}</Button>{' '}
+            <Button variant="primary" onClick={() => {props.myVar(true) ; props.current(restaurantID)}} style={{margin: 'auto', textAlign: 'Center', padding:'1rem'} }>{name}</Button>{' '}
         </>
     );
 }
