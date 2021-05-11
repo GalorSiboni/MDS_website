@@ -105,13 +105,13 @@ const Restaurant_full = (props) =>{
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משלוחים: אין משלוחים חדשים"}</li>
-                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted === undefined)) ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה"}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted === false ? "סטטוס מסעדה: לא פעילה" : "סטטוס מסעדה: פעילה")}</li>
                 </ul>
             </article>
         );
     }
     else {
-        restaurantService.getAllDeliveries(restaurantID).then(response => {
+        restaurantService.getDeliveryList(restaurantID,'0').then(response => {
             setDeliveriesArray(response.data);
         })
             .catch(e => {

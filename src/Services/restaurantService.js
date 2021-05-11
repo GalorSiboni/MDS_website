@@ -22,7 +22,7 @@ const addRestaurant = (restaurant) => {
 
 const updateRestaurant = (restaurant) => {
     return http.put(`/restaurants`, restaurant);
-}
+};
 
 
 const addDelivery = (restaurantID, delivery) => {
@@ -31,7 +31,7 @@ const addDelivery = (restaurantID, delivery) => {
 
 const updateDelivery = (restaurantID) => {
     return http.put(`/restaurants/delivery/${restaurantID}`);
-}
+};
 
 
 const getDeliveryList = (restaurantID, page, size) => {

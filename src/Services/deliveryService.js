@@ -19,10 +19,21 @@ const deleteDelivery = (deliveryID) => {
     return http.delete(`/deliveries/${deliveryID}`);
 };
 
+const addDelivery = (delivery) => {
+    return http.post(`/deliveries`,delivery);
+};
+
+
+const searchBy = (search, value, minValue, maxValue, page, size) => {
+    return http.get(`/deliveries/find/by`,(search, value, minValue, maxValue, page, size));
+};
+
 export default {
     getAllDeliveries,
     getDelivery,
     deleteAllDeliveries,
     deleteDelivery,
-    updateDelivery
+    updateDelivery,
+    searchBy,
+    addDelivery
 };

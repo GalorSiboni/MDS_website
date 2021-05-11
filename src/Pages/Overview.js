@@ -6,6 +6,8 @@ import {Button, DropdownButton, Spinner, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import DropdownItem from "react-bootstrap/DropdownItem";
+import { useHistory } from 'react-router'
+
 
 const Overview = () => {
     const dispatch = useDispatch();
@@ -55,8 +57,11 @@ const GridContainer = () => {
     );
 }
 
-const handleSubmit = (deliveryman,list) => {
-    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then().catch(error => {
+const HandleSubmit = (deliveryman,list) => {
+    const history = useHistory()
+    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then(
+        history.go(0)
+    ).catch(error => {
         console.log(error + "משהו השתבש בהקצאת השלוח, נא נסה שנית מאוחר יותר, שגיאה: ");
     });
 }
@@ -109,7 +114,7 @@ const TableComponent = () => {
                 <tbody>
                 {
                     data.map(item =>
-                        (item.receivedTimeDate !== null ? null :(<tr>
+                        (item.deliveryTime !== null ? null :(<tr>
                             {
                                 headings.map(heading =>
                                     ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) : <td>{item[heading]}</td>)
@@ -131,7 +136,7 @@ const TableComponent = () => {
                         ))
                 }
             </DropdownButton>
-            <Button onClick={() => handleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
+            <Button onClick={() => HandleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
                 הקצה משלוחים לשליח
             </Button>
         </div>

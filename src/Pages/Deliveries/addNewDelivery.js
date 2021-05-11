@@ -11,7 +11,8 @@ import restaurantService from "../../Services/restaurantService";
 import {useDispatch, useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import addressService from "../../Services/addressService";
-import {setAllCities, setAllRestaurants} from "../../Actions";
+import {setAllRestaurants} from "../../Actions";
+import deliveryService from "../../Services/deliveryService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -47,10 +48,10 @@ const AddNewDelivery = (props) => {
     const phoneNumber = useFormInput('');
     const addressIsDeleted = useFormInput(false);
     const deliveryIsDeleted = useFormInput(false);
-    const cityArray = useSelector(state => state.allCities);
-    const [addressBoundary, setAddressBoundary] = useState([])
+    const [addressBoundary, setAddressBoundary] = useState(null)
     const [cityEnum, setCityEnum] = useState(null)
     const [restaurant, setRestaurant] = useState(null)
+    const [restaurantCities, setRestaurantCities] = useState([])
 
     const address = {
         phoneNumber: phoneNumber.value,
@@ -69,7 +70,7 @@ const AddNewDelivery = (props) => {
             deliveryID: null,
             deliverymanID: null,
             restaurantID: restaurant,
-            addressID: addressBoundary.addressID,
+            addressID: (addressBoundary ? addressBoundary.addressID : null),
             receivedTime: null,
             deliveryTime: null,
             phoneNumber: phoneNumber.value,
@@ -86,7 +87,8 @@ const AddNewDelivery = (props) => {
     const handleAddNewDelivery = () => {
         addressService.addAddress(address).then(response => {
             setAddressBoundary(response.data)
-            restaurantService.addDelivery(restaurant, delivery).then(response1 => {
+            delivery.addressID = response.data.addressID;
+            deliveryService.addDelivery(delivery).then(response1 => {
                 console.log(response1.data)
                 props.history.push('/deliveries');
             }).catch(error => {
@@ -115,7 +117,7 @@ const AddNewDelivery = (props) => {
                     MDS הוספת משלוח חדש - מערכת
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <RestaurantDropDown setRestaurant={setRestaurant}/>
+                    <RestaurantDropDown setRestaurant={setRestaurant} setRestaurantCities={setRestaurantCities}/>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -152,7 +154,7 @@ const AddNewDelivery = (props) => {
                         autoFocus
                         {...price}
                     />
-                    <DropDownCity setCityEnum={setCityEnum}/>
+                    <DropDownCity cities={restaurantCities} setCityEnum={setCityEnum}/>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -256,29 +258,22 @@ const useFormInput = initialValue => {
 }
 // ערים
 const DropDownCity = (props) => {
-    const dispatch = useDispatch();
     const [title, setTitle] = useState("עיר")
-    if(useSelector(state => state.allCities).length == 0)
-    addressService.getAllCities().then(response => {
-       dispatch(setAllCities(response.data))
-    }).catch()
+    const cities = props.cities;
+
     return(
         <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%'}}>
-            {useSelector(state => state.allCities).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityEnum(i)}}>{cityTranslate(i.city)}</Dropdown.Item> })}
+            {cities.map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityEnum(i)}}>{cityTranslate(i.city)}</Dropdown.Item> })}
         </DropdownButton>
     );
 }
 // מסעדה
 const RestaurantDropDown = (props) => {
-    const dispatch = useDispatch();
     const [title, setTitle] = useState("מסעדה")
-    if(useSelector(state => state.allRestaurants).length == 0)
-    restaurantService.getAllRestaurants().then(response => {
-       dispatch(setAllRestaurants(response.data))
-    }).catch()
+
     return(
         <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%', marginTop: "20px"}}>
-            {useSelector(state => state.allRestaurants).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(i.name) ; props.setRestaurant(i.restaurantID)}}>{i.name}</Dropdown.Item> })}
+            {useSelector(state => state.allRestaurants).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(i.name) ; props.setRestaurant(i.restaurantID) ; props.setRestaurantCities(i.cities)}}>{i.name}</Dropdown.Item> })}
         </DropdownButton>
     );
 }
