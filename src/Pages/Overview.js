@@ -57,11 +57,10 @@ const GridContainer = () => {
     );
 }
 
-const HandleSubmit = (deliveryman,list) => {
-    const history = useHistory()
+const HandleSubmit = (deliveryman,list, props) => {
     phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then(
-        history.go(0)
     ).catch(error => {
+        props.history.goBack();
         console.log(error + "משהו השתבש בהקצאת השלוח, נא נסה שנית מאוחר יותר, שגיאה: ");
     });
 }
