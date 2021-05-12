@@ -148,9 +148,9 @@ const AddNewDelivery = (props) => {
                     />
 
                     <TextField
-
+                        style={{left: '20%'}}
                         id="datetime-local"
-                        label="Next appointment"
+                        label="מועד קבלת המשלוח"
                         type="datetime-local"
                         defaultValue="2021-05-11T21:30"
                         className={classes.textField}

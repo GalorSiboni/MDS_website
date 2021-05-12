@@ -6,7 +6,6 @@ import {Button, DropdownButton, Spinner, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import DropdownItem from "react-bootstrap/DropdownItem";
-import { useHistory } from 'react-router'
 
 
 const Overview = () => {
@@ -58,9 +57,10 @@ const GridContainer = () => {
 }
 
 const HandleSubmit = (deliveryman,list, props) => {
+    if (deliveryman != null && list.length != 0)
     phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then(
     ).catch(error => {
-        props.history.goBack();
+        props.history.push('/');
         console.log(error + "משהו השתבש בהקצאת השלוח, נא נסה שנית מאוחר יותר, שגיאה: ");
     });
 }
@@ -96,6 +96,7 @@ function Checkbox(item, deliveries, setDeliveries) {
 const TableComponent = () => {
     const data = useSelector(state => state.allDeliveries);
     const allDeliverymen = useSelector(state => state.allDeliveryMen);
+    const allRestaurants = useSelector(state => state.allRestaurants);
     const [deliveries, setDeliveries] = useState([]);
     const [title, setTitle] = useState("בחר שליח");
     const [deliveryMan, setDeliveryMan] = useState(null);
@@ -106,7 +107,20 @@ const TableComponent = () => {
                 <thead>
                 <tr>
                     {
-                        headings.map(heading => <th>{heading}</th>)
+                        headings.map(heading => (heading == "restaurantID" ? <th>מסעדה</th> :
+                            (heading == "deliverymanID" ? <th>שליח</th> :
+                                (heading == "receivedTime" ? <th>זמן קבלת המשלוח</th> :
+                                    (heading == "receivedTimeDate" ? null :
+                                        (heading == "deliveryTimeDate" ? null :
+                                            (heading == "deleted" ? null :
+                                                (heading == "deliveryTimeDate" ? null :
+                                                    (heading == "deliveryTime" ? null :
+                                                        (heading == "addressID" ? <th>כתובת</th> :
+                                                            (heading == "notes" ? null :
+                                                                (heading == "restaurantCost" ? null :
+                                                                    (heading == "price" ? <th>מחיר משלוח</th> :
+                                                                        (heading == "doTime" ? <th>זמן להשלמת המשלוח</th> :
+                                                                            (heading == "deliveryID" ? null : <th>{heading}</th>)))))))))))))))
                     }
                 </tr>
                 </thead>
@@ -116,7 +130,15 @@ const TableComponent = () => {
                         (item.deliveryTime !== null ? null :(<tr>
                             {
                                 headings.map(heading =>
-                                    ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) : <td>{item[heading]}</td>)
+                                    ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) :
+                                        (heading === 'restaurantID' ? <td>{allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name}</td> :
+                                            (heading === 'deliveryTimeDate' ? null :
+                                                (heading === 'deliveryID' ? null :
+                                                (heading === 'restaurantCost' ? null :
+                                                (heading === 'deleted' ? null :
+                                                (heading === 'receivedTimeDate' ? null :
+                                                        (heading === 'deliveryTime' ? null :
+                                                    (heading === 'notes' ? null : <td>{item[heading]}</td>)))))))))
                             }
                         </tr>))
                     )
