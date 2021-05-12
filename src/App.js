@@ -23,38 +23,30 @@ function App() {
     const dispatch = useDispatch();
     const isAdmin = useSelector(state => state.isAdmin);
     if (useSelector(state => state.isLogged)) {
-        setTimeout(function() {
             deliverymanService.getAllDeliveryMen().then(response => {
                 dispatch(setAllDeliverymen(response.data));
             })
                 .catch(e => {
                     console.log(e);
                 });
-        }, 1000)
-        setTimeout(function() {
             phoneReceptionistService.getAllPhoneReceptionists().then(response => {
                 dispatch(setAllPhoneReceptionists(response.data));
             })
                 .catch(e => {
                     console.log(e);
                 });
-        }, 2000)
-        setTimeout(function() {
             restaurantService.getAllRestaurants().then(response => {
                 dispatch(setAllRestaurants(response.data));
             })
                 .catch(e => {
                     console.log(e);
                 });
-        }, 3000)
-        setTimeout(function() {
             addressService.getAllCities().then(response => {
                 dispatch(setAllCities(response.data));
             })
                 .catch(e => {
                     console.log(e);
                 });
-        }, 4000)
         if (isAdmin) {
             return (
                 <Router>
