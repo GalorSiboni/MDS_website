@@ -14,10 +14,18 @@ import {useDispatch, useSelector} from "react-redux";
 import addNewDeliveryMan from "./Pages/Deliveries/addNewDeliveryMan";
 import addNewDelivery from "./Pages/Deliveries/addNewDelivery";
 import deliverymanService from "./Services/deliverymanService";
-import {setAllCities, setAllDeliverymen, setAllPhoneReceptionists, setAllRestaurants} from "./Actions";
+import {
+    setAllAddresses,
+    setAllCities,
+    setAllDeliveries,
+    setAllDeliverymen,
+    setAllPhoneReceptionists,
+    setAllRestaurants
+} from "./Actions";
 import phoneReceptionistService from "./Services/phoneReceptionistService";
 import restaurantService from "./Services/restaurantService";
 import addressService from "./Services/addressService";
+import deliveryService from "./Services/deliveryService";
 
 function App() {
     const dispatch = useDispatch();
@@ -31,6 +39,18 @@ function App() {
                 });
             phoneReceptionistService.getAllPhoneReceptionists().then(response => {
                 dispatch(setAllPhoneReceptionists(response.data));
+            })
+                .catch(e => {
+                    console.log(e);
+                });
+            deliveryService.getAllDeliveries().then(response => {
+                dispatch(setAllDeliveries(response.data));
+            })
+                .catch(e => {
+                    console.log(e);
+                });
+            addressService.getAllAddresses().then(response => {
+                dispatch(setAllAddresses(response.data));
             })
                 .catch(e => {
                     console.log(e);

@@ -40,6 +40,7 @@
 
 .incidents_grid {
   grid-area: incidents_grid;
+
   background-color: darkgray;
   border: 1px solid black;
 }

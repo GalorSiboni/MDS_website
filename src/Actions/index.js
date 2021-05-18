@@ -31,6 +31,12 @@ export const setAllDeliveries = (array) => {
         payload: array
     };
 };
+export const setAllAddresses = (array) => {
+    return {
+        type: 'SET_ALL_ADDRESSES',
+        payload: array
+    };
+};
 export const setAllPhoneReceptionists = (array) => {
     return {
         type: 'SET_ALL_PHONE_RECEPTIONISTS',

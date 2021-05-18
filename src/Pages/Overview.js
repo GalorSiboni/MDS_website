@@ -2,11 +2,10 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import deliveryService from "../Services/deliveryService";
 import {setAllDeliveries} from "../Actions";
-import {Button, DropdownButton, Spinner, Table} from "react-bootstrap";
+import {Button, DropdownButton, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import DropdownItem from "react-bootstrap/DropdownItem";
-
 
 const Overview = () => {
     const dispatch = useDispatch();
@@ -48,19 +47,16 @@ const GridContainer = () => {
                         }
                     </div>
                 </div>
-                <div className="filters">
-                    <h1 style={{textAlign:'center', textDecoration:'underline'}}>פילטרים</h1>
-                </div>
             </div>
         </div>
     );
 }
 
 const HandleSubmit = (deliveryman,list, props) => {
+    console.log(deliveryman.deliverymanID)
+    console.log(list)
     if (deliveryman != null && list.length != 0)
-    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then(
-    ).catch(error => {
-        props.history.push('/');
+    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then().catch(error => {
         console.log(error + "משהו השתבש בהקצאת השלוח, נא נסה שנית מאוחר יותר, שגיאה: ");
     });
 }
@@ -97,6 +93,7 @@ const TableComponent = () => {
     const data = useSelector(state => state.allDeliveries);
     const allDeliverymen = useSelector(state => state.allDeliveryMen);
     const allRestaurants = useSelector(state => state.allRestaurants);
+    const allAddresses = useSelector(state => state.allAddresses);
     const [deliveries, setDeliveries] = useState([]);
     const [title, setTitle] = useState("בחר שליח");
     const [deliveryMan, setDeliveryMan] = useState(null);
@@ -130,15 +127,17 @@ const TableComponent = () => {
                         (item.deliveryTime !== null ? null :(<tr>
                             {
                                 headings.map(heading =>
-                                    ((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) :
+                                    (((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) :
                                         (heading === 'restaurantID' ? <td>{allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name}</td> :
                                             (heading === 'deliveryTimeDate' ? null :
                                                 (heading === 'deliveryID' ? null :
-                                                (heading === 'restaurantCost' ? null :
-                                                (heading === 'deleted' ? null :
-                                                (heading === 'receivedTimeDate' ? null :
-                                                        (heading === 'deliveryTime' ? null :
-                                                    (heading === 'notes' ? null : <td>{item[heading]}</td>)))))))))
+                                                    (heading === 'addressID' ? <td>{"" + cityTranslate(allAddresses.find(address => address.addressID == item[heading]).city) + ", " + allAddresses.find(address => address.addressID == item[heading]).street + ", " + allAddresses.find(address => address.addressID == item[heading]).buildingNumber}</td> :
+                                                        (heading === 'restaurantCost' ? null :
+                                                            (heading === 'deleted' ? null :
+                                                                (heading === 'receivedTimeDate' ? null :
+                                                                    (heading === 'deliveryTime' ? null :
+                                                                        (heading === 'notes' ? null :
+                                                                            <td>{item[heading]}</td>)))))))))))
                             }
                         </tr>))
                     )
@@ -161,6 +160,71 @@ const TableComponent = () => {
                 הקצה משלוחים לשליח
             </Button>
         </div>
-
     );
 }
+
+function cityTranslate(city) {
+    let translate = "";
+    switch (city){
+        case "ROSH_AAYIN":
+            translate = "ראש העין";
+            break;
+        case "ORANIT":
+            translate = "אורנית";
+            break;
+        case "SHAHAREI_TIQWA":
+            translate = "שערי תקווה";
+            break;
+        case "ELKANA":
+            translate = "אלקנה";
+            break;
+        case "EZ_EFRAIM":
+            translate = "עץ אפריים";
+            break;
+        case "HAGOR":
+            translate = "חגור";
+            break;
+        case "MATAN":
+            translate = "מתן";
+            break;
+        case "NIRIT":
+            translate = "נירית";
+            break;
+        case "YARHIV":
+            translate = "ירחיב";
+            break;
+        case "SHOHAM":
+            translate = "שהם";
+            break;
+        case "GIVAT_HASLOSHA":
+            translate = "גבעת השלושה";
+            break;
+        case "NAHSHONIM_BASE":
+            translate = "בסיס נחשונים";
+            break;
+        case "KFAR_SABA":
+            translate = "כפר סבא";
+            break;
+        case "TEL_AVIV":
+            translate = "תל-אביב";
+            break;
+        case "KFAR_KASEM":
+            translate = "כפר קאסם";
+            break;
+        case "OTHER":
+            translate = "אחר";
+            break;
+        case "NAHSHONIM":
+            translate = "נחשונים";
+            break;
+        case "PETAH_TIQWA":
+            translate = "פתח תקווה";
+            break;
+        case "EINAT":
+            translate = "עינת";
+            break;
+        default:
+    }
+    return translate;
+}
+

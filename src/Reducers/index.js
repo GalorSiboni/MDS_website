@@ -7,6 +7,7 @@ import allDeliveriesReducer from "./allDeliveries";
 import allCitiesReducer from "./allCities";
 import allPhoneReceptionistsReducer from "./allPhoneReceptionists";
 import allUnapprovedRoutesReducer from "./allUnapprovedRoutes";
+import allAddressesReducer from "./allAddresses";
 
 const allReducers = combineReducers({
     isLogged: loggedReducer,
@@ -16,6 +17,7 @@ const allReducers = combineReducers({
     isAdmin: adminReducer,
     allCities: allCitiesReducer,
     allUnapprovedRoutes: allUnapprovedRoutesReducer,
-    allPhoneReceptionists: allPhoneReceptionistsReducer
+    allPhoneReceptionists: allPhoneReceptionistsReducer,
+    allAddresses: allAddressesReducer
 });
 export default allReducers;
