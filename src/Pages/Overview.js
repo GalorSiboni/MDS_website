@@ -98,77 +98,97 @@ function Checkbox(item, deliveries, setDeliveries) {
 }
 
 const TableComponent = () => {
-    const data = useSelector(state => state.allDeliveries);
+    const data = useSelector(state => state.allDeliveries).filter(delivery => delivery.deliverymanID == null);
     const allDeliverymen = useSelector(state => state.allDeliveryMen);
     const allRestaurants = useSelector(state => state.allRestaurants);
     const allAddresses = useSelector(state => state.allAddresses);
     const [deliveries, setDeliveries] = useState([]);
     const [title, setTitle] = useState("בחר שליח");
     const [deliveryMan, setDeliveryMan] = useState(null);
-    let headings = Object.keys(data[1]);
-    return (
-        <div>
-            <Table striped bordered hover variant="dark">
-                <thead>
-                <tr>
+    if (data.length == 0){
+        return (
+            <div>
+                <Table striped bordered hover variant="dark">
+                    <thead>
+                    <tr>אין משלוחים לא מצוותים</tr>
+                    </thead>
+                </Table>
+            </div>
+        )
+    }
+    else {
+        let headings = Object.keys(data[0]);
+        if (data == allDeliverymen == allRestaurants == allAddresses)
+            return (
+                <div>
+                    טוען מידע
+                </div>
+            )
+        else
+        return (
+            <div>
+                <Table striped bordered hover variant="dark">
+                    <thead>
+                    <tr>
+                        {
+                            headings.map(heading => (heading == "restaurantID" ? <th>מסעדה</th> :
+                                (heading == "deliverymanID" ? <th>שליח</th> :
+                                    (heading == "receivedTime" ? <th>זמן קבלת המשלוח</th> :
+                                        (heading == "receivedTimeDate" ? null :
+                                            (heading == "deliveryTimeDate" ? null :
+                                                (heading == "deleted" ? null :
+                                                    (heading == "deliveryTimeDate" ? null :
+                                                        (heading == "deliveryTime" ? null :
+                                                            (heading == "addressID" ? <th>כתובת</th> :
+                                                                (heading == "notes" ? null :
+                                                                    (heading == "restaurantCost" ? null :
+                                                                        (heading == "price" ? <th>מחיר משלוח</th> :
+                                                                            (heading == "doTime" ? <th>זמן להשלמת המשלוח</th> :
+                                                                                (heading == "deliveryID" ? null : <th>{heading}</th>)))))))))))))))
+                        }
+                    </tr>
+                    </thead>
+                    <tbody>
                     {
-                        headings.map(heading => (heading == "restaurantID" ? <th>מסעדה</th> :
-                            (heading == "deliverymanID" ? <th>שליח</th> :
-                                (heading == "receivedTime" ? <th>זמן קבלת המשלוח</th> :
-                                    (heading == "receivedTimeDate" ? null :
-                                        (heading == "deliveryTimeDate" ? null :
-                                            (heading == "deleted" ? null :
-                                                (heading == "deliveryTimeDate" ? null :
-                                                    (heading == "deliveryTime" ? null :
-                                                        (heading == "addressID" ? <th>כתובת</th> :
-                                                            (heading == "notes" ? null :
-                                                                (heading == "restaurantCost" ? null :
-                                                                    (heading == "price" ? <th>מחיר משלוח</th> :
-                                                                        (heading == "doTime" ? <th>זמן להשלמת המשלוח</th> :
-                                                                            (heading == "deliveryID" ? null : <th>{heading}</th>)))))))))))))))
+                        data.map(item =>
+                            <tr>
+                                {
+                                    headings.map(heading =>
+                                        (((heading === 'deliverymanID') && (item[heading] == null)) ? Checkbox(item.deliveryID,deliveries,setDeliveries) :
+                                            (heading === 'restaurantID' ? (allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name ? <td>{allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name}</td> : <td>{"לא נמצא שם"}</td>) :
+                                                (heading === 'deliveryTimeDate' ? null :
+                                                    (heading === 'deliveryID' ? null :
+                                                        (heading === 'addressID' ? <td>{"" + cityTranslate(allAddresses.find(address => address.addressID == item[heading]).city) + ", " + allAddresses.find(address => address.addressID == item[heading]).street + ", " + allAddresses.find(address => address.addressID == item[heading]).buildingNumber}</td> :
+                                                            (heading === 'restaurantCost' ? null :
+                                                                (heading === 'deleted' ? null :
+                                                                    (heading === 'receivedTimeDate' ? null :
+                                                                        (heading === 'deliveryTime' ? null :
+                                                                            (heading === 'notes' ? null :
+                                                                                <td>{item[heading]}</td>)))))))))))
+                                }
+                            </tr>
+                        )
                     }
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    data.map(item =>
-                        (item.deliveryTime != null ? null :(<tr>
-                            {
-                                headings.map(heading =>
-                                    (((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) :
-                                        (heading === 'restaurantID' ? (allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name ? <td>{allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name}</td> : <td>{"לא נמצא שם"}</td>) :
-                                            (heading === 'deliveryTimeDate' ? null :
-                                                (heading === 'deliveryID' ? null :
-                                                    (heading === 'addressID' ? <td>{"" + cityTranslate(allAddresses.find(address => address.addressID == item[heading]).city) + ", " + allAddresses.find(address => address.addressID == item[heading]).street + ", " + allAddresses.find(address => address.addressID == item[heading]).buildingNumber}</td> :
-                                                        (heading === 'restaurantCost' ? null :
-                                                            (heading === 'deleted' ? null :
-                                                                (heading === 'receivedTimeDate' ? null :
-                                                                    (heading === 'deliveryTime' ? null :
-                                                                        (heading === 'notes' ? null :
-                                                                            <td>{item[heading]}</td>)))))))))))
-                            }
-                        </tr>))
-                    )
-                }
-                </tbody>
-            </Table>
-            <DropdownButton title={title} style={{padding: '5px'}}>
-                {
-                    allDeliverymen.map(deliveryman => (
-                                <DropdownItem onClick={() => {
-                                    setDeliveryMan(deliveryman);
-                                    setTitle(deliveryman.name)
-                                }}>
-                                    {deliveryman.name}
-                                </DropdownItem>
-                        ))
-                }
-            </DropdownButton>
-            <Button onClick={() => HandleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
-                הקצה משלוחים לשליח
-            </Button>
-        </div>
-    );
+                    </tbody>
+                </Table>
+                <DropdownButton title={title} style={{padding: '5px'}}>
+                    {
+                        allDeliverymen.map(deliveryman => (
+                                    <DropdownItem onClick={() => {
+                                        setDeliveryMan(deliveryman);
+                                        setTitle(deliveryman.name)
+                                    }}>
+                                        {deliveryman.name}
+                                    </DropdownItem>
+                            ))
+                    }
+                </DropdownButton>
+                <Button onClick={() => HandleSubmit(deliveryMan, deliveries)} style={{padding: '5px', marginBottom: '10px'}}>
+                    הקצה משלוחים לשליח
+                </Button>
+            </div>
+        );
+    }
 }
 
 function cityTranslate(city) {

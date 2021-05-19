@@ -102,13 +102,26 @@ const Delivery_man_full = (props) =>{
         });
     //get shift
     const [currentShift, setCurrentShift] = useState("");
-    shiftService.getShift(shiftID).then(response => {
-        setCurrentShift(response.data);
-    })
-        .catch(e => {
-            console.log(e);
+    if(currentShift == "")
+        shiftService.getShift(shiftID).then(response => {
+            setCurrentShift(response.data);
         })
-        return (
+            .catch(e => {
+                console.log(e);
+            })
+
+    function HandleShiftConfirmation(shift) {
+        const tempShift = shift;
+        console.log(shift)
+        tempShift.confirmed = true;
+        shiftService.updateShift(tempShift).then((result) => {
+            console.log(result.data)
+        }).catch(error => {
+            console.error(error.message)
+        })
+    }
+
+    return (
 
             <article className='delivery_man'>
                 <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
@@ -124,7 +137,12 @@ const Delivery_man_full = (props) =>{
                                 <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '2rem'}}>
                                     <li>{"מס' עובד:" + currentShift.workerID}</li>
                                     <li>{"זמן תחילת משמרת:" + currentShift.shiftStart}</li>
-                                    <li>{"סטטוס אישור משמרת:" + currentShift.isConfirmed}</li>
+                                    {(currentShift.isConfirmed == undefined || currentShift.isConfirmed == false ? ( currentShift.shiftStart != undefined ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
+                                        margin: 'auto',
+                                        textAlign: 'center',
+                                        color: 'black',
+                                        fontSize: 20
+                                    }}>אישור משמרת</button></li>  : <li>{"סטטוס אישור משמרת: לא במשמרת" }</li> ) : <li>{"סטטוס אישור משמרת: משמרת אושרה" }</li>)}
                                 </ul>
                             </ul>
                         )
