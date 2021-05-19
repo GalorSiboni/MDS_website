@@ -7,9 +7,10 @@ import CreateIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import phoneReceptionistService from "../../Services/phoneReceptionistService";
+import Firebase from "../Components/Firebase"
+import phoneReceptionistService from "../Services/phoneReceptionistService";
 import {useDispatch, useSelector} from "react-redux";
-import {setAllPhoneReceptionists} from "../../Actions";
+import {setAllPhoneReceptionists} from "../Actions";
 
 export const PhoneReceptionistManagement = () => {
     const [isClicked, setIsClicked] = useState(false);
@@ -89,8 +90,8 @@ const PhoneReceptionist_full = (props) =>{
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } dir="RTL">{"מזהה מוקדן: " + phoneReceptionistID}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם מוקדן: " + name}</li>
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' משמרת: " + shiftID}</li>
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted ===  undefined)) ? "סטטוס משמרת: במשמרת" : "סטטוס משמרת: לא במשמרת"}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' משמרת: " + (shiftID ? shiftID : "לא במשמרת")}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{((deleted === false) || (deleted ===  undefined)) ? "סטטוס פעילות מוקדן: פעיל" : "סטטוס פעילות מוקדן: לא פעיל"}</li>
             </ul>
         </article>
     );
@@ -129,8 +130,6 @@ export const AddNewPhoneReceptionist = (props) => {
     const password = useFormInput('');
     const phoneReceptionist_name = useFormInput('');
     const phone_number = useFormInput('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const PhoneReceptionist = {
         name: ("" + phoneReceptionist_name.value),
         phoneNumber: ("" + phone_number.value),
@@ -138,13 +137,14 @@ export const AddNewPhoneReceptionist = (props) => {
     };
     // handle button click of login form
     const handleAddNewUser = () => {
-        phoneReceptionistService.addPhoneReceptionist(username.value, password.value, PhoneReceptionist).then(response => {
-            setLoading(false);
-            props.history.push('/phone_receptionist_management');
+        Firebase.register(phoneReceptionist_name.value, username.value, password.value).then(() => {
+            phoneReceptionistService.addPhoneReceptionist(username.value, password.value, PhoneReceptionist).then(response => {
+                props.history.push('/phone_receptionist/phone_receptionist_management');
+            }).catch(error => {
+                console.error(error.message)
+            });
         }).catch(error => {
-            setLoading(false);
-            if (error.response.status === 401) setError(error.response.data.message);
-            else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
+            console.error(error.message)
         });
     }
 

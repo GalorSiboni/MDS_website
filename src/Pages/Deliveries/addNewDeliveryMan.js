@@ -7,9 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import restaurantService from "../../Services/restaurantService";
-import {useDispatch} from "react-redux";
-import addressService from "../../Services/addressService";
+import deliverymanService from "../../Services/deliverymanService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,43 +39,23 @@ const AddNewDeliveryMan = (props) => {
     const phoneNumber = useFormInput('');
     const delivery_man_name = useFormInput('');
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const dispatch = useDispatch();
-
     const deliveryman =
             {
-                deliverymanID: null,
                 phoneNumber: phoneNumber.value,
                 name: delivery_man_name.value,
-                location: null,
-                isDeleted: false,
-                shiftID: null,
-                routeID: null
+                location: "0.40, 0.40",
+                isDeleted: false
             }
 
         ;
     // handle button submit of signup form
     const handleAddNewUser = () => {
-        restaurantService.addRestaurant(username.value, password.value,deliveryman).then(response => {
-            setLoading(false);
-            props.history.push('/deliveries');
-        }).catch(error => {
-            setLoading(false);
-            if (error.response.status === 401) setError(error.response.data.message);
-            else setError("משהו השתבש, נא נסה שנית מאוחר יותר");
-        });
-    }
-
-    // handle button add new city
-    const HandleNewCity = () => {
-        addressService.getAllCities().then(response => {
-            // dispatch(setAllCities(response.data));
-        })
-            .catch(e => {
-                console.log(e);
+            deliverymanService.addDeliveryMen(deliveryman).then(response => {
+                props.history.push('/deliveries/DeliveryMan_Management');
+            }).catch(error => {
+                console.error(error.message);
             });
-    }
+        }
 
     return (
         <Container component="main" maxWidth="xs" >
@@ -120,7 +98,7 @@ const AddNewDeliveryMan = (props) => {
                         required
                         fullWidth
                         id="name"
-                        label="שם המסעדה"
+                        label="שם השליח"
                         name="name"
                         autoComplete="name"
                         autoFocus

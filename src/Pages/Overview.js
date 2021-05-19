@@ -9,17 +9,26 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 
 const Overview = () => {
     const dispatch = useDispatch();
+    const [dataAsArrived, setDataAsArrived] = useState(false)
     deliveryService.getAllDeliveries().then(response => {
         dispatch(setAllDeliveries(response.data));
+        setDataAsArrived(true);
     })
         .catch(e => {
             console.log(e);
         });
-    return (
-        <div>
-            <GridContainer/>
-        </div>
-    );
+    if (dataAsArrived)
+        return (
+            <div>
+                <GridContainer/>
+            </div>
+        );
+    else
+        return (
+            <div>
+                טוען מידע
+            </div>
+        )
 };
 export default Overview;
 
@@ -63,7 +72,6 @@ const HandleSubmit = (deliveryman,list, props) => {
 
 function Checkbox(item, deliveries, setDeliveries) {
     const [checked, setChecked] = React.useState(false);
-    console.log(deliveries)
     return (
         <td>
             <label style={{paddingTop:'1rem'}}>
@@ -124,11 +132,11 @@ const TableComponent = () => {
                 <tbody>
                 {
                     data.map(item =>
-                        (item.deliveryTime !== null ? null :(<tr>
+                        (item.deliveryTime != null ? null :(<tr>
                             {
                                 headings.map(heading =>
                                     (((heading === 'deliverymanID') && (item[heading] === null)) ? Checkbox(item,deliveries,setDeliveries) :
-                                        (heading === 'restaurantID' ? <td>{allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name}</td> :
+                                        (heading === 'restaurantID' ? (allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name ? <td>{allRestaurants.find(restaurant => restaurant.restaurantID == item[heading]).name}</td> : <td>{"לא נמצא שם"}</td>) :
                                             (heading === 'deliveryTimeDate' ? null :
                                                 (heading === 'deliveryID' ? null :
                                                     (heading === 'addressID' ? <td>{"" + cityTranslate(allAddresses.find(address => address.addressID == item[heading]).city) + ", " + allAddresses.find(address => address.addressID == item[heading]).street + ", " + allAddresses.find(address => address.addressID == item[heading]).buildingNumber}</td> :

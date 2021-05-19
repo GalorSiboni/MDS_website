@@ -93,7 +93,6 @@ const AddNewDelivery = (props) => {
             setAddressBoundary(response.data)
             delivery.addressID = response.data.addressID;
             deliveryService.addDelivery(delivery).then(response1 => {
-                console.log(response1.data)
                 props.history.push('/deliveries/DeliveryMan_Management');
             }).catch(error => {
                 console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");

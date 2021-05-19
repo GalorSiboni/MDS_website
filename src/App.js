@@ -9,7 +9,7 @@ import DeliveryMan_Management from './Pages/Deliveries/DeliveryMan_Management';
 import RouteManagement from './Pages/Deliveries/RouteManagement';
 import DeliveriesHistory from './Pages/Deliveries/DeliveriesHistory';
 import { DailyReports, WeeklyReports, MonthlyReports } from './Pages/Reports';
-import { AddNewPhoneReceptionist, PhoneReceptionistManagement } from './Pages/PhoneReceptionist/PhoneReceptionistManagement';
+import { AddNewPhoneReceptionist, PhoneReceptionistManagement } from './Pages/PhoneReceptionistManagement';
 import {useDispatch, useSelector} from "react-redux";
 import addNewDeliveryMan from "./Pages/Deliveries/addNewDeliveryMan";
 import addNewDelivery from "./Pages/Deliveries/addNewDelivery";
