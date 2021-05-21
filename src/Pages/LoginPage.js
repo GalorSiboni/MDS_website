@@ -48,7 +48,6 @@ export default function SignIn(props) {
             phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
                 console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
             });
-            console.log("Response from login: " + response.user.uid)
         }).catch(error => {
             console.log(error);
         });
