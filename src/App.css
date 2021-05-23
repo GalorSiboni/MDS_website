@@ -30,7 +30,7 @@
 .grid-container {
   display: inline-grid;
   grid-template-columns: auto auto;
-  grid-template-rows: auto;
+  grid-template-rows: auto ;
   border: 1px solid black;
   grid-template-areas:
     ". . . ."
@@ -40,7 +40,6 @@
 
 .incidents_grid {
   grid-area: incidents_grid;
-
   background-color: darkgray;
   border: 1px solid black;
 }
@@ -51,11 +50,3 @@
   border: 1px solid black;
 }
 
-table, thead, th, td{
-  text-align: center;
-  border: 1px solid black;
-  border-collapse: collapse;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-size: 11px;
-}
