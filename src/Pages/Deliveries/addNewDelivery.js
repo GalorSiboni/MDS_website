@@ -303,13 +303,13 @@ function cityTranslate(city) {
         case "ORANIT":
             translate = "אורנית";
             break;
-        case "SHAHAREI_TIQWA":
+        case "SHAAREI_TIKVA":
             translate = "שערי תקווה";
             break;
         case "ELKANA":
             translate = "אלקנה";
             break;
-        case "EZ_EFRAIM":
+        case "ETZ_EFRAIM":
             translate = "עץ אפריים";
             break;
         case "HAGOR":
@@ -327,7 +327,7 @@ function cityTranslate(city) {
         case "SHOHAM":
             translate = "שהם";
             break;
-        case "GIVAT_HASLOSHA":
+        case "GIVAT_HASHLOSHA":
             translate = "גבעת השלושה";
             break;
         case "NAHSHONIM_BASE":
@@ -348,7 +348,7 @@ function cityTranslate(city) {
         case "NAHSHONIM":
             translate = "נחשונים";
             break;
-        case "PETAH_TIQWA":
+        case "PETAH_TIKVA":
             translate = "פתח תקווה";
             break;
         case "EINAT":
