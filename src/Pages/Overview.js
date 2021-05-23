@@ -63,11 +63,13 @@ const GridContainer = () => {
     );
 }
 
-const HandleSubmit = (deliveryman,list, props) => {
+const HandleSubmit = (deliveryman,list) => {
     console.log(deliveryman.deliverymanID)
     console.log(list)
     if (deliveryman != null && list.length != 0)
-    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then().catch(error => {
+    phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then(() => {
+        window.location.reload();
+    }).catch(error => {
         console.log(error + "משהו השתבש בהקצאת השלוח, נא נסה שנית מאוחר יותר, שגיאה: ");
     });
 }

@@ -118,8 +118,8 @@ const Route = (props) =>{
         <article className='route'>
             <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } >{"מזהה שליח: " + deliverymanID}</li>
-                {(deliveries
-                        ? <ul>
+                {(deliveries ?
+                <ul>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} }>{"מסלול חלוקה: "}</li>
                     <ul>
                         <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'}}>{"משלוחים:"}</li>
@@ -141,3 +141,4 @@ const Image = () => (
          alt={""}
     />
 )
+
