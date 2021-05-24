@@ -102,7 +102,7 @@ const Delivery_man_full = (props) =>{
         });
     //get shift
     const [currentShift, setCurrentShift] = useState("");
-    if(currentShift == "")
+    if(currentShift === "")
         shiftService.getShift(shiftID).then(response => {
             setCurrentShift(response.data);
         })
@@ -137,7 +137,7 @@ const Delivery_man_full = (props) =>{
                                 <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '2rem'}}>
                                     <li>{"מס' עובד:" + currentShift.workerID}</li>
                                     <li>{"זמן תחילת משמרת:" + currentShift.shiftStart}</li>
-                                    {(currentShift.isConfirmed == undefined || currentShift.isConfirmed == false ? ( currentShift.shiftStart != undefined ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
+                                    {(currentShift.isConfirmed === undefined || currentShift.isConfirmed === false ? ( currentShift.shiftStart !== undefined ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
                                         margin: 'auto',
                                         textAlign: 'center',
                                         color: 'black',
@@ -149,7 +149,7 @@ const Delivery_man_full = (props) =>{
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת: לא במשמרת"}</li>
                     }
 
-                    {(route !== null && route !== undefined && route != "")
+                    {(route !== null && route !== undefined && route !== "")
                         ?
                         (
                             <ul style={{paddingRight: '25rem'}} dir="RTL">
@@ -159,13 +159,13 @@ const Delivery_man_full = (props) =>{
                                     <ul>
                                         {route.deliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{i}</li> })}
                                     </ul>
-                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{(route.isApproved == (false || undefined)) ? "סטטוס אישור מסלול: לא מאושר" : "סטטוס  אישור מסלול: מאושר"}</li>
+                                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'} } dir="RTL">{(route.isApproved === false || route.isApproved === undefined) ? "סטטוס אישור מסלול: לא מאושר" : "סטטוס  אישור מסלול: מאושר"}</li>
                                 </ul>
                             </ul>
                         )
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מסלול חלוקה: לא הוקצה מסלול"}</li>
                     }
-                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted == (false || undefined)) ? "סטטוס שליח: לא פעיל" : "סטטוס שליח: פעיל"}</li>
+                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{(deleted === false || deleted === undefined) ? "סטטוס שליח: לא פעיל" : "סטטוס שליח: פעיל"}</li>
                 </ul>
             </article>
         );

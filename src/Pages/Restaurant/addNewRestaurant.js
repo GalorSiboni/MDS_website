@@ -8,8 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import restaurantService from "../../Services/restaurantService";
-import {setAllCities} from "../../Actions";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import addressService from "../../Services/addressService";
 
@@ -40,7 +39,6 @@ const AddNewRestaurant = (props) => {
     const password = useFormInput('');
     const phoneNumber = useFormInput('');
     const restaurant_name = useFormInput('');
-    const dispatch = useDispatch();
     const [cities, setCities] = useState([]);
 
 
@@ -63,16 +61,6 @@ const AddNewRestaurant = (props) => {
         }).catch(error => {
             console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
         });
-    }
-
-    // handle button add new city
-    const handleNewCity = () => {
-        addressService.getAllCities().then(response => {
-            dispatch(setAllCities(response.data));
-        })
-            .catch(e => {
-                console.log(e);
-            });
     }
 
     return (

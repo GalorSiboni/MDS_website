@@ -58,9 +58,9 @@ const AddNewDelivery = (props) => {
         city: (cityEnum ? cityEnum.city : cityEnum),
         street: street.value,
         notes: addressNotes.value,
-        buildingNumber: (buildingNumber.value != '' ? buildingNumber.value : 1),
-        floorNumber: (floorNumber.value != '' ? floorNumber.value : 2),
-        apartmentNumber: (apartmentNumber.value != '' ? apartmentNumber.value : 3),
+        buildingNumber: (buildingNumber.value !== '' ? buildingNumber.value : 1),
+        floorNumber: (floorNumber.value !== '' ? floorNumber.value : 2),
+        apartmentNumber: (apartmentNumber.value !== '' ? apartmentNumber.value : 3),
         isDeleted: addressIsDeleted.value
 
     }

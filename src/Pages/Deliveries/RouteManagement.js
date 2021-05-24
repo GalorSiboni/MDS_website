@@ -9,18 +9,19 @@ const RouteManagement = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     const dispatch = useDispatch();
-    phoneReceptionistService.getAllUnapprovedRoutes().then(response => {
+    setTimeout(function () {
+        phoneReceptionistService.getAllUnapprovedRoutes().then(response => {
         dispatch(setAllUnapprovedRoutes(response.data));
     })
         .catch(e => {
             console.log(e);
         });
-    deliverymanService.getAllDeliveryMen().then(response => {
-        dispatch(setAllDeliverymen(response.data));
-    })
-        .catch(e => {
-            console.log(e);
-        });
+        deliverymanService.getAllDeliveryMen().then(response => {
+            dispatch(setAllDeliverymen(response.data));
+        })
+            .catch(e => {
+                console.log(e);
+            });}, 30000)
     return(
         <div>
             {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> }
@@ -33,33 +34,37 @@ export default RouteManagement;
 const Delivery_man_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentDeliveryMan = props.current
-    const unApprovedRoutes = useSelector(state => state.allUnapprovedRoutes)
-    let deliverymen = useSelector(state => state.allDeliveryMen);
-    setTimeout(function() {
-        const deliverymanID = unApprovedRoutes.map(unApprovedRoute => {deliverymanID.push(unApprovedRoute.deliverymanID)});
-        if (unApprovedRoutes.length == 0)
-            deliverymen = [];
-        unApprovedRoutes.map(item => deliverymen.filter(deliveryman => deliveryman.deliverymanID == item.deliverymanID));
-    }, 1000)
+    const [deliverymen, setDeliverymen] = useState([]);
+    useSelector(state => state.allUnapprovedRoutes).map(unApprovedRoute => {setDeliverymen(deliverymen, unApprovedRoute.deliverymanID)})
     return(
         <div className='deliveryman_management' style={{alignItems: "center"}}>
             <div style={{textAlign: "center"}}>
                 <Image/>
             </div>
-            <h1 style={{
+            {(deliverymen.length > 0 ? <div>
+                <h1 style={{
+                    margin: 'auto',
+                    textAlign: 'right',
+                    color: '#052342',
+                    paddingRight: '10rem',
+                    fontSize: 40
+                }}>:שליחים הממתינים לאישור מסלול
+                </h1>
+                <div>
+                    <section className='delivery_man_list'>
+                        {deliverymen.map((delivery_man) => {
+                            return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
+                        })}
+                    </section>
+                </div>
+            </div> : <h1 style={{
                 margin: 'auto',
                 textAlign: 'right',
                 color: '#052342',
                 paddingRight: '10rem',
                 fontSize: 40
-            }}>:שליחים</h1>
-            <div>
-                <section className='delivery_man_list'>
-                    {deliverymen.map((delivery_man) => {
-                        return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
-                    })}
-                </section>
-            </div>
+            }}>אין שליחים הממתינים לאישור מסלול
+            </h1>)}
         </div>
     );
 }

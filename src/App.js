@@ -30,43 +30,8 @@ import deliveryService from "./Services/deliveryService";
 function App() {
     const dispatch = useDispatch();
     const isAdmin = useSelector(state => state.isAdmin);
+    getData(dispatch);
     if (useSelector(state => state.isLogged)) {
-            deliverymanService.getAllDeliveryMen().then(response => {
-                dispatch(setAllDeliverymen(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
-            phoneReceptionistService.getAllPhoneReceptionists().then(response => {
-                dispatch(setAllPhoneReceptionists(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
-            deliveryService.getAllDeliveries().then(response => {
-                dispatch(setAllDeliveries(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
-            addressService.getAllAddresses().then(response => {
-                dispatch(setAllAddresses(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
-            restaurantService.getAllRestaurants().then(response => {
-                dispatch(setAllRestaurants(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
-            addressService.getAllCities().then(response => {
-                dispatch(setAllCities(response.data));
-            })
-                .catch(e => {
-                    console.log(e);
-                });
         if (isAdmin) {
             return (
                 <Router>
@@ -91,20 +56,20 @@ function App() {
                 </Router>
             );
         }
-    else {
-        return (
-            <Router>
-                <Sidebar/>
-                <Switch>
-                    <Route path='/' exact component={Overview}/>
-                    <Route path='/deliveries/DeliveryMan_Management' exact component={DeliveryMan_Management}/>
-                    <Route path='/deliveries/DeliveriesHistory' exact component={DeliveriesHistory}/>
-                    <Route path='/deliveries/add_new_delivery' exact component={addNewDelivery}/>
-                    <Route path='/deliveries/unapproved_route' exact component={RouteManagement}/>
-                    <Route path='/restaurants' exact component={Restaurants_Managements}/>
-                </Switch>
-            </Router>
-        );
+        else {
+            return (
+                <Router>
+                    <Sidebar/>
+                    <Switch>
+                        <Route path='/' exact component={Overview}/>
+                        <Route path='/deliveries/DeliveryMan_Management' exact component={DeliveryMan_Management}/>
+                        <Route path='/deliveries/DeliveriesHistory' exact component={DeliveriesHistory}/>
+                        <Route path='/deliveries/add_new_delivery' exact component={addNewDelivery}/>
+                        <Route path='/deliveries/unapproved_route' exact component={RouteManagement}/>
+                        <Route path='/restaurants' exact component={Restaurants_Managements}/>
+                    </Switch>
+                </Router>
+            );
         }
     }
     else {
@@ -117,3 +82,41 @@ function App() {
 }
 export default App;
 
+function getData(dispatch) {
+    deliverymanService.getAllDeliveryMen().then(response => {
+        dispatch(setAllDeliverymen(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
+    phoneReceptionistService.getAllPhoneReceptionists().then(response => {
+        dispatch(setAllPhoneReceptionists(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
+    deliveryService.getAllDeliveries().then(response => {
+        dispatch(setAllDeliveries(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
+    addressService.getAllAddresses().then(response => {
+        dispatch(setAllAddresses(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
+    restaurantService.getAllRestaurants().then(response => {
+        dispatch(setAllRestaurants(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
+    addressService.getAllCities().then(response => {
+        dispatch(setAllCities(response.data));
+    })
+        .catch(e => {
+            console.log(e);
+        });
+}

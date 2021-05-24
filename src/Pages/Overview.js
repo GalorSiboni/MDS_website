@@ -66,7 +66,7 @@ const GridContainer = () => {
 const HandleSubmit = (deliveryman,list) => {
     console.log(deliveryman.deliverymanID)
     console.log(list)
-    if (deliveryman != null && list.length != 0)
+    if (list.length !== 0)
     phoneReceptionistService.setDeliverymanRoute(deliveryman.deliverymanID, list).then(() => {
         window.location.reload();
     }).catch(error => {
@@ -107,7 +107,7 @@ const TableComponent = () => {
     const [deliveries, setDeliveries] = useState([]);
     const [title, setTitle] = useState("בחר שליח");
     const [deliveryMan, setDeliveryMan] = useState(null);
-    if (data.length == 0){
+    if (data.length === 0){
         return (
             <div>
                 <Table striped bordered hover variant="dark">
@@ -120,7 +120,7 @@ const TableComponent = () => {
     }
     else {
         let headings = Object.keys(data[0]);
-        if (data == allDeliverymen)
+        if (data === allDeliverymen)
             return (
                 <div>
                     טוען מידע
@@ -133,20 +133,20 @@ const TableComponent = () => {
                     <thead>
                     <tr>
                         {
-                            headings.map(heading => (heading == "restaurantID" ? <th>מסעדה</th> :
-                                (heading == "deliverymanID" ? <th>שליח</th> :
-                                    (heading == "receivedTime" ? <th>זמן קבלת המשלוח</th> :
-                                        (heading == "receivedTimeDate" ? null :
-                                            (heading == "deliveryTimeDate" ? null :
-                                                (heading == "deleted" ? null :
-                                                    (heading == "deliveryTimeDate" ? null :
-                                                        (heading == "deliveryTime" ? null :
-                                                            (heading == "addressID" ? <th>כתובת</th> :
-                                                                (heading == "notes" ? null :
-                                                                    (heading == "restaurantCost" ? null :
-                                                                        (heading == "price" ? <th>מחיר משלוח</th> :
-                                                                            (heading == "doTime" ? <th>זמן להשלמת המשלוח</th> :
-                                                                                (heading == "deliveryID" ? null : <th>{heading}</th>)))))))))))))))
+                            headings.map(heading => (heading === "restaurantID" ? <th>מסעדה</th> :
+                                (heading === "deliverymanID" ? <th>שליח</th> :
+                                    (heading === "receivedTime" ? <th>זמן קבלת המשלוח</th> :
+                                        (heading === "receivedTimeDate" ? null :
+                                            (heading === "deliveryTimeDate" ? null :
+                                                (heading === "deleted" ? null :
+                                                    (heading === "deliveryTimeDate" ? null :
+                                                        (heading === "deliveryTime" ? null :
+                                                            (heading === "addressID" ? <th>כתובת</th> :
+                                                                (heading === "notes" ? null :
+                                                                    (heading === "restaurantCost" ? null :
+                                                                        (heading === "price" ? <th>מחיר משלוח</th> :
+                                                                            (heading === "doTime" ? <th>זמן להשלמת המשלוח</th> :
+                                                                                (heading === "deliveryID" ? null : <th>{heading}</th>)))))))))))))))
                         }
                     </tr>
                     </thead>
@@ -192,69 +192,3 @@ const TableComponent = () => {
         );
     }
 }
-
-function cityTranslate(city) {
-    let translate = "";
-    switch (city){
-        case "ROSH_AAYIN":
-            translate = "ראש העין";
-            break;
-        case "ORANIT":
-            translate = "אורנית";
-            break;
-        case "SHAAREI_TIKVA":
-            translate = "שערי תקווה";
-            break;
-        case "ELKANA":
-            translate = "אלקנה";
-            break;
-        case "ETZ_EFRAIM":
-            translate = "עץ אפריים";
-            break;
-        case "HAGOR":
-            translate = "חגור";
-            break;
-        case "MATAN":
-            translate = "מתן";
-            break;
-        case "NIRIT":
-            translate = "נירית";
-            break;
-        case "YARHIV":
-            translate = "ירחיב";
-            break;
-        case "SHOHAM":
-            translate = "שהם";
-            break;
-        case "GIVAT_HASHLOSHA":
-            translate = "גבעת השלושה";
-            break;
-        case "NAHSHONIM_BASE":
-            translate = "בסיס נחשונים";
-            break;
-        case "KFAR_SABA":
-            translate = "כפר סבא";
-            break;
-        case "TEL_AVIV":
-            translate = "תל-אביב";
-            break;
-        case "KFAR_KASEM":
-            translate = "כפר קאסם";
-            break;
-        case "OTHER":
-            translate = "אחר";
-            break;
-        case "NAHSHONIM":
-            translate = "נחשונים";
-            break;
-        case "PETAH_TIKVA":
-            translate = "פתח תקווה";
-            break;
-        case "EINAT":
-            translate = "עינת";
-            break;
-        default:
-    }
-    return translate;
-}
-

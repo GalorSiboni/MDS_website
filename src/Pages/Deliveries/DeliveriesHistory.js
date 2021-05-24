@@ -20,7 +20,7 @@ const DeliveriesHistory = () => {
                 <Image/>
             </div>
             <div>
-                {isClicked ? [currentRestaurantDeliveries != [] ? <GridContainer myVar={setIsClicked} current={currentRestaurantDeliveries}/> : <div>בטעינה</div> ] : <Restaurants_name_list myVar={setIsClicked} current={setCurrentRestaurant}/> }
+                {isClicked ? [currentRestaurantDeliveries !== [] ? <GridContainer myVar={setIsClicked} current={currentRestaurantDeliveries}/> : <div>בטעינה</div> ] : <Restaurants_name_list myVar={setIsClicked} current={setCurrentRestaurant}/> }
             </div>
         </div>
     );
