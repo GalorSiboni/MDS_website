@@ -87,36 +87,36 @@ function getData(dispatch) {
         dispatch(setAllDeliverymen(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
     phoneReceptionistService.getAllPhoneReceptionists().then(response => {
         dispatch(setAllPhoneReceptionists(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
     deliveryService.getAllDeliveries().then(response => {
         dispatch(setAllDeliveries(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
     addressService.getAllAddresses().then(response => {
         dispatch(setAllAddresses(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
     restaurantService.getAllRestaurants().then(response => {
         dispatch(setAllRestaurants(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
     addressService.getAllCities().then(response => {
         dispatch(setAllCities(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
 }

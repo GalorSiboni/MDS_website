@@ -14,7 +14,7 @@ const DeliveryMan_Management = () => {
         dispatch(setAllDeliverymen(response.data));
     })
         .catch(e => {
-            console.log(e);
+            console.error(e.message);
         });
     return(
     <div>

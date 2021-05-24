@@ -1,27 +1,17 @@
 import phoneReceptionistService from "../../Services/phoneReceptionistService";
-import {setAllDeliverymen, setAllUnapprovedRoutes} from "../../Actions";
+import {setAllUnapprovedRoutes} from "../../Actions";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useState} from "react";
-import deliverymanService from "../../Services/deliverymanService";
+import React, {useEffect, useState} from "react";
 import deliveryService from "../../Services/deliveryService";
 
 const RouteManagement = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     const dispatch = useDispatch();
-    setTimeout(function () {
-        phoneReceptionistService.getAllUnapprovedRoutes().then(response => {
-        dispatch(setAllUnapprovedRoutes(response.data));
-    })
-        .catch(e => {
-            console.log(e);
-        });
-        deliverymanService.getAllDeliveryMen().then(response => {
-            dispatch(setAllDeliverymen(response.data));
-        })
-            .catch(e => {
-                console.log(e);
-            });}, 30000)
+    const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(false)
+    if (refreshRoutesBTN){
+
+    }
     return(
         <div>
             {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> }
@@ -36,6 +26,7 @@ const Delivery_man_name_list = (props) => {
     const setCurrentDeliveryMan = props.current
     const [deliverymen, setDeliverymen] = useState([]);
     useSelector(state => state.allUnapprovedRoutes).map(unApprovedRoute => {setDeliverymen(deliverymen, unApprovedRoute.deliverymanID)})
+    console.log(deliverymen)
     return(
         <div className='deliveryman_management' style={{alignItems: "center"}}>
             <div style={{textAlign: "center"}}>
