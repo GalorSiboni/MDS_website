@@ -46,10 +46,10 @@ export default function SignIn(props) {
             dispatch(login())
             dispatch(admin())
             phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
-                console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר, שגיאה: ");
+                console.error(error.message);
             });
         }).catch(error => {
-            console.log(error);
+            console.error(error.message);
         });
     }
 
