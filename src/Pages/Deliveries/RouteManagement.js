@@ -28,9 +28,11 @@ const RouteManagement = () => {
             <div style={{textAlign: "center"}}>
                 <Image/>
             </div>
-            <IconButton color="primary" aria-label="refreshRoute" component="span">
-                <RefreshIcon onClick={() => setRefreshRoutesBTN(true)}/>
-            </IconButton>
+            <div style={{textAlign: "center"}}>
+                <IconButton color="primary" aria-label="refreshRoute" component="span">
+                    <RefreshIcon onClick={() => setRefreshRoutesBTN(true)}/>
+                </IconButton>
+            </div>
             {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan} deliverymenList={deliverymen} /> }
         </div>
     );
