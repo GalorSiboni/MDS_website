@@ -14,10 +14,13 @@ const RouteManagement = () => {
 
     if (refreshRoutesBTN){
         setRefreshRoutesBTN(false)
+        setDeliverymen([]);
+        setAllUnapprovedRoutes([]);
         phoneReceptionistService.getAllUnapprovedRoutes().then(response => {
-                setAllUnapprovedRoutes(response.data);
-                setDeliverymen([]);
-                response.data.map(route => deliverymen.push(route.deliverymanID))
+            setAllUnapprovedRoutes(response.data);
+            for (let i = 0; i < allUnapprovedRoutes.length; i++) {
+                deliverymen.push(allUnapprovedRoutes[i].deliverymanID);
+            }
         })
                 .catch(e => {
                     console.error(e.message);
@@ -33,7 +36,7 @@ const RouteManagement = () => {
                     <RefreshIcon onClick={() => setRefreshRoutesBTN(true)}/>
                 </IconButton>
             </div>
-            {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan} deliverymenList={deliverymen} /> }
+            {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan} allUnapprovedRoutes={allUnapprovedRoutes}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan} deliverymenList={deliverymen} /> }
         </div>
     );
 };
