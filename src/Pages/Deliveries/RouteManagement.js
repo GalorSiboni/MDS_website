@@ -1,20 +1,37 @@
 import phoneReceptionistService from "../../Services/phoneReceptionistService";
-import {setAllUnapprovedRoutes} from "../../Actions";
-import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import RefreshIcon from '@material-ui/icons/Refresh';
+import IconButton from '@material-ui/core/IconButton';
+import React, {useState} from "react";
 import deliveryService from "../../Services/deliveryService";
 
 const RouteManagement = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
-    const dispatch = useDispatch();
     const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(false)
-    if (refreshRoutesBTN){
+    const [deliverymen, setDeliverymen] = useState([]);
+    const [allUnapprovedRoutes, setAllUnapprovedRoutes] = useState([]);
 
+    if (refreshRoutesBTN){
+        setRefreshRoutesBTN(false)
+        phoneReceptionistService.getAllUnapprovedRoutes().then(response => {
+                setAllUnapprovedRoutes(response.data);
+                setDeliverymen([]);
+                response.data.map(route => deliverymen.push(route.deliverymanID))
+        })
+                .catch(e => {
+                    console.error(e.message);
+                });
     }
     return(
         <div>
-            {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan}/> }
+            <div style={{textAlign: "center"}}>
+                <Image/>
+            </div>
+            <IconButton color="primary" aria-label="refreshRoute" component="span">
+                <RefreshIcon onClick={() => setRefreshRoutesBTN(true)}/>
+            </IconButton>
+            {isClicked ? <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan}/> : <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan} deliverymenList={deliverymen} /> }
         </div>
     );
 };
@@ -24,14 +41,10 @@ export default RouteManagement;
 const Delivery_man_name_list = (props) => {
     const setClicked = props.myVar
     const setCurrentDeliveryMan = props.current
-    const [deliverymen, setDeliverymen] = useState([]);
-    useSelector(state => state.allUnapprovedRoutes).map(unApprovedRoute => {setDeliverymen(deliverymen, unApprovedRoute.deliverymanID)})
+    const deliverymen = props.deliverymenList;
     console.log(deliverymen)
     return(
         <div className='deliveryman_management' style={{alignItems: "center"}}>
-            <div style={{textAlign: "center"}}>
-                <Image/>
-            </div>
             {(deliverymen.length > 0 ? <div>
                 <h1 style={{
                     margin: 'auto',
@@ -68,9 +81,6 @@ const Delivery_man_details = (props) =>  {
 
     return(
         <div style={{textAlign: "center"}}>
-            <div style={{textAlign: "center"}}>
-                <Image/>
-            </div>
             <button onClick={() => setClicked(false)} style={{
                 margin: 'auto',
                 textAlign: 'center',
