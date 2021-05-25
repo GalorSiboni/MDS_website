@@ -34,8 +34,8 @@ const RouteManagement = () => {
                 <Image/>
             </div>
             <div style={{textAlign: "center"}}>
-                <IconButton color="primary" aria-label="refreshRoute" component="span">
-                    <RefreshIcon onClick={() => setRefreshRoutesBTN(true)}/>
+                <IconButton color="primary" aria-label="refreshRoute" component="span" onClick={() => setRefreshRoutesBTN(true)}>
+                    <RefreshIcon/>
                 </IconButton>
             </div>
             {isClicked
@@ -85,15 +85,11 @@ const Delivery_man_name_list = (props) => {
 }
 
 const Delivery_man_details = (props) =>  {
-    const currentDeliveryManID = props.current
-    const setClicked = props.myVar
-    const allUnapprovedRoutes = props.allUnapprovedRoutes
-    const route = allUnapprovedRoutes.find(route => route.deliverymanID === currentDeliveryManID);
-
+    const [route, setRoute] = useState(props.allUnapprovedRoutes.find(route => route.deliverymanID === props.current));
 
     return(
         <div style={{textAlign: "center"}}>
-            <button onClick={() => setClicked(false)} style={{
+            <button onClick={() => props.myVar(false)} style={{
                 margin: 'auto',
                 textAlign: 'center',
                 color: 'black',
@@ -106,7 +102,8 @@ const Delivery_man_details = (props) =>  {
                 paddingRight: '10rem',
                 fontSize: 40
             }}>מסלול:</h1>
-            <Route route={route}/>
+            {route !== undefined ? <Route route={route}/> : <h2> בטעינה...</h2>}
+
         </div>
     )
 }
@@ -114,41 +111,34 @@ const Delivery_man_details = (props) =>  {
 const Delivery_man = (props) =>{
     return (
         <article className='delivery_man'  style={{textAlign: "center"}}>
-            <h2 onClick={() => {props.myVar(true) ; props.current(props.delivery_man.deliverymanID)}}>{GetDeliveryManName(props.delivery_man)}</h2>
+            <h2 onClick={() => {props.myVar(true) ; props.current(props.delivery_man)}}>{GetDeliveryManName(props.delivery_man)}</h2>
         </article>
     );
 }
 
 const Route = (props) =>{
-    const { deliverymanID, deliveries } = props.route;
     const allDeliveries = [];
     const allAddresses = [];
-    if (deliveries)
-        for (let i = 0; i < deliveries.length; i++) {
-            deliveryService.getDelivery(deliveries[i].deliveryID).then(response => {
+    if (props.route !== undefined)
+        if (props.route.deliveries !== undefined)
+        for (let i = 0; i < props.route.deliveries.length; i++) {
+            deliveryService.getDelivery(props.route.deliveries[i]).then(response => {
                 allDeliveries.push(response.data);
-                addressService.getAddress(response.data.addressID).then(response => {
-                    allAddresses.push(response.data);
-                }).catch(e => {
-                    console.log(e);
-                });
+                allAddresses.push(AddressParsers(response.data.addressID));
             })
             .catch(e => {
-                console.log(e);
+                console.error(e.message);
             });
         }
     return (
         <article className='route'>
             <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
-                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } >{"שליח: " + useSelector(state => state.allDeliveryMen).find(deliveryman => deliveryman.deliverymanID === deliverymanID).name}</li>
+                <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } >{"שליח: " + useSelector(state => state.allDeliveryMen).find(deliveryman => deliveryman.deliverymanID === props.route.deliverymanID).name}</li>
                 {((allDeliveries.length === allAddresses.length) || allAddresses.length !== 0 ?
-                <ul>
-                    <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} }>{"מסלול חלוקה: "}</li>
-                    <ul>
-                        <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'}}>{"משלוחים:"}</li>
-                        <ul>
-                            {allDeliveries.map(i => { return <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'}}>{AddressParsers(i.addressID)}</li> })}
-                        </ul>
+                <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem',  paddingRight: '4rem'} }>
+                    <li>{"מסלול חלוקה: "}</li>
+                    <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'}}>
+                        {allDeliveries.map(i => { return <li>{AddressParsers(i.addressID)}</li> })}
                     </ul>
                 </ul>
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} }>{"מסלול חלוקה: לא הוקצה מסלול"}</li>
