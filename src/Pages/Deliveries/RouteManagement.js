@@ -125,7 +125,7 @@ const Route = (props) => {
         }
 
     function HandleRouteApproved() {
-        phoneReceptionistService.setDeliverymanRoute(props.route.routeID).then(() => {
+        phoneReceptionistService.apporoveDeliverymanRoute(props.route.routeID).then(() => {
             window.location.reload();
         }).catch(error => {
             console.error(error.message);

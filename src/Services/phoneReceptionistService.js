@@ -20,7 +20,7 @@ const getAllUnapprovedRoutes = () => {
     return http.get(`/phonereceptionist/routes/notApproved`);
 };
 
-const setRouteApproved = ( routeID ) => {
+const apporoveDeliverymanRoute = ( routeID ) => {
     return http.put(`/phonereceptionist/routes/${routeID}`);
 };
 
@@ -53,7 +53,7 @@ export default {
     updatePhoneReceptionist,
     phoneReceptionistLogin,
     phoneReceptionistLogout,
-    setDeliverymanRoute,
+    apporoveDeliverymanRoute,
     getAllUnapprovedRoutes
 };
 
