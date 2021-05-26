@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 const AddressIdToAddress = (addrId) => {
     const allAddresses = useSelector(state => state.allAddresses);
     let address;
-    if(addrId != null || allAddresses != null){
+    if(addrId != null && allAddresses != null){
         address = allAddresses.find(address => address.addressID === addrId)
         if (address != null)
             if (address.city != null)

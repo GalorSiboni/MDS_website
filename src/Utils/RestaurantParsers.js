@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 
-const RestaurantIdToRestaurant = (restID) => {
+const RestaurantIdToRestaurantName = (restID) => {
     const allRestaurants = useSelector(state => state.allRestaurants);
     let restaurant;
     if(restID != null || allRestaurants != null) {
@@ -11,5 +11,5 @@ const RestaurantIdToRestaurant = (restID) => {
     }
     return "לא נמצא שם למסעדה";
 }
-export default RestaurantIdToRestaurant
+export default RestaurantIdToRestaurantName
 

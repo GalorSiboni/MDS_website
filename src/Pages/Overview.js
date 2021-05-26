@@ -5,9 +5,10 @@ import {setAllDeliveries} from "../Actions";
 import {Button, DropdownButton, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import phoneReceptionistService from "../Services/phoneReceptionistService";
-import AddressIdToAddress from "../Utils/AddressParsers"
+import AddressIdToAddress from "../Utils/AddressIdToAddressParsers"
 import RestaurantIdToRestaurant from "../Utils/RestaurantParsers"
 import DropdownItem from "react-bootstrap/DropdownItem";
+import RestaurantIdToRestaurantName from "../Utils/RestaurantParsers";
 
 const Overview = () => {
     const dispatch = useDispatch();
@@ -157,7 +158,7 @@ const TableComponent = () => {
                                 {
                                     headings.map(heading =>
                                         (((heading === 'deliverymanID') && (item[heading] == null)) ? Checkbox(item.deliveryID,deliveries,setDeliveries) :
-                                            (heading === 'restaurantID' ? <td>{RestaurantIdToRestaurant(item[heading])}</td> :
+                                            (heading === 'restaurantID' ? <td>{RestaurantIdToRestaurantName(item[heading])}</td> :
                                                 (heading === 'deliveryTimeDate' ? null :
                                                     (heading === 'deliveryID' ? null :
                                                         (heading === 'addressID' ? <td>{AddressIdToAddress(item[heading])}</td> :

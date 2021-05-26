@@ -1,11 +1,11 @@
 import phoneReceptionistService from "../../Services/phoneReceptionistService";
 import {useSelector} from "react-redux";
 import RefreshIcon from '@material-ui/icons/Refresh';
+import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
 import IconButton from '@material-ui/core/IconButton';
 import React, {useState} from "react";
-import deliveryService from "../../Services/deliveryService";
-import addressService from "../../Services/addressService";
-import AddressParsers from "../../Utils/AddressParsers";
+import AddressIdToAddress from "../../Utils/AddressIdToAddressParsers"
+import DeliveryIdToAddressID from "../../Utils/DeliveryIdToAddressIdParsers"
 
 const RouteManagement = () => {
     const [isClicked, setIsClicked] = useState(false);
@@ -66,7 +66,7 @@ const Delivery_man_name_list = (props) => {
                     }}>:שליחים הממתינים לאישור מסלול
                     </h1>
                 <div>
-                    <section className='delivery_man_list' style={{alignItems: "center"}}>
+                    <section className='delivery_man_list' style={{alignItems: "center", paddingTop: "2rem"}}>
                         {deliverymen.map(delivery_man => {
                             return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}/>
                         })}
@@ -101,7 +101,7 @@ const Delivery_man_details = (props) =>  {
                 color: '#052342',
                 paddingRight: '10rem',
                 fontSize: 40
-            }}>מסלול:</h1>
+            }}>:מסלול הממתין לאישור</h1>
             {route !== undefined ? <Route route={route}/> : <h2> בטעינה...</h2>}
 
         </div>
@@ -116,30 +116,35 @@ const Delivery_man = (props) =>{
     );
 }
 
-const Route = (props) =>{
-    const allDeliveries = [];
-    const allAddresses = [];
+const Route = (props) => {
+    let allAddresses = [];
     if (props.route !== undefined)
         if (props.route.deliveries !== undefined)
-        for (let i = 0; i < props.route.deliveries.length; i++) {
-            deliveryService.getDelivery(props.route.deliveries[i]).then(response => {
-                allDeliveries.push(response.data);
-                allAddresses.push(AddressParsers(response.data.addressID));
-            })
-            .catch(e => {
-                console.error(e.message);
-            });
+            for (let i = 0; i < props.route.deliveries.length; i++) {
+                allAddresses.push(AddressIdToAddress(DeliveryIdToAddressID(props.route.deliveries[i])));
         }
+
+    function HandleRouteApproved() {
+        phoneReceptionistService.setDeliverymanRoute(props.route.routeID).then(() => {
+            window.location.reload();
+        }).catch(error => {
+            console.error(error.message);
+        });;
+    }
+
     return (
         <article className='route'>
             <ul  style={{position: 'absolute', right: '40%'}} dir="RTL">
                 <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingTop: '2rem'} } >{"שליח: " + useSelector(state => state.allDeliveryMen).find(deliveryman => deliveryman.deliverymanID === props.route.deliverymanID).name}</li>
-                {((allDeliveries.length === allAddresses.length) || allAddresses.length !== 0 ?
+                {(allAddresses.length !== 0 ?
                 <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem',  paddingRight: '4rem'} }>
                     <li>{"מסלול חלוקה: "}</li>
                     <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '4rem'}}>
-                        {allDeliveries.map(i => { return <li>{AddressParsers(i.addressID)}</li> })}
+                        {allAddresses.map(i => { return <li>{i}</li> })}
                     </ul>
+                    <IconButton onClick={() => HandleRouteApproved()}>
+                        <CheckCircleTwoToneIcon style={{ fontSize: '200%'}}/>
+                    </IconButton>
                 </ul>
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} }>{"מסלול חלוקה: לא הוקצה מסלול"}</li>
                 )}

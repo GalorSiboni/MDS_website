@@ -20,6 +20,10 @@ const getAllUnapprovedRoutes = () => {
     return http.get(`/phonereceptionist/routes/notApproved`);
 };
 
+const setRouteApproved = ( routeID ) => {
+    return http.put(`/phonereceptionist/routes/${routeID}`);
+};
+
 const getAllPhoneReceptionists = () => {
     return http.get(`/phonereceptionist`);
 };
