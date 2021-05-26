@@ -6,45 +6,57 @@ import IconButton from '@material-ui/core/IconButton';
 import React, {useState} from "react";
 import AddressIdToAddress from "../../Utils/AddressIdToAddressParsers"
 import DeliveryIdToAddressID from "../../Utils/DeliveryIdToAddressIdParsers"
+import {Ring} from "react-awesome-spinners";
+import { useHistory } from "react-router-dom";
+
 
 const RouteManagement = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [currentDeliveryMan, setCurrentDeliveryMan] = useState();
     const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(true)
+    const [dataArrived, setDataArrived] = useState(false)
     const [deliverymen, setDeliverymen] = useState([]);
     const [allUnapprovedRoutes, setAllUnapprovedRoutes] = useState([]);
 
     if (refreshRoutesBTN){
         setRefreshRoutesBTN(false)
-        setDeliverymen([]);
-        setAllUnapprovedRoutes([]);
         phoneReceptionistService.getAllUnapprovedRoutes().then(response => {
+            setDeliverymen([]);
+            setAllUnapprovedRoutes([]);
             setAllUnapprovedRoutes(response.data);
             for (let i = 0; i < allUnapprovedRoutes.length; i++) {
                 setDeliverymen(oldArray => [...oldArray, allUnapprovedRoutes[i].deliverymanID]);
             }
+            setDataArrived(true)
         })
                 .catch(e => {
                     console.error(e.message);
                 });
     }
-    return(
-        <div>
-            <div style={{textAlign: "center"}}>
-                <Image/>
+    if (dataArrived)
+        return(
+            <div>
+                <div style={{textAlign: "center"}}>
+                    <Image/>
+                </div>
+                <div style={{textAlign: "center"}}>
+                    <IconButton color="primary" aria-label="refreshRoute" component="span" onClick={() => setRefreshRoutesBTN(true)}>
+                        <RefreshIcon/>
+                    </IconButton>
+                </div>
+                {isClicked
+                    ?
+                        <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan} allUnapprovedRoutes={allUnapprovedRoutes}/>
+                    :
+                        <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan} deliverymenList={deliverymen} /> }
             </div>
-            <div style={{textAlign: "center"}}>
-                <IconButton color="primary" aria-label="refreshRoute" component="span" onClick={() => setRefreshRoutesBTN(true)}>
-                    <RefreshIcon/>
-                </IconButton>
+        );
+    else
+        return (
+            <div style={{position: "fixed", top: "50%", left: "50%" , fontSize: '200%'}}>
+                <Ring/>
             </div>
-            {isClicked
-                ?
-                    <Delivery_man_details myVar={setIsClicked} current={currentDeliveryMan} allUnapprovedRoutes={allUnapprovedRoutes}/>
-                :
-                    <Delivery_man_name_list myVar={setIsClicked} current={setCurrentDeliveryMan} deliverymenList={deliverymen} /> }
-        </div>
-    );
+        )
 };
 export default RouteManagement;
 
@@ -126,10 +138,10 @@ const Route = (props) => {
 
     function HandleRouteApproved() {
         phoneReceptionistService.apporoveDeliverymanRoute(props.route.routeID).then(() => {
-            window.location.reload();
+            window.history.back();
         }).catch(error => {
             console.error(error.message);
-        });;
+        });
     }
 
     return (

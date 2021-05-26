@@ -17,11 +17,11 @@ const addPhoneReceptionist = (username, password, phoneReceptionist) => {
 };
 
 const getAllUnapprovedRoutes = () => {
-    return http.get(`/phonereceptionist/routes/notApproved`);
+    return http.get(`/phonereceptionist/route/notApproved`);
 };
 
 const apporoveDeliverymanRoute = ( routeID ) => {
-    return http.put(`/phonereceptionist/routes/${routeID}`);
+    return http.put(`/phonereceptionist/route/${routeID}`);
 };
 
 const getAllPhoneReceptionists = () => {

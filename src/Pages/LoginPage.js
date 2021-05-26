@@ -88,10 +88,10 @@ export default function SignIn(props) {
                         autoComplete="current-password"
                         {...password}
                     />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="זכור אותי"
-                    />
+                    {/*<FormControlLabel*/}
+                    {/*    control={<Checkbox value="remember" color="primary" />}*/}
+                    {/*    label="זכור אותי"*/}
+                    {/*/>*/}
                     <Button
                         type="button"
                         onClick={() => handleLogin()}

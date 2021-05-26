@@ -6,7 +6,7 @@ import {Button, DropdownButton, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import AddressIdToAddress from "../Utils/AddressIdToAddressParsers"
-import RestaurantIdToRestaurant from "../Utils/RestaurantParsers"
+import { Ring } from 'react-awesome-spinners'
 import DropdownItem from "react-bootstrap/DropdownItem";
 import RestaurantIdToRestaurantName from "../Utils/RestaurantParsers";
 
@@ -28,8 +28,8 @@ const Overview = () => {
         );
     else
         return (
-            <div>
-                טוען מידע
+            <div style={{position: "fixed", top: "50%", left: "50%" , fontSize: '200%'}}>
+               <Ring/>
             </div>
         )
 };
