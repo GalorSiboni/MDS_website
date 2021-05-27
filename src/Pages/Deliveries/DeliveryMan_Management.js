@@ -137,12 +137,12 @@ const Delivery_man_full = (props) =>{
                                 <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '2rem'}}>
                                     <li>{"מס' עובד:" + currentShift.workerID}</li>
                                     <li>{"זמן תחילת משמרת:" + currentShift.shiftStart}</li>
-                                    {(currentShift.isConfirmed === undefined || currentShift.isConfirmed === false ? ( currentShift.shiftStart !== undefined ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
+                                    {(currentShift.shiftStart !== undefined ? ( currentShift.isConfirmed === false ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
                                         margin: 'auto',
                                         textAlign: 'center',
                                         color: 'black',
                                         fontSize: 20
-                                    }}>אישור משמרת</button></li>  : <li>{"סטטוס אישור משמרת: לא במשמרת" }</li> ) : <li>{"סטטוס אישור משמרת: משמרת אושרה" }</li>)}
+                                    }}>אישור משמרת</button></li>  : <li>{"סטטוס אישור משמרת: משמרת אושרה" }</li> ) : <li>{"סטטוס אישור משמרת:" + currentShift.isConfirmed}</li>)}
                                 </ul>
                             </ul>
                         )
