@@ -54,6 +54,7 @@ export default {
     phoneReceptionistLogin,
     phoneReceptionistLogout,
     apporoveDeliverymanRoute,
-    getAllUnapprovedRoutes
+    getAllUnapprovedRoutes,
+    setDeliverymanRoute
 };
 

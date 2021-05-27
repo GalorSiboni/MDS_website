@@ -9,10 +9,14 @@ import AddressIdToAddress from "../Utils/AddressIdToAddressParsers"
 import { Ring } from 'react-awesome-spinners'
 import DropdownItem from "react-bootstrap/DropdownItem";
 import RestaurantIdToRestaurantName from "../Utils/RestaurantParsers";
+import TimeLeftToDeliverCalculator from "../Utils/TimeLeftToDeliverCalculator";
+import IconButton from "@material-ui/core/IconButton";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const Overview = () => {
     const dispatch = useDispatch();
     const [dataAsArrived, setDataAsArrived] = useState(false)
+    const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(false)
     deliveryService.getAllDeliveries().then(response => {
         dispatch(setAllDeliveries(response.data));
         setDataAsArrived(true);
@@ -20,9 +24,19 @@ const Overview = () => {
         .catch(e => {
             console.log(e);
         });
+    if (refreshRoutesBTN){
+        setRefreshRoutesBTN(false)
+        window.location.reload();
+    }
+
     if (dataAsArrived)
         return (
             <div>
+                <div style={{textAlign: "center"}}>
+                    <IconButton color="primary" aria-label="refreshRoute" component="span" onClick={() => setRefreshRoutesBTN(true)}>
+                        <RefreshIcon/>
+                    </IconButton>
+                </div>
                 <GridContainer/>
             </div>
         );
@@ -165,9 +179,10 @@ const TableComponent = () => {
                                                             (heading === 'restaurantCost' ? null :
                                                                 (heading === 'deleted' ? null :
                                                                     (heading === 'receivedTimeDate' ? null :
+                                                                    (heading === 'doTime' ? <td>{(TimeLeftToDeliverCalculator(item) > 0 ? " נותרו "+TimeLeftToDeliverCalculator(item) + " דקות " : " באיחור של "+TimeLeftToDeliverCalculator(item)+ " דקות ")}</td> :
                                                                         (heading === 'deliveryTime' ? null :
                                                                             (heading === 'notes' ? null :
-                                                                                <td>{item[heading]}</td>)))))))))))
+                                                                                <td>{item[heading]}</td>))))))))))))
                                 }
                             </tr>
                         )
