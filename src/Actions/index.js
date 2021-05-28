@@ -13,6 +13,12 @@ export const logout = () => {
         type: 'SIGN_OUT'
     };
 };
+export const setCurrentPhoneReceptionistID = (id) => {
+    return {
+        type: 'SET_CURRENT_PHONE_RECEPTIONIST_ID',
+        payload: id
+    };
+};
 export const setAllDeliverymen = (array) => {
     return {
         type: 'SET_ALL_DELIVERY_MEN',

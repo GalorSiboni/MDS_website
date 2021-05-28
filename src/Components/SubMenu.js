@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import {useDispatch, useSelector} from "react-redux";
+import { logout } from "../Actions"
+import phoneReceptionistService from "../Services/phoneReceptionistService";
+import Firebase from "../Components/Firebase"
+
 
 const SidebarLink = styled(Link)`
   display: flex;
@@ -41,10 +46,22 @@ const DropdownLink = styled(Link)`
 const SubMenu = ({ item ,showSideBar}) => {
     const [subnav, setSubnav] = useState(false);
     const showSubnav = () => setSubnav(!subnav);
+    const dispatch = useDispatch();
+    const phoneReceptionistID = useSelector(state => state.currentPhoneReceptionistID);
 
+    const HandleLogout = () => {
+        Firebase.logout().then(() => {
+            dispatch(logout());
+            phoneReceptionistService.phoneReceptionistLogout(phoneReceptionistID).then().catch(error => {
+                console.error(error.message);
+            });
+        }).catch(error => {
+            console.error(error.message);
+        });
+    }
     return (
         <>
-            <SidebarLink to={item.path} onClick={item.subNav && showSubnav}>
+            <SidebarLink to={item.path} onClick={(item.subNav && showSubnav) || (item.title === "התנתק" ? HandleLogout : null)}>
                 <div onClick={showSideBar}>
                     {item.icon}
                     <SidebarLabel>{item.title}</SidebarLabel>

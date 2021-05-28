@@ -27,6 +27,7 @@ const Overview = () => {
     if (refreshRoutesBTN){
         setRefreshRoutesBTN(false)
         window.location.reload();
+        
     }
 
     if (dataAsArrived)

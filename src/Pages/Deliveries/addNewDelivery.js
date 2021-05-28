@@ -11,6 +11,7 @@ import {useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import addressService from "../../Services/addressService";
 import deliveryService from "../../Services/deliveryService";
+import cityTranslator from "../../Utils/CityNameTranslate";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -82,7 +83,6 @@ const AddNewDelivery = (props) => {
             isDeleted: deliveryIsDeleted.value
         }
 
-    ;
     // handle button submit of signup form
     const handleAddNewDelivery = () => {
         const dateAndTimeToSplit = dateAndTime.value.split('-');
@@ -93,13 +93,13 @@ const AddNewDelivery = (props) => {
         addressService.addAddress(address).then(response => {
             setAddressBoundary(response.data)
             delivery.addressID = response.data.addressID;
-            deliveryService.addDelivery(delivery).then(response1 => {
+            deliveryService.addDelivery(delivery).then(() => {
                 props.history.push('/deliveries/DeliveryMan_Management');
             }).catch(error => {
-                console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
+                console.error(error.message());
             });
         }).catch(error => {
-            console.log(error + "משהו השתבש, נא נסה שנית מאוחר יותר");
+            console.error(error.message());
         });
 
     }
@@ -280,7 +280,7 @@ const DropDownCity = (props) => {
 
     return(
         <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%'}}>
-            {cities.map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslate(i.city)); props.setCityEnum(i)}}>{cityTranslate(i.city)}</Dropdown.Item> })}
+            {cities.map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslator(i.city)); props.setCityEnum(i)}}>{cityTranslator(i.city)}</Dropdown.Item> })}
         </DropdownButton>
     );
 }
@@ -293,69 +293,4 @@ const RestaurantDropDown = (props) => {
             {useSelector(state => state.allRestaurants).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(i.name) ; props.setRestaurant(i.restaurantID) ; props.setRestaurantCities(i.cities)}}>{i.name}</Dropdown.Item> })}
         </DropdownButton>
     );
-}
-
-function cityTranslate(city) {
-    let translate = "";
-    switch (city){
-        case "ROSH_AAYIN":
-            translate = "ראש העין";
-            break;
-        case "ORANIT":
-            translate = "אורנית";
-            break;
-        case "SHAAREI_TIKVA":
-            translate = "שערי תקווה";
-            break;
-        case "ELKANA":
-            translate = "אלקנה";
-            break;
-        case "ETZ_EFRAIM":
-            translate = "עץ אפריים";
-            break;
-        case "HAGOR":
-            translate = "חגור";
-            break;
-        case "MATAN":
-            translate = "מתן";
-            break;
-        case "NIRIT":
-            translate = "נירית";
-            break;
-        case "YARHIV":
-            translate = "ירחיב";
-            break;
-        case "SHOHAM":
-            translate = "שהם";
-            break;
-        case "GIVAT_HASHLOSHA":
-            translate = "גבעת השלושה";
-            break;
-        case "NAHSHONIM_BASE":
-            translate = "בסיס נחשונים";
-            break;
-        case "KFAR_SABA":
-            translate = "כפר סבא";
-            break;
-        case "TEL_AVIV":
-            translate = "תל-אביב";
-            break;
-        case "KFAR_KASEM":
-            translate = "כפר קאסם";
-            break;
-        case "OTHER":
-            translate = "אחר";
-            break;
-        case "NAHSHONIM":
-            translate = "נחשונים";
-            break;
-        case "PETAH_TIKVA":
-            translate = "פתח תקווה";
-            break;
-        case "EINAT":
-            translate = "עינת";
-            break;
-        default:
-    }
-    return translate;
 }

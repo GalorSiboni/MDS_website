@@ -48,7 +48,7 @@ const Restaurants_name_list = (props) => {
                     transform: 'translate(-50%, -50%)'
                 }}>
                     {useSelector(state => state.allRestaurants).map((restaurant) => {
-                        return <Restaurant key={restaurant.restaurantID} restaurant={restaurant} myVar={setClicked} current={setCurrentRestaurant}></Restaurant>
+                        return <Restaurant key={restaurant.restaurantID} restaurant={restaurant} myVar={setClicked} current={setCurrentRestaurant}/>
                     })}
                 </section>
             </div>

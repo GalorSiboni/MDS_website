@@ -8,9 +8,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import restaurantService from "../../Services/restaurantService";
-import { useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import addressService from "../../Services/addressService";
+import cityTranslator from "../../Utils/CityNameTranslate";
+import {setAllCities} from "../../Actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,13 +36,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddNewRestaurant = (props) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const username = useFormInput('');
     const password = useFormInput('');
     const phoneNumber = useFormInput('');
     const restaurant_name = useFormInput('');
-    const [cities, setCities] = useState([]);
-
+    const [cities, setCities] = useState(useSelector(state => state.allCities));
+    addressService.getAllCities().then(value => {
+        dispatch(setAllCities(value.data))
+        setCities(value.data)
+    }).catch()
 
     const Restaurant =
             {
@@ -128,7 +134,7 @@ const AddNewRestaurant = (props) => {
                         autoFocus
                         {...phoneNumber}
                     />
-                    <DropDownComp/>
+                    <DropDownComp cities={cities}/>
                     <Button
                         type="button"
                         onClick={() => handleAddNewUser()}
@@ -157,77 +163,10 @@ const useFormInput = initialValue => {
         onChange: handleChange
     }
 }
-const DropDownComp = () => {
-    addressService.getAllCities().then(value => {
-        console.log(value)
-    }).catch()
+const DropDownComp = (props) => {
     return(
         <DropdownButton id="dropdown-basic-button" title="ערים">
-            {useSelector(state => state.allRestaurants)[3].cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslate(i.city) + ", מחיר: " + i.price+ ", זמן משלוח: " + i.doTime}</Dropdown.Item> })}
+            {props.cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslator(i.city) + ", מחיר: " + i.price+ ", זמן משלוח: " + i.doTime}</Dropdown.Item> })}
         </DropdownButton>
     )
-}
-function cityTranslate(city) {
-    let translate = "";
-        switch (city){
-            case "ROSH_AAYIN":
-                translate = "ראש העין";
-                break;
-            case "ORANIT":
-                translate = "אורנית";
-                break;
-            case "SHAAREI_TIKVA":
-                translate = "שערי תקווה";
-                break;
-            case "ELKANA":
-                translate = "אלקנה";
-                break;
-            case "ETZ_EFRAIM":
-                translate = "עץ אפריים";
-                break;
-            case "HAGOR":
-                translate = "חגור";
-                break;
-            case "MATAN":
-                translate = "מתן";
-                break;
-            case "NIRIT":
-                translate = "נירית";
-                break;
-            case "YARHIV":
-                translate = "ירחיב";
-                break;
-            case "SHOHAM":
-                translate = "שהם";
-                break;
-            case "GIVAT_HASHLOSHA":
-                translate = "גבעת השלושה";
-                break;
-            case "NAHSHONIM_BASE":
-                translate = "בסיס נחשונים";
-                break;
-            case "KFAR_SABA":
-                translate = "כפר סבא";
-                break;
-            case "TEL_AVIV":
-                translate = "תל-אביב";
-                break;
-            case "KFAR_KASEM":
-                translate = "כפר קאסם";
-                break;
-            case "OTHER":
-                translate = "אחר";
-                break;
-            case "NAHSHONIM":
-                translate = "נחשונים";
-                break;
-            case "PETAH_TIKVA":
-                translate = "פתח תקווה";
-                break;
-            case "EINAT":
-                translate = "עינת";
-                break;
-            default:
-        }
-        return translate;
 }

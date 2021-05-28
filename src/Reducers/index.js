@@ -8,9 +8,11 @@ import allCitiesReducer from "./allCities";
 import allPhoneReceptionistsReducer from "./allPhoneReceptionists";
 import allUnapprovedRoutesReducer from "./allUnapprovedRoutes";
 import allAddressesReducer from "./allAddresses";
+import currentPhoneReceptionistIDReducer from "./currentPhoneReceptionistID";
 
 const allReducers = combineReducers({
     isLogged: loggedReducer,
+    currentPhoneReceptionistID: currentPhoneReceptionistIDReducer,
     allDeliveryMen: allDeliveryMenReducer,
     allRestaurants: allRestaurantsReducer,
     allDeliveries: allDeliveriesReducer,

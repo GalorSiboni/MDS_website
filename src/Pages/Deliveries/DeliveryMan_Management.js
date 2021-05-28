@@ -43,7 +43,7 @@ const Delivery_man_name_list = (props) => {
             <div>
                 <section className='delivery_man_list'>
                     {useSelector(state => state.allDeliveryMen).map((delivery_man) => {
-                        return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}></Delivery_man>
+                        return <Delivery_man key={delivery_man.deliverymanID} delivery_man={delivery_man} myVar={setClicked} current={setCurrentDeliveryMan}/>
                     })}
                 </section>
             </div>
