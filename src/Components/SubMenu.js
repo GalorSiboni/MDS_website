@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { logout } from "../Actions"
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import Firebase from "../Components/Firebase"
-
+import { useHistory } from "react-router-dom";
 
 const SidebarLink = styled(Link)`
   display: flex;
@@ -48,11 +48,12 @@ const SubMenu = ({ item ,showSideBar}) => {
     const showSubnav = () => setSubnav(!subnav);
     const dispatch = useDispatch();
     const phoneReceptionistID = useSelector(state => state.currentPhoneReceptionistID);
+    const history = useHistory();
 
     const HandleLogout = () => {
         Firebase.logout().then(() => {
             dispatch(logout());
-            phoneReceptionistService.phoneReceptionistLogout(phoneReceptionistID).then().catch(error => {
+            phoneReceptionistService.phoneReceptionistLogout(phoneReceptionistID).then(() => history.push("/")).catch(error => {
                 console.error(error.message);
             });
         }).catch(error => {

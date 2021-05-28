@@ -36,17 +36,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddNewRestaurant = (props) => {
-    const dispatch = useDispatch();
     const classes = useStyles();
     const username = useFormInput('');
     const password = useFormInput('');
     const phoneNumber = useFormInput('');
     const restaurant_name = useFormInput('');
-    const [cities, setCities] = useState(useSelector(state => state.allCities));
-    addressService.getAllCities().then(value => {
-        dispatch(setAllCities(value.data))
-        setCities(value.data)
-    }).catch()
+    const cities =useSelector(state => state.allCities);
+
 
     const Restaurant =
             {
@@ -166,7 +162,7 @@ const useFormInput = initialValue => {
 const DropDownComp = (props) => {
     return(
         <DropdownButton id="dropdown-basic-button" title="ערים">
-            {props.cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslator(i.city) + ", מחיר: " + i.price+ ", זמן משלוח: " + i.doTime}</Dropdown.Item> })}
+            {props.cities.map(i => { return <Dropdown.Item dir={"RTL"}>{"עיר: " + cityTranslator(i.city) + " ,  מחיר: " + i.price+ " ,  זמן משלוח: " + i.doTime}</Dropdown.Item> })}
         </DropdownButton>
     )
 }

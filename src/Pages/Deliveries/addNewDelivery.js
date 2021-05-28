@@ -46,7 +46,7 @@ const AddNewDelivery = (props) => {
     const apartmentNumber = useFormInput('');
     const deliveryNotes = useFormInput('');
     const phoneNumber = useFormInput('');
-    const dateAndTime = useFormInput('');
+    const dateAndTime = useFormInput();
     const addressIsDeleted = useFormInput(false);
     const deliveryIsDeleted = useFormInput(false);
     const [addressBoundary, setAddressBoundary] = useState(null)
@@ -280,7 +280,7 @@ const DropDownCity = (props) => {
 
     return(
         <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%'}}>
-            {cities.map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(cityTranslator(i.city)); props.setCityEnum(i)}}>{cityTranslator(i.city)}</Dropdown.Item> })}
+            {cities.map(i => { return <Dropdown.Item key={i} dir={"RTL"} onClick={() => {setTitle(cityTranslator(i.city)); props.setCityEnum(i)}}>{cityTranslator(i.city)}</Dropdown.Item> })}
         </DropdownButton>
     );
 }
@@ -290,7 +290,7 @@ const RestaurantDropDown = (props) => {
 
     return(
         <DropdownButton id="dropdown-basic-button" title={title} style={{left: '40%', marginTop: "20px"}}>
-            {useSelector(state => state.allRestaurants).map(i => { return <Dropdown.Item dir={"RTL"} onClick={() => {setTitle(i.name) ; props.setRestaurant(i.restaurantID) ; props.setRestaurantCities(i.cities)}}>{i.name}</Dropdown.Item> })}
+            {useSelector(state => state.allRestaurants).map(i => { return <Dropdown.Item key={i} dir={"RTL"} onClick={() => {setTitle(i.name) ; props.setRestaurant(i.restaurantID) ; props.setRestaurantCities(i.cities)}}>{i.name}</Dropdown.Item> })}
         </DropdownButton>
     );
 }

@@ -136,13 +136,7 @@ const TableComponent = () => {
     }
     else {
         let headings = Object.keys(data[0]);
-        if (data === allDeliverymen)
-            return (
-                <div>
-                    טוען מידע
-                </div>
-            )
-        else
+
         return (
             <div>
                 <Table striped bordered hover variant="dark">
