@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import deliveryService from "../Services/deliveryService";
 import {setAllDeliveries} from "../Actions";
@@ -15,19 +15,20 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 
 const Overview = () => {
     const dispatch = useDispatch();
-    const [dataAsArrived, setDataAsArrived] = useState(false)
+    const [dataAsArrived, setDataAsArrived] = useState(true)
     const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(false)
-    deliveryService.getAllDeliveries().then(response => {
-        dispatch(setAllDeliveries(response.data));
-        setDataAsArrived(true);
-    })
-        .catch(e => {
-            console.log(e);
-        });
+    const [deliveries, setDeliveries] = useState(useSelector(state => state.allDeliveries));
     if (refreshRoutesBTN){
+        setDataAsArrived(false)
         setRefreshRoutesBTN(false)
-        window.location.reload();
-        
+        deliveryService.getAllDeliveries().then(response => {
+            dispatch(setAllDeliveries(response.data));
+            setDeliveries(response.data);
+            setDataAsArrived(true)
+        })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     if (dataAsArrived)
@@ -38,7 +39,7 @@ const Overview = () => {
                         <RefreshIcon/>
                     </IconButton>
                 </div>
-                <GridContainer/>
+                <GridContainer deliveries={deliveries}/>
             </div>
         );
     else
@@ -57,7 +58,7 @@ const Image = () => (
     />
 )
 
-const GridContainer = () => {
+const GridContainer = (props) => {
     return(
         <div style={{textAlign: "center"}}>
             <div style={{textAlign: "center"}}>
@@ -70,7 +71,7 @@ const GridContainer = () => {
                         {useSelector(state => state.allDeliveries).length === 0 ? (
                                 <div>Loading...</div>
                             ) :
-                            <TableComponent/>
+                            <TableComponent deliveries={props.deliveries}/>
                         }
                     </div>
                 </div>
@@ -117,8 +118,8 @@ function Checkbox(item, deliveries, setDeliveries) {
     );
 }
 
-const TableComponent = () => {
-    const data = useSelector(state => state.allDeliveries).filter(delivery => delivery.deliverymanID == null);
+const TableComponent = (props) => {
+    const data = props.deliveries.filter(delivery => delivery.deliverymanID == null);
     const allDeliverymen = useSelector(state => state.allDeliveryMen);
     const [deliveries, setDeliveries] = useState([]);
     const [title, setTitle] = useState("בחר שליח");

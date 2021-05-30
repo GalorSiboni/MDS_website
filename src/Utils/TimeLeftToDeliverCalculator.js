@@ -1,17 +1,31 @@
 const TimeLeftToDeliverCalculator = (delivery) => {
-    const receivedTime = delivery.receivedTime.split(" ")
-    const doTime = delivery.doTime
+    const [day, month, year_rest] = delivery.receivedTime.split("-");
+    const year = year_rest.split(" ")[0]
+    const [hour, min, sec] = year_rest.split(" ")[1].split(":")
+    const receivedTime = new Date(year,month,day,hour,min,sec,0);
+    console.log(receivedTime)
 
-    const hAndM = receivedTime[1].split(":")
-    const timeToDeliver = addMinutes(hAndM[0] + ":" + hAndM[1], doTime)
-    var currentdate = new Date();
-    let dif = (((timeToDeliver.split(":")[0] * 60 * 60) + timeToDeliver.split(":")[1] * 60) - ((currentdate.getHours() * 60 * 60) + currentdate.getMinutes() * 60))/3600
-    if (((timeToDeliver.split(":")[0] * 60 * 60) + timeToDeliver.split(":")[1] * 60) > ((currentdate.getHours()* 60 * 60) + currentdate.getMinutes() * 60))
-        return dif.toFixed(0)
-    else {
-        dif = (((currentdate.getHours() * 60 * 60) + currentdate.getMinutes() * 60) - ((timeToDeliver.split(":")[0] * 60 * 60) + timeToDeliver.split(":")[1] * 60))/60
-        return "-" + dif.toFixed(0)
+    receivedTime.setMinutes(receivedTime.getMinutes() + delivery.doTime);
+    console.log(receivedTime)
+    const now = new Date();
+    console.log("now: " + now)
+
+    if (receivedTime.getDate() > now.getDate()){
+        receivedTime.setHours(receivedTime.getHours() - now.getHours())
+        receivedTime.setMinutes(receivedTime.getMinutes() - now.getMinutes())
+        return receivedTime.getHours() + ":" + receivedTime.getMinutes();
     }
+    else {
+        receivedTime.setHours( now.getHours() - receivedTime.getHours())
+        receivedTime.setMinutes( now.getMinutes() - receivedTime.getMinutes())
+        return "-" + receivedTime.getHours() + ":" + receivedTime.getMinutes();
+    }
+
+    console.log(receivedTime)
+
+    console.log("before: " + delivery.receivedTime + ", " + "after: " + receivedTime)
+
+    return receivedTime.getHours() + ":" + receivedTime.getMinutes();
 }
 export default TimeLeftToDeliverCalculator
 
