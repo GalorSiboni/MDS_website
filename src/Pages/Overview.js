@@ -119,7 +119,8 @@ function Checkbox(item, deliveries, setDeliveries) {
 }
 
 const TableComponent = (props) => {
-    const data = props.deliveries.filter(delivery => delivery.deliverymanID == null);
+    let data = props.deliveries.filter(delivery => delivery.deliverymanID === null);
+    data = data.filter(delivery => delivery.deliveryTime === null)
     const allDeliverymen = useSelector(state => state.allDeliveryMen);
     const [deliveries, setDeliveries] = useState([]);
     const [title, setTitle] = useState("בחר שליח");
@@ -175,7 +176,7 @@ const TableComponent = (props) => {
                                                             (heading === 'restaurantCost' ? null :
                                                                 (heading === 'deleted' ? null :
                                                                     (heading === 'receivedTimeDate' ? null :
-                                                                    (heading === 'doTime' ? <td>{(TimeLeftToDeliverCalculator(item) > 0 ? " נותרו "+TimeLeftToDeliverCalculator(item) + " דקות " : " באיחור של "+TimeLeftToDeliverCalculator(item)+ " דקות ")}</td> :
+                                                                    (heading === 'doTime' ? <td>{TimeLeftToDeliverCalculator(item)}</td> :
                                                                         (heading === 'deliveryTime' ? null :
                                                                             (heading === 'notes' ? null :
                                                                                 <td>{item[heading]}</td>))))))))))))
