@@ -11,6 +11,7 @@ import {useDispatch} from "react-redux";
 import {admin, login, setCurrentPhoneReceptionistID} from "../Actions";
 import Firebase from "../Components/Firebase"
 import phoneReceptionistService from "../Services/phoneReceptionistService";
+import {setUserSession} from "../Utils/Common";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,6 +45,7 @@ export default function SignIn(props) {
             dispatch(login());
             dispatch(admin());
             dispatch(setCurrentPhoneReceptionistID(response.user.uid));
+            setUserSession(response.user.getIdToken(), response.user);
             phoneReceptionistService.phoneReceptionistLogin(response.user.uid).then().catch(error => {
                 console.error(error.message);
             });

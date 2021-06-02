@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { logout } from "../Actions"
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import Firebase from "../Components/Firebase"
+import {removeUserSession} from "../Utils/Common"
 import { useHistory } from "react-router-dom";
 
 const SidebarLink = styled(Link)`
@@ -53,7 +54,11 @@ const SubMenu = ({ item ,showSideBar}) => {
     const HandleLogout = () => {
         Firebase.logout().then(() => {
             dispatch(logout());
-            phoneReceptionistService.phoneReceptionistLogout(phoneReceptionistID).then(() => history.push("/")).catch(error => {
+            phoneReceptionistService.phoneReceptionistLogout(phoneReceptionistID).then(() => {
+                removeUserSession();
+                history.push("/");
+                window.location.reload()
+            }).catch(error => {
                 console.error(error.message);
             });
         }).catch(error => {

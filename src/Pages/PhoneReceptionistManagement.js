@@ -47,7 +47,7 @@ const PhoneReceptionist_name_list = (props) => {
             <div>
                 <section className='phoneReceptionists'>
                     {useSelector(state => state.allPhoneReceptionists).map((phoneReceptionist) => {
-                        return <PhoneReceptionist key={phoneReceptionist.phoneReceptionistID} phoneReceptionist={phoneReceptionist} myVar={setClicked} current={setCurrentPhoneReceptionist}></PhoneReceptionist>
+                        return <PhoneReceptionist key={phoneReceptionist.phoneReceptionistID} phoneReceptionist={phoneReceptionist} myVar={setClicked} current={setCurrentPhoneReceptionist}/>
                     })}
                 </section>
             </div>

@@ -12,12 +12,16 @@ import RestaurantIdToRestaurantName from "../Utils/RestaurantParsers";
 import TimeLeftToDeliverCalculator from "../Utils/TimeLeftToDeliverCalculator";
 import IconButton from "@material-ui/core/IconButton";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import {getUser} from "../Utils/Common";
+
 
 const Overview = () => {
     const dispatch = useDispatch();
     const [dataAsArrived, setDataAsArrived] = useState(true)
     const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(false)
     const [deliveries, setDeliveries] = useState(useSelector(state => state.allDeliveries));
+
+
     if (refreshRoutesBTN){
         setDataAsArrived(false)
         setRefreshRoutesBTN(false)

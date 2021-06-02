@@ -14,13 +14,14 @@ import {useDispatch, useSelector} from "react-redux";
 import addNewDeliveryMan from "./Pages/Deliveries/addNewDeliveryMan";
 import addNewDelivery from "./Pages/Deliveries/addNewDelivery";
 import deliverymanService from "./Services/deliverymanService";
+import {getUser} from "./Utils/Common";
 import {
     setAllAddresses,
     setAllCities,
     setAllDeliveries,
     setAllDeliverymen,
     setAllPhoneReceptionists,
-    setAllRestaurants
+    setAllRestaurants, setCurrentPhoneReceptionistID
 } from "./Actions";
 import phoneReceptionistService from "./Services/phoneReceptionistService";
 import restaurantService from "./Services/restaurantService";
@@ -30,8 +31,12 @@ import deliveryService from "./Services/deliveryService";
 function App() {
     const dispatch = useDispatch();
     const isAdmin = useSelector(state => state.isAdmin);
+    const user = getUser();
+    if (user){
+        dispatch(setCurrentPhoneReceptionistID(user.uid))
+    }
     getData(dispatch);
-    if (useSelector(state => state.isLogged)) {
+    if (useSelector(state => state.isLogged) || user) {
         if (isAdmin) {
             return (
                 <Router>
