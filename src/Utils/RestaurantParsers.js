@@ -2,12 +2,11 @@ import {useSelector} from "react-redux";
 
 const RestaurantIdToRestaurantName = (restID) => {
     const allRestaurants = useSelector(state => state.allRestaurants);
-    let restaurant;
+    let restaurantName;
     if(restID != null || allRestaurants != null) {
-        restaurant = allRestaurants.find(restaurant => restaurant.restaurantID === restID);
-        if (restaurant != null)
-            if (allRestaurants.find(restaurant => restaurant.restaurantID === restID).name)
-                return "" + allRestaurants.find(restaurant => restaurant.restaurantID === restID).name
+        restaurantName = allRestaurants.find(restaurant => restaurant.restaurantID === restID).name;
+        if (restaurantName != null)
+                return "" + restaurantName
     }
     return "לא נמצא שם למסעדה";
 }

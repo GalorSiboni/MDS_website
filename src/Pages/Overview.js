@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import deliveryService from "../Services/deliveryService";
 import {setAllDeliveries} from "../Actions";
-import {Button, DropdownButton, Table} from "react-bootstrap";
+import {Button, Dropdown, DropdownButton, Table} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import AddressIdToAddress from "../Utils/AddressIdToAddressParsers"
@@ -12,7 +12,6 @@ import RestaurantIdToRestaurantName from "../Utils/RestaurantParsers";
 import TimeLeftToDeliverCalculator from "../Utils/TimeLeftToDeliverCalculator";
 import IconButton from "@material-ui/core/IconButton";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import {getUser} from "../Utils/Common";
 
 
 const Overview = () => {
@@ -20,8 +19,21 @@ const Overview = () => {
     const [dataAsArrived, setDataAsArrived] = useState(true)
     const [refreshRoutesBTN, setRefreshRoutesBTN] = useState(false)
     const [deliveries, setDeliveries] = useState(useSelector(state => state.allDeliveries));
-
-
+    const [title, setTitle] = useState("רענון מידע כל 5 דקות");
+    const refreshTimeOptions = ["דקה אחת", "5 דקות", "10 דקות"]
+    const [refreshTimePick, setRefreshTimePick] = useState(null);
+    switch (refreshTimePick){
+        case refreshTimeOptions[0]:
+            setTimeout(() => {setRefreshRoutesBTN(true); console.log(refreshTimePick)},60000); // Refresh data every 1 min
+            break;
+        case refreshTimeOptions[1]:
+            setTimeout(() => {setRefreshRoutesBTN(true); console.log(refreshTimePick)},300000); // Refresh data every 5 min
+            break;
+        case refreshTimeOptions[2]:
+            setTimeout(() => {setRefreshRoutesBTN(true); console.log(refreshTimePick)},600000); // Refresh data every 10 min
+            break
+        default:
+    }
     if (refreshRoutesBTN){
         setDataAsArrived(false)
         setRefreshRoutesBTN(false)
@@ -31,7 +43,7 @@ const Overview = () => {
             setDataAsArrived(true)
         })
             .catch(e => {
-                console.log(e);
+                console.error(e.message);
             });
     }
 
@@ -39,6 +51,9 @@ const Overview = () => {
         return (
             <div>
                 <div style={{textAlign: "center"}}>
+                    <DropdownButton id="dropdown-basic-button" title={title} dir="RTL">
+                        {refreshTimeOptions.map(i => { return <Dropdown.Item key={i} dir={"RTL"} onClick={() => {setTitle("רענן דף כל " + i);  setRefreshTimePick(i)}}>{i}</Dropdown.Item> })}
+                    </DropdownButton>
                     <IconButton color="primary" aria-label="refreshRoute" component="span" onClick={() => setRefreshRoutesBTN(true)}>
                         <RefreshIcon/>
                     </IconButton>
@@ -179,11 +194,12 @@ const TableComponent = (props) => {
                                                         (heading === 'addressID' ? <td>{AddressIdToAddress(item[heading])}</td> :
                                                             (heading === 'restaurantCost' ? null :
                                                                 (heading === 'deleted' ? null :
+                                                                (heading === 'price' ? <td dir="RTL">{item[heading] + " שקלים"}</td> :
                                                                     (heading === 'receivedTimeDate' ? null :
                                                                     (heading === 'doTime' ? <td>{TimeLeftToDeliverCalculator(item)}</td> :
                                                                         (heading === 'deliveryTime' ? null :
                                                                             (heading === 'notes' ? null :
-                                                                                <td>{item[heading]}</td>))))))))))))
+                                                                                <td>{item[heading]}</td>)))))))))))))
                                 }
                             </tr>
                         )

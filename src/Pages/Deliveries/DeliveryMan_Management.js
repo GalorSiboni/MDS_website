@@ -91,32 +91,30 @@ const Delivery_man = (props) =>{
 
 const Delivery_man_full = (props) =>{
     const { deliverymanID, name, phoneNumber, location, shiftID, deleted} = props.delivery_man;
+
     //get Route
-    const [route, setRoute] = useState("");
-    deliverymanService.deliverymanGetRoute(deliverymanID).then(response => {
-        console.log(response.data)
-        setRoute(response.data);
-    })
-        .catch(e => {
-            console.log(e);
-        });
+    const [route, setRoute] = useState(null);
+    // deliverymanService.deliverymanGetRoute(deliverymanID).then(response => {
+    //     setRoute(response.data);
+    // })
+    //     .catch(e => {
+    //         console.error(e.message);
+    //     });
+
     //get shift
-    const [currentShift, setCurrentShift] = useState("");
-    if(currentShift === "")
+    const [currentShift, setCurrentShift] = useState(null);
+    if(shiftID !== null)
         shiftService.getShift(shiftID).then(response => {
             setCurrentShift(response.data);
         })
             .catch(e => {
-                console.log(e);
+                console.error(e.message);
             })
 
     function HandleShiftConfirmation(shift) {
         const tempShift = shift;
-        console.log(shift)
         tempShift.confirmed = true;
-        shiftService.updateShift(tempShift).then((result) => {
-            console.log(result.data)
-        }).catch(error => {
+        shiftService.updateShift(tempShift).then().catch(error => {
             console.error(error.message)
         })
     }
@@ -129,7 +127,7 @@ const Delivery_man_full = (props) =>{
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"שם השליח: " + name}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מס' טלפון: " + phoneNumber}</li>
                     <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"מיקום: " + location}</li>
-                    {(currentShift !== "")
+                    {(currentShift !== null)
                         ?
                         (
                             <ul dir="RTL">
@@ -137,7 +135,7 @@ const Delivery_man_full = (props) =>{
                                 <ul style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem', paddingRight: '2rem'}}>
                                     <li>{"מס' עובד:" + currentShift.workerID}</li>
                                     <li>{"זמן תחילת משמרת:" + currentShift.shiftStart}</li>
-                                    {(currentShift.shiftStart !== undefined ? ( currentShift.isConfirmed === false ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
+                                    {(currentShift.shiftStart !== undefined ? ( currentShift.confirmed === false ? <li> <button onClick={() => HandleShiftConfirmation(currentShift)} style={{
                                         margin: 'auto',
                                         textAlign: 'center',
                                         color: 'black',
@@ -149,7 +147,7 @@ const Delivery_man_full = (props) =>{
                         : <li style={{margin: 'auto', textAlign: 'right', paddingBottom:'2rem'} } dir="RTL">{"משמרת: לא במשמרת"}</li>
                     }
 
-                    {(route !== null && route !== undefined && route !== "")
+                    {(route !== null)
                         ?
                         (
                             <ul style={{paddingRight: '25rem'}} dir="RTL">

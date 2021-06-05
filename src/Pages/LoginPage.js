@@ -12,6 +12,7 @@ import {admin, login, setCurrentPhoneReceptionistID} from "../Actions";
 import Firebase from "../Components/Firebase"
 import phoneReceptionistService from "../Services/phoneReceptionistService";
 import {setUserSession} from "../Utils/Common";
+import {Alert} from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,6 +39,7 @@ export default function SignIn(props) {
     const username = useFormInput('');
     const password = useFormInput('');
     const dispatch = useDispatch();
+    const [error, setError] = useState(null);
 
     // handle button click of login form
     const handleLogin = () => {
@@ -50,7 +52,7 @@ export default function SignIn(props) {
                 console.error(error.message);
             });
         }).catch(error => {
-            console.error(error.message);
+            setError(error.message)
         });
     }
 
@@ -89,10 +91,12 @@ export default function SignIn(props) {
                         autoComplete="current-password"
                         {...password}
                     />
-                    {/*<FormControlLabel*/}
-                    {/*    control={<Checkbox value="remember" color="primary" />}*/}
-                    {/*    label="זכור אותי"*/}
-                    {/*/>*/}
+                    {(error === null ? null :
+                        <div>
+                            <Alert variant="danger" onClose={() => setError(null)} dismissible>
+                                <Alert.Heading>אחד מפרטי ההתחברות שגויים נא נסה שנית</Alert.Heading>
+                            </Alert>
+                        </div> )}
                     <Button
                         type="button"
                         onClick={() => handleLogin()}

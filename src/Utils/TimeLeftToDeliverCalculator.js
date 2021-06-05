@@ -10,7 +10,7 @@ const TimeLeftToDeliverCalculator = (delivery) => {
     if (receivedTime.getDate() > now.getDate()){
         receivedTime.setHours(receivedTime.getHours() - now.getHours())
         receivedTime.setMinutes(receivedTime.getMinutes() - now.getMinutes())
-        return "נותרו"+ receivedTime.getHours() + " שעות ו- " + receivedTime.getMinutes() + " דקות";
+        return "נותרו "+ receivedTime.getHours() + " שעות ו- " + receivedTime.getMinutes() + " דקות";
     }
     else {
         receivedTime.setHours( now.getHours() - receivedTime.getHours())
