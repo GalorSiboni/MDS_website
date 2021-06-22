@@ -78,7 +78,7 @@ const Restaurants_details = (props) =>  {
                 color: '#052342',
                 paddingRight: '10rem',
                 fontSize: 40
-            }}>:דף שליח</h1>
+            }}>:דף מסעדה</h1>
             <Restaurant_full restaurant={useSelector(state => state.allRestaurants).find(x => x.restaurantID === currentRestaurant)}/>
         </div>
     )
